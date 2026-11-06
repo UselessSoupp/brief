@@ -37,6 +37,7 @@ def main():
     for p in a.briefs:
         b = json.load(open(p))
         b.pop("watchlist", None)  # personal watchlist coverage stays private
+        b.pop("answers", None)  # answers to her private questions stay private
         bid = b.get("_id") or b["date"]
         b.pop("_id", None)
         json.dump(b, open(os.path.join(bdir, bid + ".json"), "w"), ensure_ascii=False)
