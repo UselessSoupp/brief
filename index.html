@@ -869,9 +869,9 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
   </article>`;
 }
 function underRadarPanel(b){
-  const u=arr(b.underRadar); if(!u.length&&!b.underRadarNote) return "";
+  const u=arr(b.underRadar); const pre=!u.length&&!b.underRadarNote&&String(b.date||"")<"2026-11-07";
   return `<section class="panel stack"><h2>What Most Media Isn't Covering</h2><p class="small muted prose">Stories with real weight that got little or one sided coverage: found in court filings, government records, local and foreign press, and outlets across the spectrum. Each says why it is under the radar.</p>
-  ${u.length?u.map(x=>`<div class="item"><div class="hlrow"><span class="hl">${esc(x.headline)}</span>${hlBtn(x.headline,{url:x.url,source:x.source,category:"Under the radar",date:b.date})}</div><p class="prose">${pl(x.summary||"")}</p>${x.whyUndercovered?`<p class="assess prose">Why it's under the radar: ${esc(x.whyUndercovered)}</p>`:""}<div class="src">${x.coverage?esc(x.coverage)+" · ":""}${x.source?link(x.source,x.url):""}${x.grade?` [${esc(x.grade)}]`:""}${x.storyId?` · <a href="#story-${esc(x.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(b.underRadarNote)}</p>`}</section>`;
+  ${u.length?u.map(x=>`<div class="item"><div class="hlrow"><span class="hl">${esc(x.headline)}</span>${hlBtn(x.headline,{url:x.url,source:x.source,category:"Under the radar",date:b.date})}</div><p class="prose">${pl(x.summary||"")}</p>${x.whyUndercovered?`<p class="assess prose">Why it's under the radar: ${esc(x.whyUndercovered)}</p>`:""}<div class="src">${x.coverage?esc(x.coverage)+" · ":""}${x.source?link(x.source,x.url):""}${x.grade?` [${esc(x.grade)}]`:""}${x.storyId?` · <a href="#story-${esc(x.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(pre?"This section starts with the November 7 edition. Editions built before it was added do not have it.":(b.underRadarNote||"Nothing under the radar was located this cycle."))}</p>`}</section>`;
 }
 function conspiracyPanel(b){
   const c=arr(b.conspiracies);
