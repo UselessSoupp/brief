@@ -226,7 +226,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 <script>
 (function(){
 "use strict";
-const S={static:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const S={static:false,local:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
 const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
 const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
 const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
@@ -271,7 +271,7 @@ function viewBrief(b){
   </section>`;
   h+=statsPanel(b);
   if(S.owner&&arr(b.answers).length) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Questions Answered</h2><a class="more mono small" href="#watchlist">All my notes</a></div><p class="small muted">Researched answers to what you queued with "Have tomorrow's brief research it" or a note starting with "Brief:".</p>${arr(b.answers).map(a=>`<div class="item"><span class="hl">${esc(a.question)}</span>${a.from?`<div class="src">${a.href?`<a href="${esc(a.href)}">${esc(a.from)}</a>`:esc(a.from)}</div>`:""}<div class="prose">${fmtAns(a.answer)}</div>${arr(a.sources).length?`<div class="src">${arr(a.sources).map(s=>link(s.title||"source",s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}</div>`).join("")}</section>`;
-  if(S.owner&&(arr(b.watchlist).length||Object.keys(S.watch).length)) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Watchlist</h2><a class="more mono small" href="#watchlist">Manage</a></div>${arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">${esc(b.watchlistNote||"Items you add are covered starting with the next morning edition.")}</p>`}</section>`;
+  if(S.owner&&!S.local&&(arr(b.watchlist).length||Object.keys(S.watch).length)) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Watchlist</h2><a class="more mono small" href="#watchlist">Manage</a></div>${arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">${esc(b.watchlistNote||"Items you add are covered starting with the next morning edition.")}</p>`}</section>`;
   // updates on followed stories
   const ups=arr(b.updates);
   h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${esc(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
@@ -517,11 +517,11 @@ async function xBrief(key){
 function termFor(p){p=Number(p);if(p<=5)return "almost no chance";if(p<20)return "very unlikely";if(p<45)return "unlikely";if(p<=55)return "roughly even chance";if(p<80)return "likely";if(p<95)return "very likely";return "almost certain";}
 function storyCtx(s){return {kind:"story",title:s.title,body:[s.bluf,(s.keyJudgment||{}).text].filter(Boolean).join(" "),category:s.category||"Story file",storyId:s._id,href:"#story-"+s._id,date:s.lastUpdated};}
 function pid(ctx){return "p-"+hkey(ctx.title+"|"+(ctx.url||ctx.storyId||"")).slice(3);}
-function pBtn(ctx,asBtn){if(!S.owner||S.static)return "";const k=pid(ctx);S.pc[k]=ctx;const ex=S.preds[k];const label=ex?(ex.status==="draft"?"Continue your prediction":"Your prediction"):"Make a prediction";return asBtn?`<button type="button" class="trk" data-pnew="${k}">${ex?"◆ ":"◇ "}${label}</button>`:`<button type="button" class="lk" data-pnew="${k}">${label}</button>`;}
+function pBtn(ctx,asBtn){if(!S.owner)return "";const k=pid(ctx);S.pc[k]=ctx;const ex=S.preds[k];const label=ex?(ex.status==="draft"?"Continue your prediction":"Your prediction"):"Make a prediction";return asBtn?`<button type="button" class="trk" data-pnew="${k}">${ex?"◆ ":"◇ "}${label}</button>`:`<button type="button" class="lk" data-pnew="${k}">${label}</button>`;}
 async function pNew(k){
   if(S.preds[k]){location.hash="predict-"+k;return;}
   const c=S.pc[k]; if(!c||!S.db) return; const now=new Date().toISOString();
-  const doc={id:k,title:c.title,topic:c,created:now,updated:now,status:"draft",statement:"",probability:50,resolveBy:c.resolveHint||"",reasoning:"",assumptions:"",changeMind:"",history:[],outcome:null,dossierRequested:true,requestedAt:now};
+  const doc={id:k,title:c.title,topic:c,created:now,updated:now,status:"draft",statement:"",probability:50,resolveBy:c.resolveHint||"",reasoning:"",assumptions:"",changeMind:"",history:[],outcome:null,dossierRequested:!S.local,requestedAt:now};
   try{await S.db.doc("mine/predictions/items/"+k).set(doc);S.preds[k]=doc;location.hash="predict-"+k;if(S.sample)pBg(k);}
   catch(e){alertBox("Could not start the prediction: "+((e&&e.message)||"unknown error"));}
 }
@@ -584,7 +584,7 @@ function viewPredictions(){
   const row=p=>{const br=pBrier(p);return `<tr><td class="small"><a href="#predict-${esc(p.id)}"><b>${esc(p.statement||p.title)}</b></a>${p.statement?`<div class="src">${esc(p.title)}</div>`:""}</td><td class="small">${p.status==="draft"?'<span class="muted">Not set</span>':`${esc(termFor(p.probability))} <span class="num muted">${esc(p.probability)}%</span>`}</td><td class="num small">${p.resolveBy?fmtDate(p.resolveBy):""}</td><td>${p.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':p.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':p.status==="draft"?'<span class="chip plain">Draft</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`;};
   const tbl=l=>`<div class="tablewrap"><table><thead><tr><th>Prediction</th><th>Your call</th><th>Resolves by</th><th>Status</th><th>Brier</th></tr></thead><tbody>${l.map(row).join("")}</tbody></table></div>`;
   return `<section class="panel stack"><p class="eyebrow">My Predictions // private</p><h1>Your Forecasting Desk</h1>
-  <p class="prose muted">Tap <b>Make a prediction</b> on any headline, story file, conspiracy or election. Each one opens a workspace with a background file, Brief's own analysis, the archive of related coverage and, after the next morning run, a researched dossier with news going back months or years. Write your forecast, lock it in, update it as things change, and resolve it when the date comes. Resolved predictions get a Brier score so you can see how good your calls are against Brief's.</p>
+  <p class="prose muted">Tap <b>Make a prediction</b> on any headline, story file, conspiracy or election. ${S.local?"Each one opens a workspace with Brief's own analysis and the archive of related coverage. Your predictions are saved on this device; back them up from My Watchlist.":"Each one opens a workspace with a background file, Brief's own analysis, the archive of related coverage and, after the next morning run, a researched dossier with news going back months or years."} Write your forecast, lock it in, update it as things change, and resolve it when the date comes. Resolved predictions get a Brier score so you can see how good your calls are against Brief's.</p>
   <div class="ind"><div><b>Your predictions</b><span>${all.length}</span><em>${op.length} open, ${dr.length} drafts</em></div><div><b>Your mean Brier</b><span>${mm==null?"Pending":mm.toFixed(3)}</span><em>${mine.length} resolved${mm!=null?(mm<0.15?" · strong":mm<0.25?" · better than chance":" · needs work"):""}</em></div><div><b>Brief's mean Brier</b><span>${tm==null?"Pending":tm.toFixed(3)}</span><em>${theirs.length} resolved</em></div></div></section>
   ${op.length?`<section class="panel stack"><h2>Open <span class="muted num">${op.length}</span></h2>${tbl(op)}</section>`:""}
   ${dr.length?`<section class="panel stack"><h2>Drafts <span class="muted num">${dr.length}</span></h2>${tbl(dr)}</section>`:""}
@@ -625,7 +625,7 @@ function viewPredict(k){
     ${arr(s.scenarios).length?`<div class="tablewrap"><table><thead><tr><th>Scenario</th><th>Likelihood</th></tr></thead><tbody>${arr(s.scenarios).map(x=>`<tr><td class="small"><b>${esc(x.label)}: ${esc(x.name)}</b><div class="src">${esc(x.description||"")}</div></td><td class="small">${esc(x.likelihood||"")} <span class="num muted">${esc(x.probability)}%</span></td></tr>`).join("")}</tbody></table></div>`:""}
     ${fc.length?`<h3>Brief's forecasts on this</h3>${forecastTable(fc)}`:""}
     ${arr(s.indicators).length?`<h3>Indicators Brief is watching</h3><ul class="plain small">${arr(s.indicators).map(i=>`<li>${esc(i.text)} <span class="muted">(${esc(i.status)}, points to ${esc(i.pointsTo)})</span></li>`).join("")}</ul>`:""}</section>`;}
-  // background file
+  if(!S.local){ // background file and dossier need the owner's Claude account
   const bgText=bg.busy?bg.live:p.background, qs=bgQuestions(p.background);
   h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Background File</h2>${S.sample?`<button type="button" class="btn ghost" data-pbg="${k}" ${bg.busy?"disabled":""}>${bg.busy?"Building…":p.background?"Rebuild":"Build background file"}</button>`:""}</div>
   <p class="small muted">History, base rates, key actors and what it hinges on, written by Claude from its background knowledge. It cannot browse, so anything after mid 2026 comes only from your briefing; the research dossier below fills in live news.${p.backgroundAt?" Built "+fmtDT(p.backgroundAt)+".":""}</p>
@@ -645,6 +645,7 @@ function viewPredict(k){
     ${arr(dz.sources).length?`<div class="src">${arr(dz.sources).map(x=>link(x.title,x.url)+(x.grade?` [${esc(x.grade)}]`:"")).join(" · ")}</div>`:""}`;}
   else h+=`<p class="quietnote">${p.dossierRequested?"Queued. The next morning edition researches this live on the web: a news timeline going back months or years, background, base rates, key actors and signposts. It lands here.":"Tap Request research and the next morning edition builds a live dossier."}</p>`;
   h+=`</section>`;
+  }
   // archive
   const hits=archiveHits(p); const tl=s?arr(s.timeline).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))):[];
   h+=`<section class="panel stack"><h2>From the Brief Archive</h2>
@@ -659,10 +660,10 @@ function noteBox(key,label){
   const n=S.notes[key]; const val=S.drafts[key]!=null?S.drafts[key]:(n?n.text:"");
   const msg=S.saveMsg[key]||(n&&n.updated?"Saved "+fmtDT(n.updated):"Nothing saved yet");
   return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>My Notes</h2><span class="src" id="ns-${esc(key)}">${esc(msg)}</span></div>
-  <p class="small muted">Private to you and kept with your account. Saves when you click Save or click away. Questions you leave here for the analyst get answered in the next edition.</p>
+  <p class="small muted">${S.local?"Saved in this browser on this device. Saves when you click Save or click away.":"Private to you and kept with your account. Saves when you click Save or click away. Questions you leave here for the analyst get answered in the next edition."}</p>
   <label class="small mono" for="nt-${esc(key)}">Notes on ${esc(label)}</label>
   <textarea id="nt-${esc(key)}" data-note="${esc(key)}" data-label="${esc(label)}" rows="5">${esc(val)}</textarea>
-  <div class="row"><button type="button" class="btn" data-savenote="${esc(key)}">Save note</button>${n?`<button type="button" class="btn ghost" data-nask="${esc(key)}">Ask tomorrow's brief about this</button><button type="button" class="btn ghost danger" data-ndel="${esc(key)}">${S.narm[key]?"Tap again to delete":"Delete note"}</button>`:""}<a class="more mono small" href="#watchlist">All my notes</a></div></section>`;
+  <div class="row"><button type="button" class="btn" data-savenote="${esc(key)}">Save note</button>${n?`${S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(key)}">Ask tomorrow's brief about this</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(key)}">${S.narm[key]?"Tap again to delete":"Delete note"}</button>`:""}<a class="more mono small" href="#watchlist">All my notes</a></div></section>`;
 }
 async function saveNote(key){
   const ta=document.getElementById("nt-"+key); if(!ta||!S.db) return;
@@ -697,7 +698,7 @@ function viewWatch(){
   const st=items.filter(i=>i.type==="story"), hls=items.filter(i=>i.type!=="story"&&i.kind), kw=items.filter(i=>i.type!=="story"&&!i.kind);
   const b=latest(); const notes=Object.values(S.notes).filter(n=>n.text).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
   return `<section class="panel stack"><p class="eyebrow">My Watchlist // private</p><h1>What You Are Tracking</h1>
-  <p class="prose muted">Your personal list, separate from Story Files. Story Files are the big situations Brief chooses to follow; My Watchlist is whatever you choose to follow, plus your notes. Track any story file, headline or conspiracy with its ☆ button, or add a person, place, group or keyword below. Every morning edition checks your list and reports what changed.</p>
+  <p class="prose muted">Your personal list, separate from Story Files. Story Files are the big situations Brief chooses to follow; My Watchlist is whatever you choose to follow, plus your notes. Track any story file, headline or conspiracy with its ☆ button, or add a person, place, group or keyword below. ${S.local?"Everything here is saved on this device (see Your Saved Data below).":"Every morning edition checks your list and reports what changed."}</p>
   <div class="row" style="gap:10px;align-items:flex-end">
     <div class="stack" style="gap:4px;flex:1 1 220px"><label class="small mono" for="wl-label">ADD ITEM</label><input id="wl-label" type="text" placeholder="e.g. Wagner in Mali, Kosovo north, Tren de Aragua"></div>
     <div class="stack" style="gap:4px;flex:2 1 260px"><label class="small mono" for="wl-note">WHY (OPTIONAL)</label><input id="wl-note" type="text" placeholder="What you want to know about it"></div>
@@ -706,19 +707,19 @@ function viewWatch(){
   <section class="panel stack"><h2>Tracked Stories <span class="muted num">${st.length}</span></h2>${st.length?`<div class="grid2">${st.map(i=>S.stories[i.storyId]?storyCard(S.stories[i.storyId]):`<div class="card"><b>${esc(i.label)}</b><span class="src">Story file not found</span><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></div>`).join("")}</div>`:`<p class="quietnote">No stories tracked yet. Open Story Files and click ☆ on any story.</p>`}</section>
   <section class="panel stack"><h2>Tracked Headlines <span class="muted num">${hls.length}</span></h2>${hls.length?`<div class="tablewrap"><table><thead><tr><th>Headline</th><th>From</th><th>Added</th><th></th></tr></thead><tbody>${hls.map(i=>`<tr><td><b>${i.url?link(i.label,i.url):esc(i.label)}</b></td><td class="small">${esc([i.category,i.source].filter(Boolean).join(" · "))}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Click ☆ Track next to any headline in a brief and it lands here.</p>`}</section>
   <section class="panel stack"><h2>Keywords and Topics <span class="muted num">${kw.length}</span></h2>${kw.length?`<div class="tablewrap"><table><thead><tr><th>Item</th><th>Why</th><th>Added</th><th></th></tr></thead><tbody>${kw.map(i=>`<tr><td><b>${esc(i.label)}</b></td><td class="small">${esc(i.note||"")}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing added yet.</p>`}</section>
-  <section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>
-  ${notesManager(notes)}`;
+  ${S.local?"":`<section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>`}
+  ${notesManager(notes)}${backupPanel()}`;
 }
 function noteHref(n){if(n.href)return n.href;const k=n.key||"";return k.startsWith("story-")?"#story-"+k.slice(6):k.startsWith("brief-")?"#brief-"+k.slice(6):"";}
 function notesManager(notes){
   const q=S.nq.trim().toLowerCase();
   const list=q?notes.filter(n=>(String(n.label)+" "+String(n.text)).toLowerCase().includes(q)):notes;
   const card=n=>{const k=n.key, href=noteHref(n), open=!!S.nopen[k]||!!S.nedit[k], ed=!!S.nedit[k];
-    return `<div class="ncard ${open?"":"closed"}"><div class="row" style="justify-content:space-between;gap:8px"><div>${href?`<a class="hl" href="${esc(href)}">${esc(n.label||k)}</a>`:`<span class="hl">${esc(n.label||k)}</span>`}${isQ(n.text)?' <span class="chip s-new">Question for next edition</span>':""}</div><span class="src">Saved ${fmtDT(n.updated)}</span></div>
+    return `<div class="ncard ${open?"":"closed"}"><div class="row" style="justify-content:space-between;gap:8px"><div>${href?`<a class="hl" href="${esc(href)}">${esc(n.label||k)}</a>`:`<span class="hl">${esc(n.label||k)}</span>`}${isQ(n.text)&&!S.local?' <span class="chip s-new">Question for next edition</span>':""}</div><span class="src">Saved ${fmtDT(n.updated)}</span></div>
     ${ed?`<textarea id="ne-${esc(k)}" rows="7" aria-label="Edit note">${esc(S.drafts["ne-"+k]!=null?S.drafts["ne-"+k]:n.text)}</textarea><div class="bar"><button type="button" class="btn" data-nsave="${esc(k)}">Save changes</button><button type="button" class="btn ghost" data-ncancel="${esc(k)}">Cancel</button></div>`
-       :`<div class="txt">${esc(n.text)}</div><div class="bar"><button type="button" class="btn ghost" data-nopen="${esc(k)}">${open?"Collapse":"Open"}</button><button type="button" class="btn ghost" data-nedit="${esc(k)}">Edit</button>${href?`<a class="btn ghost" style="text-decoration:none;font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--accent);border-radius:3px" href="${esc(href)}">Go to page</a>`:""}${isQ(n.text)?"":`<button type="button" class="btn ghost" data-nask="${esc(k)}">Ask tomorrow's brief</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(k)}">${S.narm[k]?"Tap again to delete":"Delete"}</button></div>`}</div>`;};
+       :`<div class="txt">${esc(n.text)}</div><div class="bar"><button type="button" class="btn ghost" data-nopen="${esc(k)}">${open?"Collapse":"Open"}</button><button type="button" class="btn ghost" data-nedit="${esc(k)}">Edit</button>${href?`<a class="btn ghost" style="text-decoration:none;font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--accent);border-radius:3px" href="${esc(href)}">Go to page</a>`:""}${isQ(n.text)||S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(k)}">Ask tomorrow's brief</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(k)}">${S.narm[k]?"Tap again to delete":"Delete"}</button></div>`}</div>`;};
   return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>All My Notes <span class="muted num">${notes.length}</span></h2><button type="button" class="btn" data-nnew="1">New note</button></div>
-  <p class="small muted">Private to you. Open, edit or delete any note. A note that starts with "Brief:" or ends with a question mark gets a researched answer in the next morning edition, under Your Questions Answered at the top of the brief.</p>
+  <p class="small muted">${S.local?"Saved on this device. Open, edit or delete any note.":`Private to you. Open, edit or delete any note. A note that starts with "Brief:" or ends with a question mark gets a researched answer in the next morning edition, under Your Questions Answered at the top of the brief.`}</p>
   ${S.newNote?`<div class="ncard"><label class="small mono" for="nn-t">TITLE</label><input id="nn-t" type="text" placeholder="e.g. Cuba Law 186"><label class="small mono" for="nn-b">NOTE</label><textarea id="nn-b" rows="5" placeholder="Your thoughts, or start with Brief: to ask a question"></textarea><div class="bar"><button type="button" class="btn" data-nnewsave="1">Save note</button><button type="button" class="btn ghost" data-nnewcancel="1">Cancel</button></div></div>`:""}
   ${notes.length?`<input id="n-q" type="search" placeholder="Search your notes" value="${esc(S.nq)}">`:""}
   ${list.length?`<div class="stack">${list.map(card).join("")}</div>`:notes.length?`<p class="quietnote">No notes match that search.</p>`:`<p class="quietnote">No notes yet. Every brief and story file has a notes box at the bottom, Explain this can save straight to notes, or tap New note.</p>`}</section>`;
@@ -955,8 +956,9 @@ let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.getElementById("app").addEventListener("click",e=>{
-  const t=e.target.closest("[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
+  const t=e.target.closest("[data-bk],[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
   const d=t.dataset;
+  if(d.bk){backupDownload();return;}
   if(d.pnew){pNew(d.pnew);return;} if(d.psave){pSaveDraft(d.psave);return;} if(d.plock){pLock(d.plock);return;} if(d.pupd){pUpdateProb(d.pupd);return;}
   if(d.pres){const [k,o]=d.pres.split("|");pResolve(k,o);return;} if(d.preopen){pReopen(d.preopen);return;} if(d.pdel){pDelete(d.pdel);return;}
   if(d.preq){pRequest(d.preq);return;} if(d.pbg){pBg(d.pbg);return;}
@@ -978,6 +980,7 @@ document.getElementById("app").addEventListener("keydown",e=>{if(e.target.id==="
 document.getElementById("app").addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.pf;if(!k)return;const f=e.target.id.slice(3);S.pdraft[k]=Object.assign(S.pdraft[k]||{},{[f]:e.target.value});if(f==="probability"){const pv=document.getElementById("pf-pv"),tm=document.getElementById("pf-term");if(pv)pv.textContent=e.target.value+"%";if(tm)tm.textContent=termFor(e.target.value);}});
 document.getElementById("app").addEventListener("input",e=>{const id=e.target.id||"";if(id==="n-q"){S.nq=e.target.value;render();}else if(id.startsWith("ne-")){S.drafts[id]=e.target.value;}});
 window.addEventListener("beforeunload",e=>{if(Object.keys(S.drafts).length){e.preventDefault();e.returnValue="";}});
+document.getElementById("app").addEventListener("change",e=>{if(e.target.id==="bk-file"&&e.target.files&&e.target.files[0]){backupRestore(e.target.files[0]);e.target.value="";}});
 document.getElementById("app").addEventListener("change",e=>{if(e.target.id!=="arch-date"||!e.target.value)return;const v=e.target.value;const l=briefsDesc();const hit=l.find(b=>b.date<=v)||l[l.length-1];if(hit)location.hash="brief-"+hit._id;});
 document.getElementById("app").addEventListener("input",e=>{if(e.target.id!=="arch-q")return;const q=e.target.value.trim().toLowerCase();let shown=0;document.querySelectorAll("#arch-rows tr").forEach(tr=>{const ok=!q||tr.dataset.s.includes(q);tr.hidden=!ok;if(ok)shown++;});const n=document.getElementById("arch-none");if(n)n.hidden=shown>0;});
 render();
@@ -990,8 +993,46 @@ function loadFull(id){
   S.full[id]=getJSON("data/briefs/"+encodeURIComponent(id)+".json").then(b=>{const i=S.briefs.findIndex(x=>x._id===id);const rec=Object.assign({_id:id},b);if(i>=0)S.briefs[i]=rec;else S.briefs.push(rec);render();return rec;}).catch(e=>{delete S.full[id];alertBox("Could not load that edition: "+e.message);});
   return S.full[id];
 }
+/* Device storage for the shared copy: same interface as the claude.ai db, kept in this browser only. */
+function localDb(){
+  const KEY="brief.saved.v1"; let mem={}, ok=true;
+  try{mem=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){ok=false;mem={};}
+  const subs={};
+  const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(mem));}catch(e){ok=false;alertBox("This browser is not letting the page save. Private browsing blocks saving; try a normal window.");}};
+  const colOf=p=>p.split("/").slice(0,-1).join("/");
+  const snap=c=>({docs:Object.keys(mem).filter(p=>colOf(p)===c).map(p=>({id:p.split("/").pop(),data:()=>mem[p]})),metadata:{fromCache:false}});
+  const fire=c=>arr(subs[c]).forEach(cb=>{try{cb(snap(c));}catch(e){}});
+  return {
+    ok:()=>ok,
+    dump:()=>JSON.parse(JSON.stringify(mem)),
+    load:(obj,merge)=>{if(!merge)mem={};Object.keys(obj||{}).forEach(p=>{if(/^mine\/(watch|notes|predictions)\/items\/[^/]+$/.test(p))mem[p]=obj[p];});persist();Object.keys(subs).forEach(fire);},
+    doc:p=>({set:async d=>{mem[p]=JSON.parse(JSON.stringify(d));persist();fire(colOf(p));},delete:async()=>{delete mem[p];persist();fire(colOf(p));}}),
+    collection:c=>({onSnapshot:(cb)=>{(subs[c]=subs[c]||[]).push(cb);setTimeout(()=>cb(snap(c)),0);return()=>{subs[c]=subs[c].filter(x=>x!==cb);};}})
+  };
+}
+function backupPanel(){
+  if(!S.local) return "";
+  const n=S.db&&S.db.dump?Object.keys(S.db.dump()).length:0;
+  return `<section class="panel stack"><h2>Your Saved Data</h2>
+  <p class="small muted">Your tracking, notes and predictions are saved in this browser on this device. No account needed. They stay when you close the page and come back another day. They do not follow you to another device or browser, and they are erased if you clear your browsing data. On an iPhone, Safari may clear them if you do not open the site for about 7 days; adding it to your Home Screen (Share, then Add to Home Screen) prevents that.</p>
+  <p class="small muted">Download a backup now and then. To move to another device, download it here and open it with Restore on the other device.${S.db&&S.db.ok&&!S.db.ok()?' <b>This browser is blocking saving right now (private browsing does this).</b>':""}</p>
+  <div class="bar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><button type="button" class="btn" data-bk="1">Download backup</button><label class="btn ghost" style="cursor:pointer;font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--accent);border-radius:3px;color:var(--accent)">Restore from backup<input type="file" id="bk-file" accept="application/json,.json" style="display:none"></label><span class="src">${n} saved item${n===1?"":"s"}</span></div></section>`;
+}
+function backupDownload(){
+  try{const data={app:"brief",version:1,exported:new Date().toISOString(),items:S.db.dump()};const blob=new Blob([JSON.stringify(data,null,1)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="brief-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+  catch(e){alertBox("Could not create the backup: "+e.message);}
+}
+function backupRestore(file){
+  const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||d.app!=="brief"||typeof d.items!=="object")throw new Error("That file is not a Brief backup");S.db.load(d.items,true);alertBox("Restored "+Object.keys(d.items).length+" items from the backup");render();}catch(e){alertBox("Could not restore: "+e.message);}};
+  r.onerror=()=>alertBox("Could not read that file");r.readAsText(file);
+}
 async function bootStatic(){
-  S.static=true;const band=document.getElementById("band");if(band)band.textContent="Open source intelligence // Shared reading copy // Not a government product";
+  S.static=true;const band=document.getElementById("band");if(band)band.textContent="Open source intelligence // Shared copy, saves on this device // Not a government product";
+  S.local=true;S.owner=true;S.db=localDb();S.sample=null;S.got.p=true;
+  S.db.collection("mine/watch/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.watch=o;render();});
+  S.db.collection("mine/notes/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.notes=o;render();});
+  S.db.collection("mine/predictions/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({id:d.id},d.data());});S.preds=o;render();});
   const timer=setTimeout(()=>{S.slow=true;render();},10000);
   try{
     const [idx,stories,forecasts]=await Promise.all([getJSON("data/index.json"),getJSON("data/stories.json"),getJSON("data/forecasts.json")]);
