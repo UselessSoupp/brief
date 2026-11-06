@@ -195,6 +195,29 @@ textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outli
 footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
 @media (max-width:520px){ .panel{padding:16px} h1{font-size:23px} .kv{grid-template-columns:1fr} }
 @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto!important} }
+.plink{color:inherit;text-decoration:underline dotted var(--accent);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.plink:hover{color:var(--accent)}
+.pchip{display:inline-flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px;padding:6px 10px;text-decoration:none;color:var(--ink);max-width:280px}
+.pchip span{font-size:12px;color:var(--muted)}
+.pchip:hover{border-color:var(--accent)}
+.toc button.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.corr{border-left:4px solid var(--warn);background:var(--warn-soft);padding:8px 14px;border-radius:0 4px 4px 0}
+.corr .eyebrow{color:var(--warn)}
+.kvgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px 18px}
+.kvgrid>div{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:6px}
+.flows{display:flex;flex-direction:column;gap:10px}
+.flow{display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,170px) minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.fbox{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.farrow{display:flex;flex-direction:column;align-items:stretch;gap:2px;text-align:center}
+.farrow svg{width:100%;height:12px}
+.famt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--warn)}
+.fkind{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.fnote{grid-column:1/-1;color:var(--muted)}
+.chip.m-doc{color:var(--ok);background:var(--ok-soft)}
+.chip.m-all{color:var(--warn);background:var(--warn-soft)}
+.chip.m-dis{color:var(--new);background:var(--new-soft)}
+.chip.m-ann{color:var(--na);background:var(--na-soft)}
+@media (max-width:640px){.flow{grid-template-columns:1fr}.farrow{align-items:flex-start;text-align:left}}
 </style>
 </head>
 <body>
@@ -211,6 +234,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
       <a href="#stories" data-r="stories">Story Files</a>
       <a href="#narratives" data-r="narratives">Narrative Watch</a>
       <a href="#elections" data-r="elections">Elections</a>
+      <a href="#people" data-r="people">People</a>
       <a href="#watchlist" data-r="watchlist">My Watchlist</a>
       <a href="#predictions" data-r="predictions">My Predictions</a>
       <a href="#scorecard" data-r="scorecard">Forecast Scorecard</a>
@@ -226,7 +250,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 <script>
 (function(){
 "use strict";
-const S={static:false,local:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const S={people:{},pmap:{},peq:"",pcat:"",static:false,local:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false,pp:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
 const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
 const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
 const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
@@ -259,22 +283,24 @@ function viewBrief(b){
     </div>
     <span class="src">Produced ${fmtDT(b.generatedAt)}</span>
     <h1>${esc(b.title||"Daily Intelligence Brief")}</h1>
-    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${esc(b.bluf)}</p></div>
+    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${pl(b.bluf)}</p></div>
+    ${arr(b.corrections).length?`<div class="corr"><p class="eyebrow">Correction${arr(b.corrections).length>1?"s":""}</p>${arr(b.corrections).map(c=>`<p class="small">${esc(c.text||c)}${c.url?" "+link("source",c.url):""}</p>`).join("")}</div>`:""}
   </section>`;
   // world conditions summary
   h+=`<section class="panel stack">
     <div class="row" style="justify-content:space-between"><h2>World Conditions</h2><a class="more mono small" href="#conditions">Full board</a></div>
     <div class="row" style="gap:14px">${postureMeter(wc.postureLevel)}<span class="postlabel">${esc(POSTURE[wc.postureLevel]||"")}</span>${wc.postureTrend?`<span class="chip plain">${esc(wc.postureTrend)}</span>`:""}</div>
-    <p class="prose">${esc(wc.overall)}</p>
+    <p class="prose">${pl(wc.overall)}</p>
     <div class="row">${arr(wc.hotspots).map(x=>`<span title="${esc(x.change)}">${chip(x.status)} <span class="small">${esc(x.name)}</span></span>`).join('<span class="muted">·</span>')}</div>
     ${arr(wc.watchNext).length?`<div><p class="eyebrow">Watch next 24 to 72 hours</p><ul class="plain">${arr(wc.watchNext).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
   </section>`;
   h+=statsPanel(b);
   if(S.owner&&arr(b.answers).length) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Questions Answered</h2><a class="more mono small" href="#watchlist">All my notes</a></div><p class="small muted">Researched answers to what you queued with "Have tomorrow's brief research it" or a note starting with "Brief:".</p>${arr(b.answers).map(a=>`<div class="item"><span class="hl">${esc(a.question)}</span>${a.from?`<div class="src">${a.href?`<a href="${esc(a.href)}">${esc(a.from)}</a>`:esc(a.from)}</div>`:""}<div class="prose">${fmtAns(a.answer)}</div>${arr(a.sources).length?`<div class="src">${arr(a.sources).map(s=>link(s.title||"source",s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}</div>`).join("")}</section>`;
-  if(S.owner&&!S.local&&(arr(b.watchlist).length||Object.keys(S.watch).length)) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Watchlist</h2><a class="more mono small" href="#watchlist">Manage</a></div>${arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">${esc(b.watchlistNote||"Items you add are covered starting with the next morning edition.")}</p>`}</section>`;
+  if(S.owner&&!S.local&&(arr(b.watchlist).length||Object.keys(S.watch).length)) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Watchlist</h2><a class="more mono small" href="#watchlist">Manage</a></div>${arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${pl(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">${esc(b.watchlistNote||"Items you add are covered starting with the next morning edition.")}</p>`}</section>`;
   // updates on followed stories
   const ups=arr(b.updates);
-  h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${esc(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
+  h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${pl(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
+  h+=peopleInBrief(b);
   // top stories
   const tops=arr(b.topStories).map(id=>S.stories[id]).filter(Boolean);
   if(tops.length){h+=`<section class="panel stack"><h2>Priority Stories and Outlook</h2><div class="grid2">${tops.map(storyCard).join("")}</div></section>`;}
@@ -284,7 +310,7 @@ function viewBrief(b){
   if(secs.length){
     h+=`<section class="panel stack"><h2>Category Sections</h2><p class="small muted">Every category is checked on every run. Grey buttons mean nothing significant was located; that section still states so below.</p>
     <div class="toc">${secs.map((s,i)=>`<button type="button" data-jump="sec-${i}" class="${arr(s.items).length?"":"quiet"}">${esc(s.category)}${arr(s.items).length?` <span class="muted">${arr(s.items).length}</span>`:""}</button>`).join("")}</div></section>`;
-    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const ctx={title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id,storyId:it.storyId||"",explainer:it.explainer||null};const x=xBtn(k,ctx),pb=pBtn(ctx);return (x?" · "+x:"")+(pb?" · "+pb:"");})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
+    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${pl(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${pl(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const ctx={title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id,storyId:it.storyId||"",explainer:it.explainer||null};const x=xBtn(k,ctx),pb=pBtn(ctx);return (x?" · "+x:"")+(pb?" · "+pb:"");})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
   }
   if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}${hlBtn(x.headline,{url:x.url,source:x.outlet,category:"Headlines",date:b.date})}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
@@ -404,7 +430,7 @@ function viewStory(id){
     <p class="eyebrow"><a href="#stories">Story Files</a> // ${esc(s.region||"")} // Opened ${fmtDate(s.opened)}</p>
     <div class="row">${chip(st)}${s.category?`<span class="chip plain">${esc(s.category)}</span>`:""}<span class="src">Last updated ${fmtDate(s.lastUpdated)}</span>${trackBtn(s._id)}${pBtn(storyCtx(s),true)}</div>
     <h1>${esc(s.title)}</h1>
-    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${esc(s.bluf)}</p></div>
+    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${pl(s.bluf)}</p></div>
   </section>`;
   if(kj.text) h+=`<section class="panel stack"><h2>Key Judgment</h2><div class="kj"><p class="judg">${esc(kj.text)}</p><div class="row"><span class="chip plain">${likeText(kj.likelihood,kj.probability)}</span><span class="chip conf">${esc(kj.confidence||"")} confidence</span></div>${kj.basis?`<p class="small muted prose"><span class="mono">BASIS</span> ${esc(kj.basis)}</p>`:""}</div>
   ${arr(s.keyAssumptions).length?`<div><p class="eyebrow">Key assumptions check</p><ul class="plain">${arr(s.keyAssumptions).map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`:""}</section>`;
@@ -424,7 +450,7 @@ function viewStory(id){
 
 function brier(f){if(f.outcome!=="yes"&&f.outcome!=="no")return null;const p=(Number(f.probability)||0)/100,o=f.outcome==="yes"?1:0;return (p-o)*(p-o);}
 function forecastTable(list){
-  return `<div class="tablewrap"><table><thead><tr><th>Forecast</th><th>Made</th><th>Likelihood</th><th>Resolves by</th><th>Outcome</th><th>Brier</th></tr></thead><tbody>${list.slice().sort((a,b)=>String(a.resolveBy).localeCompare(String(b.resolveBy))).map(f=>{const br=brier(f);return `<tr><td class="small">${esc(f.statement)}${f.storyId&&S.stories[f.storyId]?`<div class="src"><a href="#story-${esc(f.storyId)}">${esc(S.stories[f.storyId].title)}</a></div>`:""}${f.resolutionNote?`<div class="src">${esc(f.resolutionNote)}</div>`:""}</td><td class="num small">${fmtDate(f.made)}</td><td class="small">${esc(f.term||"")} <span class="num muted">${esc(f.probability)}%</span></td><td class="num small">${fmtDate(f.resolveBy)}</td><td>${f.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':f.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`}).join("")}</tbody></table></div>`;
+  return `<div class="tablewrap"><table><thead><tr><th>Forecast</th><th>Made</th><th>Likelihood</th><th>Resolves by</th><th>Outcome</th><th>Brier</th></tr></thead><tbody>${list.slice().sort((a,b)=>String(a.resolveBy).localeCompare(String(b.resolveBy))).map(f=>{const br=brier(f);return `<tr><td class="small">${esc(f.statement)}${f.storyId&&S.stories[f.storyId]?`<div class="src"><a href="#story-${esc(f.storyId)}">${esc(S.stories[f.storyId].title)}</a></div>`:""}${f.resolutionNote?`<div class="src">${esc(f.resolutionNote)}</div>`:""}</td><td class="num small">${fmtDate(f.made)}</td><td class="small">${esc(f.term||"")} <span class="num muted">${esc(f.probability)}%</span></td><td class="num small">${fmtDate(f.resolveBy)}</td><td>${f.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':f.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':f.outcome==="void"?'<span class="chip plain">Voided, not scored</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`}).join("")}</tbody></table></div>`;
 }
 function viewScorecard(){
   const f=S.forecasts; const res=f.filter(x=>brier(x)!=null);
@@ -438,7 +464,7 @@ function viewScorecard(){
   ${mine.length?`<div class="tablewrap"><table><thead><tr><th>Your prediction</th><th>Locked at</th><th>Now</th><th>Resolves by</th><th>Outcome</th><th>Brier</th></tr></thead><tbody>${mine.sort((a,b)=>String(a.resolveBy).localeCompare(String(b.resolveBy))).map(p=>{const br=pBrier(p);return `<tr><td class="small"><a href="#predict-${esc(p.id)}">${esc(p.statement)}</a></td><td class="small">${esc(termFor(p.lockedProbability))} <span class="num muted">${esc(p.lockedProbability)}%</span></td><td class="num small">${esc(p.probability)}%</td><td class="num small">${fmtDate(p.resolveBy)}</td><td>${p.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':p.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`}).join("")}</tbody></table></div>`:`<p class="quietnote">No locked predictions yet. Tap Make a prediction on any headline or story file.</p>`}</section>`;})():""}`;
 }
 /* ---- watchlist and notes (private: mine/...) ---- */
-function slug(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||("item-"+Date.now());}
+function slug(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||("item-"+Date.now());}
 function hkey(s){let h=5381;s=String(s||"");for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return "hl-"+(h>>>0).toString(36);}
 /* Track any headline: saved as a keyword item so the morning run follows it up. */
 function hlBtn(label,o){if(!S.owner||!label)return "";o=o||{};const k=hkey(label+"|"+(o.url||""));S.hl[k]=Object.assign({label},o);const on=!!S.watch[k];return `<button type="button" class="trk sm ${on?"on":""}" data-hl="${k}" aria-pressed="${on}" title="${on?"Remove from":"Add to"} My Watchlist">${on?"★ Tracking":"☆ Track"}</button>`;}
@@ -450,7 +476,8 @@ async function toggleHl(k){
 }
 function trackBtn(id){if(!S.owner)return "";const on=!!S.watch["story-"+id];return `<button type="button" class="trk ${on?"on":""}" data-track="${esc(id)}" aria-pressed="${on}">${on?"★ Tracking":"☆ Track this story"}</button>`;}
 /* ---- Explain this: asks Claude from inside the page (owner copy only) ---- */
-function xBtn(key,ctx){if(!S.sample||!S.owner)return "";S.xc[key]=ctx;const o=S.ex[key];return `<button type="button" class="lk" data-x="${esc(key)}" aria-expanded="${!!(o&&o.open)}">${o&&o.open?"Hide explanation":"Explain this"}</button>`;}
+function xBtn(key,ctx){if(!S.owner||S.local)return "";S.xc[key]=ctx;
+  if(!S.sample){const n=S.notes["item-"+key.replace(/^hl-/,"")];const q=n&&/brief:/i.test(n.text||"");return `<button type="button" class="lk" data-xbrief="${esc(key)}">${q?"Queued for tomorrow ✓":"Ask tomorrow's brief"}</button>`;}const o=S.ex[key];return `<button type="button" class="lk" data-x="${esc(key)}" aria-expanded="${!!(o&&o.open)}">${o&&o.open?"Hide explanation":"Explain this"}</button>`;}
 function fmtAns(s){const lines=String(s||"").split(/\n+/);let h="",ul=false;lines.forEach(l=>{const m=l.match(/^\s*[-•*]\s+(.*)/);if(m){if(!ul){h+="<ul>";ul=true;}h+=`<li>${esc(m[1])}</li>`;}else{if(ul){h+="</ul>";ul=false;}if(l.trim())h+=`<p>${esc(l.replace(/\*\*/g,""))}</p>`;}});if(ul)h+="</ul>";return h;}
 function xInner(key){
   const o=S.ex[key]; if(!o) return "";
@@ -663,7 +690,7 @@ function noteBox(key,label){
   <p class="small muted">${S.local?"Saved in this browser on this device. Saves when you click Save or click away.":"Private to you and kept with your account. Saves when you click Save or click away. Questions you leave here for the analyst get answered in the next edition."}</p>
   <label class="small mono" for="nt-${esc(key)}">Notes on ${esc(label)}</label>
   <textarea id="nt-${esc(key)}" data-note="${esc(key)}" data-label="${esc(label)}" rows="5">${esc(val)}</textarea>
-  <div class="row"><button type="button" class="btn" data-savenote="${esc(key)}">Save note</button>${n?`${S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(key)}">Ask tomorrow's brief about this</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(key)}">${S.narm[key]?"Tap again to delete":"Delete note"}</button>`:""}<a class="more mono small" href="#watchlist">All my notes</a></div></section>`;
+  <div class="row"><button type="button" class="btn" data-savenote="${esc(key)}">Save note</button>${S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(key)}">${n&&isQ(n.text)?"Queued for tomorrow ✓":"Ask tomorrow's brief about this"}</button>`}${n?`<button type="button" class="btn ghost danger" data-ndel="${esc(key)}">${S.narm[key]?"Tap again to delete":"Delete note"}</button>`:""}<a class="more mono small" href="#watchlist">All my notes</a></div></section>`;
 }
 async function saveNote(key){
   const ta=document.getElementById("nt-"+key); if(!ta||!S.db) return;
@@ -695,7 +722,7 @@ function viewWatch(){
   if(S.dbMissing) return emptyState();
   if(!S.owner) return `<section class="panel empty">${S.static?"This is a shared reading copy. The watchlist and private notes live only on the owner's copy.":"The watchlist and notes are private to the owner of this page."}</section>`;
   const items=Object.entries(S.watch).map(([k,v])=>Object.assign({_k:k},v));
-  const st=items.filter(i=>i.type==="story"), hls=items.filter(i=>i.type!=="story"&&i.kind), kw=items.filter(i=>i.type!=="story"&&!i.kind);
+  const st=items.filter(i=>i.type==="story"), pps=items.filter(i=>i.kind==="person"), hls=items.filter(i=>i.type!=="story"&&i.kind&&i.kind!=="person"), kw=items.filter(i=>i.type!=="story"&&!i.kind);
   const b=latest(); const notes=Object.values(S.notes).filter(n=>n.text).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
   return `<section class="panel stack"><p class="eyebrow">My Watchlist // private</p><h1>What You Are Tracking</h1>
   <p class="prose muted">Your personal list, separate from Story Files. Story Files are the big situations Brief chooses to follow; My Watchlist is whatever you choose to follow, plus your notes. Track any story file, headline or conspiracy with its ☆ button, or add a person, place, group or keyword below. ${S.local?"Everything here is saved on this device (see Your Saved Data below).":"Every morning edition checks your list and reports what changed."}</p>
@@ -705,19 +732,20 @@ function viewWatch(){
     <button type="button" class="btn" data-wladd="1">Add to watchlist</button>
   </div></section>
   <section class="panel stack"><h2>Tracked Stories <span class="muted num">${st.length}</span></h2>${st.length?`<div class="grid2">${st.map(i=>S.stories[i.storyId]?storyCard(S.stories[i.storyId]):`<div class="card"><b>${esc(i.label)}</b><span class="src">Story file not found</span><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></div>`).join("")}</div>`:`<p class="quietnote">No stories tracked yet. Open Story Files and click ☆ on any story.</p>`}</section>
+  <section class="panel stack"><h2>Tracked People <span class="muted num">${pps.length}</span></h2>${pps.length?`<div class="grid2">${pps.map(i=>S.people[i.personId]?personCard(S.people[i.personId]):`<div class="card"><b>${esc(i.label)}</b><span class="src">People file not found</span><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></div>`).join("")}</div>`:`<p class="quietnote">Open any People file and tap ☆ Track this person.</p>`}</section>
   <section class="panel stack"><h2>Tracked Headlines <span class="muted num">${hls.length}</span></h2>${hls.length?`<div class="tablewrap"><table><thead><tr><th>Headline</th><th>From</th><th>Added</th><th></th></tr></thead><tbody>${hls.map(i=>`<tr><td><b>${i.url?link(i.label,i.url):esc(i.label)}</b></td><td class="small">${esc([i.category,i.source].filter(Boolean).join(" · "))}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Click ☆ Track next to any headline in a brief and it lands here.</p>`}</section>
   <section class="panel stack"><h2>Keywords and Topics <span class="muted num">${kw.length}</span></h2>${kw.length?`<div class="tablewrap"><table><thead><tr><th>Item</th><th>Why</th><th>Added</th><th></th></tr></thead><tbody>${kw.map(i=>`<tr><td><b>${esc(i.label)}</b></td><td class="small">${esc(i.note||"")}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing added yet.</p>`}</section>
-  ${S.local?"":`<section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>`}
+  ${S.local?"":`<section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${pl(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>`}
   ${notesManager(notes)}${backupPanel()}`;
 }
-function noteHref(n){if(n.href)return n.href;const k=n.key||"";return k.startsWith("story-")?"#story-"+k.slice(6):k.startsWith("brief-")?"#brief-"+k.slice(6):"";}
+function noteHref(n){if(n.href)return n.href;const k=n.key||"";return k.startsWith("story-")?"#story-"+k.slice(6):k.startsWith("brief-")?"#brief-"+k.slice(6):k.startsWith("person-")?"#person-"+k.slice(7):k.startsWith("pp-")?"#people":"";}
 function notesManager(notes){
   const q=S.nq.trim().toLowerCase();
   const list=q?notes.filter(n=>(String(n.label)+" "+String(n.text)).toLowerCase().includes(q)):notes;
   const card=n=>{const k=n.key, href=noteHref(n), open=!!S.nopen[k]||!!S.nedit[k], ed=!!S.nedit[k];
     return `<div class="ncard ${open?"":"closed"}"><div class="row" style="justify-content:space-between;gap:8px"><div>${href?`<a class="hl" href="${esc(href)}">${esc(n.label||k)}</a>`:`<span class="hl">${esc(n.label||k)}</span>`}${isQ(n.text)&&!S.local?' <span class="chip s-new">Question for next edition</span>':""}</div><span class="src">Saved ${fmtDT(n.updated)}</span></div>
     ${ed?`<textarea id="ne-${esc(k)}" rows="7" aria-label="Edit note">${esc(S.drafts["ne-"+k]!=null?S.drafts["ne-"+k]:n.text)}</textarea><div class="bar"><button type="button" class="btn" data-nsave="${esc(k)}">Save changes</button><button type="button" class="btn ghost" data-ncancel="${esc(k)}">Cancel</button></div>`
-       :`<div class="txt">${esc(n.text)}</div><div class="bar"><button type="button" class="btn ghost" data-nopen="${esc(k)}">${open?"Collapse":"Open"}</button><button type="button" class="btn ghost" data-nedit="${esc(k)}">Edit</button>${href?`<a class="btn ghost" style="text-decoration:none;font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--accent);border-radius:3px" href="${esc(href)}">Go to page</a>`:""}${isQ(n.text)||S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(k)}">Ask tomorrow's brief</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(k)}">${S.narm[k]?"Tap again to delete":"Delete"}</button></div>`}</div>`;};
+       :`<div class="txt">${esc(n.text)}</div><div class="bar"><button type="button" class="btn ghost" data-nopen="${esc(k)}">${open?"Collapse":"Open"}</button><button type="button" class="btn ghost" data-nedit="${esc(k)}">Edit</button>${href?`<a class="btn ghost" style="text-decoration:none;font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--accent);border-radius:3px" href="${esc(href)}">Go to page</a>`:""}${S.local?"":`<button type="button" class="btn ghost" data-nask="${esc(k)}">${isQ(n.text)?"Queued for tomorrow ✓":"Ask tomorrow's brief"}</button>`}<button type="button" class="btn ghost danger" data-ndel="${esc(k)}">${S.narm[k]?"Tap again to delete":"Delete"}</button></div>`}</div>`;};
   return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>All My Notes <span class="muted num">${notes.length}</span></h2><button type="button" class="btn" data-nnew="1">New note</button></div>
   <p class="small muted">${S.local?"Saved on this device. Open, edit or delete any note.":`Private to you. Open, edit or delete any note. A note that starts with "Brief:" or ends with a question mark gets a researched answer in the next morning edition, under Your Questions Answered at the top of the brief.`}</p>
   ${S.newNote?`<div class="ncard"><label class="small mono" for="nn-t">TITLE</label><input id="nn-t" type="text" placeholder="e.g. Cuba Law 186"><label class="small mono" for="nn-b">NOTE</label><textarea id="nn-b" rows="5" placeholder="Your thoughts, or start with Brief: to ask a question"></textarea><div class="bar"><button type="button" class="btn" data-nnewsave="1">Save note</button><button type="button" class="btn ghost" data-nnewcancel="1">Cancel</button></div></div>`:""}
@@ -727,7 +755,15 @@ function notesManager(notes){
 async function noteSet(k,data){await S.db.doc("mine/notes/items/"+k).set(data);}
 async function noteSaveEdit(k){const ta=document.getElementById("ne-"+k),n=S.notes[k];if(!ta||!n||!S.db)return;try{await noteSet(k,Object.assign({},n,{text:ta.value,updated:new Date().toISOString()}));delete S.nedit[k];delete S.drafts["ne-"+k];render();}catch(e){alertBox("Could not save: "+((e&&e.message)||"unknown error"));}}
 async function noteDelete(k){if(!S.db)return;if(!S.narm[k]){S.narm[k]=true;render();setTimeout(()=>{if(S.narm[k]){delete S.narm[k];render();}},4000);return;}delete S.narm[k];try{await S.db.doc("mine/notes/items/"+k).delete();delete S.drafts[k];delete S.nopen[k];}catch(e){alertBox("Could not delete: "+((e&&e.message)||"unknown error"));}}
-async function noteAsk(k){const n=S.notes[k];if(!n||!S.db)return;if(isQ(n.text)){alertBox("Already queued for the next edition");return;}try{await noteSet(k,Object.assign({},n,{text:"Brief: "+n.text,updated:new Date().toISOString()}));alertBox("Queued: tomorrow's brief answers it under Your Questions Answered");}catch(e){alertBox("Could not update: "+((e&&e.message)||"unknown error"));}}
+async function noteAsk(k){
+  if(!S.db)return; const n=S.notes[k]; const ta=document.getElementById("nt-"+k);
+  const text=String(ta?ta.value:(n?n.text:"")||"").trim();
+  if(!text){alertBox("Type your question or what you want researched in the box first");if(ta)ta.focus();return;}
+  if(isQ(text)&&n&&n.text===text){alertBox("Already queued for the next edition. It gets answered under Your Questions Answered.");return;}
+  const label=(ta&&ta.dataset.label)||(n&&n.label)||k;
+  try{await noteSet(k,{key:k,label,text:isQ(text)?text:"Brief: "+text,href:(ta&&ta.dataset.href)||(n&&n.href)||"",updated:new Date().toISOString()});delete S.drafts[k];alertBox("Queued: tomorrow's brief answers it under Your Questions Answered");render();}
+  catch(e){alertBox("Could not update: "+((e&&e.message)||"unknown error"));}
+}
 async function noteNew(){const ti=document.getElementById("nn-t"),tb=document.getElementById("nn-b");if(!ti||!tb||!S.db)return;const label=ti.value.trim()||"Untitled note",text=tb.value.trim();if(!text){tb.focus();return;}const k="note-"+Date.now();try{await noteSet(k,{key:k,label,text,href:"",updated:new Date().toISOString()});S.newNote=false;render();}catch(e){alertBox("Could not save: "+((e&&e.message)||"unknown error"));}}
 
 /* ---- media comparison, elections, travel, sanctions ---- */
@@ -745,7 +781,7 @@ function electionCard(e,from){
   const dd=daysUntil(e.date,from); const when=isNaN(dd)?"":dd>0?`in ${dd} days`:dd===0?"today":`${-dd} days ago`;
   return `<article class="card"><div class="row"><span class="chip plain num">${fmtDate(e.date)}</span><span class="src">${esc(when)}</span>${e.status?`<span class="chip plain">${esc(e.status)}</span>`:""}</div>
   <h3>${esc(e.country)}: ${esc(e.type||"")}</h3>
-  ${arr(e.candidates).length?`<div class="cands">${arr(e.candidates).map(c=>`<div class="cand"><div class="who"><b>${esc(c.name)}</b>${c.party?`<span class="src">${esc(c.party)}</span>`:""}</div>${c.standing?`<span class="st">${esc(c.standing)}</span>`:""}${c.note?`<span class="nt">${esc(c.note)}</span>`:""}</div>`).join("")}</div>`:""}
+  ${arr(e.candidates).length?`<div class="cands">${arr(e.candidates).map(c=>`<div class="cand"><div class="who"><b>${pl(c.name)}</b>${c.party?`<span class="src">${esc(c.party)}</span>`:""}</div>${c.standing?`<span class="st">${esc(c.standing)}</span>`:""}${c.note?`<span class="nt">${esc(c.note)}</span>`:""}</div>`).join("")}</div>`:""}
   <dl class="kv">${e.outlook?`<dt>Outlook</dt><dd>${esc(e.outlook)}</dd>`:""}${e.stakes?`<dt>What it means</dt><dd>${esc(e.stakes)}</dd>`:""}${e.usAngle?`<dt>US angle</dt><dd>${esc(e.usAngle)}</dd>`:""}</dl>
   ${arr(e.sources).length?`<div class="src">${arr(e.sources).map(s=>link(s.title,s.url)).join(" · ")}</div>`:""}
   ${(()=>{const xk=hkey("el|"+e.country+"|"+e.date);const ctx={kind:"election",title:e.country+": "+(e.type||"election")+" on "+e.date,body:[arr(e.candidates).map(c=>c.name+(c.party?" ("+c.party+")":"")+(c.standing?", "+c.standing:"")).join("; "),e.outlook,e.stakes].filter(Boolean).join(" "),category:"Elections",date:from,href:"#elections",resolveHint:e.date};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>${xBox(xk)}`:"";})()}</article>`;
@@ -924,6 +960,102 @@ function emptyState(){
   return `<section class="panel empty">No editions yet. The first brief appears here after the next scheduled run.</section>`;
 }
 
+/* ---------- people files (public: people/<id>) ---------- */
+const PKIND={family:["Family","var(--new)",""],ally:["Ally or partner","var(--ok)",""],work:["Work or organization","var(--accent)",""],political:["Political","var(--accent)","10 3 2 3"],rival:["Rival or adversary","var(--crit)","6 4"],legal:["Legal or investigative","var(--warn)","2 4"],money:["Money link","var(--warn)",""],media:["Media or advocacy","var(--na)","4 3"]};
+const MSTAT={documented:["Documented","m-doc"],alleged:["Alleged","m-all"],"under investigation":["Under investigation","m-all"],disputed:["Disputed","m-dis"],annulled:["Annulled or dismissed","m-ann"],claimed:["Claimed, unverified","m-dis"]};
+function peopleList(){return Object.values(S.people).filter(p=>p&&p.name).sort((a,b)=>String(a.name).localeCompare(String(b.name)));}
+let PRX=null,PRXk=null;
+function peopleRx(){
+  const ps=peopleList();const k=ps.map(p=>p._id+":"+[p.name].concat(arr(p.aka)).join(",")).join("|");if(k===PRXk)return PRX;PRXk=k;
+  const names=[];S.pmap={};ps.forEach(p=>[p.name].concat(arr(p.aka)).forEach(n=>{n=String(n||"").trim();if(n.length>=4){names.push(n);S.pmap[esc(n).toLowerCase()]=p._id;}}));
+  names.sort((a,b)=>b.length-a.length);
+  try{PRX=names.length?new RegExp("(?<![\\p{L}\\p{N}])("+names.map(n=>esc(n).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?![\\p{L}\\p{N}])","giu"):null;}catch(e){PRX=null;}
+  return PRX;
+}
+function pl(t){const h=esc(t);const rx=peopleRx();if(!rx||!h)return h;const seen={};return h.replace(rx,m=>{const id=S.pmap[m.toLowerCase()];if(!id||seen[id])return m;seen[id]=1;return `<a class="plink" href="#person-${esc(id)}" title="People file">${m}</a>`;});}
+function personNamesIn(text){const rx=peopleRx();if(!rx)return [];const found={};String(esc(text)).replace(rx,m=>{const id=S.pmap[m.toLowerCase()];if(id)found[id]=1;return m;});return Object.keys(found).map(id=>S.people[id]).filter(Boolean);}
+function peopleInBrief(b){
+  const ps=personNamesIn(JSON.stringify([b.bluf,b.updates,b.sections,b.elections,b.worldConditions&&b.worldConditions.overall]));
+  if(!ps.length) return "";
+  return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>People in This Edition</h2><a class="more mono small" href="#people">All people files</a></div><p class="small muted">Names with a dotted underline in this brief open a short profile: who they are, who they are connected to, and where money moves.</p><div class="row" style="gap:8px">${ps.map(p=>`<a class="pchip" href="#person-${esc(p._id)}"><b>${esc(p.name)}</b><span>${esc(trunc(p.role||"",44))}</span></a>`).join("")}</div></section>`;
+}
+function personCard(p){
+  return `<div class="card pcard"><div class="row" style="justify-content:space-between;gap:8px"><a class="hl" href="#person-${esc(p._id)}">${esc(p.name)}</a>${p.status?`<span class="chip plain">${esc(p.status)}</span>`:""}</div>
+  <span class="small">${esc(p.role||"")}</span><span class="src">${esc([p.category,p.country].filter(Boolean).join(" · "))}</span>
+  ${p.summary?`<p class="small muted">${esc(trunc(p.summary,190))}</p>`:""}
+  <span class="src">${arr(p.connections).length} connections · ${arr(p.money).length} money links · updated ${fmtDate(String(p.updated||"").slice(0,10))}</span></div>`;
+}
+function viewPeople(){
+  const ps=peopleList(); const q=String(S.peq||"").trim().toLowerCase(); const cats=[...new Set(ps.map(p=>p.category).filter(Boolean))].sort();
+  const list=ps.filter(p=>(!S.pcat||p.category===S.pcat)&&(!q||(p.name+" "+arr(p.aka).join(" ")+" "+(p.role||"")+" "+(p.country||"")+" "+(p.summary||"")).toLowerCase().includes(q)));
+  return `<section class="panel stack"><p class="eyebrow">People // profiles</p><h1>People Files</h1>
+  <p class="prose muted">Short, sourced profiles of people in the news: who they are, what they have done, who they are connected to and where money moves. Names in the brief link here. Files cover public figures and people in the news for their public role only. They leave out home addresses and private family details, and they separate what is documented from what is alleged.</p>
+  ${S.owner&&!S.local?`<div class="row" style="gap:10px;align-items:flex-end"><div class="stack" style="gap:4px;flex:1 1 220px"><label class="small mono" for="pp-name">REQUEST A PROFILE</label><input id="pp-name" type="text" placeholder="e.g. Henry Constantín, Tarcísio de Freitas"></div><div class="stack" style="gap:4px;flex:2 1 260px"><label class="small mono" for="pp-why">WHAT YOU WANT TO KNOW (OPTIONAL)</label><input id="pp-why" type="text" placeholder="e.g. who funds them, family ties, legal cases"></div><button type="button" class="btn" data-ppreq="1">Ask tomorrow's brief</button></div>`:""}
+  ${ps.length?`<input id="pe-q" type="search" placeholder="Search people" value="${esc(S.peq||"")}"><div class="toc">${["",...cats].map(c=>`<button type="button" data-pcat="${esc(c||"*")}" class="${(S.pcat||"")===c?"on":""}">${esc(c||"Everyone")}</button>`).join("")}</div>`:""}
+  </section>
+  <section class="panel stack">${list.length?`<div class="grid2">${list.map(personCard).join("")}</div>`:ps.length?`<p class="quietnote">No one matches that search.</p>`:`<p class="quietnote">${S.got.pp?"No people files yet. The morning edition builds them for key people in the news.":"Loading people files."}</p>`}</section>`;
+}
+function personMap(p){
+  const C=arr(p.connections); if(!C.length) return `<p class="quietnote">No connections mapped yet.</p>`;
+  const order=Object.keys(PKIND); const cs=C.slice().sort((a,b)=>order.indexOf(a.kind)-order.indexOf(b.kind));
+  const L=[],R=[]; cs.forEach((c,i)=>(i%2?R:L).push(c));
+  const rowH=58,top=20,nodeW=232,nodeH=46; const rows=Math.max(L.length,R.length); const H=Math.max(rows*rowH+top+10,150);
+  const cx=450,cy=H/2,cw=220,chh=64;
+  let svg=`<svg viewBox="0 0 900 ${H}" role="img" aria-label="People map for ${esc(p.name)}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans, system-ui, sans-serif">`;
+  const node=(c,x,y,side)=>{const k=PKIND[c.kind]||PKIND.work;const ex=c.id&&S.people[c.id];
+    const ex1=side==="L"?x+nodeW:x, ey=y+nodeH/2, sx=side==="L"?cx-cw/2:cx+cw/2;
+    const mx=(sx+ex1)/2;
+    const edge=`<path d="M${sx},${cy} C${mx},${cy} ${mx},${ey} ${ex1},${ey}" fill="none" stroke="${k[1]}" stroke-width="1.8" stroke-dasharray="${k[2]}" opacity=".85"/>`;
+    const nm=nameLines(c.name)[0];
+    const box=`<g><title>${esc(c.name)}: ${esc(c.relation||"")}${c.note?" ("+esc(c.note)+")":""}</title><rect x="${x}" y="${y}" width="${nodeW}" height="${nodeH}" rx="3" fill="var(--panel)" stroke="${ex?"var(--accent)":"var(--line)"}" ${ex?"":'stroke-dasharray="3 3"'}/><rect x="${x}" y="${y}" width="4" height="${nodeH}" fill="${k[1]}"/><text x="${x+12}" y="${y+19}" font-size="12.5" font-weight="600" fill="${ex?"var(--accent)":"var(--ink)"}">${esc(trunc(nm,29))}</text><text x="${x+12}" y="${y+35}" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">${esc(trunc(String(c.relation||"").toUpperCase(),37))}</text></g>`;
+    return {edge,box:ex?`<a href="#person-${esc(c.id)}">${box}</a>`:box};};
+  const parts=[]; L.forEach((c,i)=>parts.push(node(c,14,top+i*rowH+(rows-L.length)*rowH/2,"L"))); R.forEach((c,i)=>parts.push(node(c,900-14-nodeW,top+i*rowH+(rows-R.length)*rowH/2,"R")));
+  svg+=parts.map(x=>x.edge).join("")+parts.map(x=>x.box).join("");
+  const nl=nameLines(p.name);
+  svg+=`<rect x="${cx-cw/2}" y="${cy-chh/2}" width="${cw}" height="${chh}" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>${nl.map((t,i)=>`<text x="${cx}" y="${cy-(nl.length-1)*8+4+i*16}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">${esc(t)}</text>`).join("")}<text x="${cx}" y="${cy+chh/2-8}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--muted)">${esc(trunc(String(p.category||"").toUpperCase(),30))}</text></svg>`;
+  const used=[...new Set(C.map(c=>PKIND[c.kind]?c.kind:"work"))];
+  const lg=k=>`<span><svg viewBox="0 0 28 8"><line x1="0" y1="4" x2="28" y2="4" stroke="${PKIND[k][1]}" stroke-width="2" stroke-dasharray="${PKIND[k][2]}"/></svg>${PKIND[k][0]}</span>`;
+  return `<div class="diagram">${svg}</div><div class="legend">${used.map(lg).join("")}<span class="muted">Solid box: has its own file, tap to open. Dashed box: no file yet.</span></div>
+  <div class="tablewrap"><table><thead><tr><th>Who</th><th>Connection</th><th>Detail</th><th>Source</th></tr></thead><tbody>${cs.map(c=>`<tr><td><b>${c.id&&S.people[c.id]?`<a href="#person-${esc(c.id)}">${esc(c.name)}</a>`:esc(c.name)}</b></td><td class="small">${esc(c.relation||"")}<div class="src">${esc((PKIND[c.kind]||PKIND.work)[0])}</div></td><td class="small">${esc(c.note||"")}</td><td class="small">${c.url?link(c.source||"source",c.url):esc(c.source||"")}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function moneyMap(p){
+  const M=arr(p.money); if(!M.length) return `<p class="quietnote">No money links documented in the sources reviewed so far.</p>`;
+  const cnt={};M.forEach(m=>{const k=String(m.status||"").toLowerCase();cnt[k]=(cnt[k]||0)+1;});
+  peopleRx();const ent=n=>{const id2=(S.pmap||{})[esc(n).toLowerCase()];return id2?`<a href="#person-${esc(id2)}">${esc(n)}</a>`:esc(n);};
+  return `<p class="small muted">${M.length} money link${M.length===1?"":"s"}: ${Object.entries(cnt).map(([k,v])=>`${v} ${esc((MSTAT[k]||[k||"unrated"])[0].toLowerCase())}`).join(", ")}. Documented means shown in records, court rulings or the person's own statements. Alleged means claimed by prosecutors, police or reporting and not proven in court. Annulled means a court threw out the case or the evidence.</p>
+  <div class="flows">${M.map(m=>{const st=MSTAT[String(m.status||"").toLowerCase()]||["Unrated","m-dis"];return `<div class="flow"><div class="fbox">${ent(m.from||"?")}</div><div class="farrow"><span class="famt">${esc(m.amount||"amount not reported")}</span><svg viewBox="0 0 120 12" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="6" x2="110" y2="6" stroke="var(--warn)" stroke-width="2"/><path d="M108,1 L119,6 L108,11 Z" fill="var(--warn)"/></svg><span class="fkind">${esc([m.kind,m.date].filter(Boolean).join(" · "))}</span></div><div class="fbox">${ent(m.to||"?")}</div><div><span class="chip ${st[1]}">${esc(st[0])}</span></div>${m.note||m.url?`<div class="fnote small">${esc(m.note||"")}${m.url?` <span class="src">${link(m.source||"source",m.url)}</span>`:""}</div>`:""}</div>`;}).join("")}</div>`;
+}
+function briefsMentioning(p){const names=[p.name].concat(arr(p.aka)).map(n=>String(n).toLowerCase()).filter(n=>n.length>=4);return briefsDesc().filter(b=>{const t=(b._light?String(b._s||""):JSON.stringify([b.bluf,b.updates,b.sections,b.elections,b.conspiracies])).toLowerCase();return names.some(n=>t.includes(n));});}
+function viewPerson(id){
+  const p=S.people[id]; if(!p) return `<section class="panel empty">${S.got.pp?"That people file was not found.":"Loading people files."} <a href="#people">People Files</a></section>`;
+  const on=!!S.watch["person-"+id]; const bs=briefsMentioning(p);
+  let h=`<section class="panel stack"><p class="eyebrow"><a href="#people">People</a> // ${esc(p.category||"")} // ${esc(p.country||"")}</p>
+  <div class="row" style="justify-content:space-between;gap:10px"><h1 style="margin:0">${esc(p.name)}</h1>${S.owner?`<button type="button" class="trk ${on?"on":""}" data-ptrack="${esc(id)}" aria-pressed="${on}">${on?"★ Tracking":"☆ Track this person"}</button>`:""}</div>
+  ${arr(p.aka).length?`<span class="src">Also known as ${arr(p.aka).map(esc).join(", ")}</span>`:""}
+  <p class="prose"><b>${esc(p.role||"")}</b></p>
+  ${p.status?`<div class="row"><span class="chip plain">${esc(p.status)}</span>${p.statusNote?`<span class="small">${esc(p.statusNote)}</span>`:""}</div>`:""}
+  <div class="bluf"><p class="eyebrow">Who this is</p><p>${pl(p.summary||"")}</p></div>
+  <span class="src">File updated ${fmtDT(p.updated)}</span></section>`;
+  if(arr(p.keyFacts).length) h+=`<section class="panel stack"><h2>Key Facts</h2><div class="kvgrid">${arr(p.keyFacts).map(f=>`<div><span class="src">${esc(f.label)}</span><span>${esc(f.value)}</span></div>`).join("")}</div></section>`;
+  h+=`<section class="panel stack"><h2>People Map</h2><p class="small muted">Who ${esc(p.name)} is tied to, and how. Hover or tap a box for detail.</p>${personMap(p)}</section>`;
+  h+=`<section class="panel stack"><h2>Money Map</h2>${moneyMap(p)}</section>`;
+  if(arr(p.timeline).length) h+=`<section class="panel stack"><h2>Timeline</h2><div class="tablewrap"><table><tbody>${arr(p.timeline).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).map(t=>`<tr><td class="mono small num" style="white-space:nowrap;width:120px">${esc(t.date)}</td><td>${pl(t.event)}${t.url?` <span class="src">${link(t.source||"source",t.url)}</span>`:t.source?` <span class="src">${esc(t.source)}</span>`:""}</td></tr>`).join("")}</tbody></table></div></section>`;
+  if(p.background) h+=`<section class="panel stack"><h2>Background</h2><p class="prose">${pl(p.background)}</p></section>`;
+  if(arr(p.openQuestions).length) h+=`<section class="panel stack"><h2>Open Questions</h2><ul class="plain">${arr(p.openQuestions).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>`;
+  const st=arr(p.stories).map(x=>S.stories[x]).filter(Boolean);
+  if(bs.length||st.length) h+=`<section class="panel stack"><h2>In the Brief</h2>${st.length?`<p class="small">Story files: ${st.map(s=>`<a href="#story-${esc(s._id)}">${esc(s.title)}</a>`).join(" · ")}</p>`:""}${bs.length?`<p class="small">Editions that mention ${esc(p.name)}: ${bs.slice(0,20).map(b=>`<a href="#brief-${esc(b._id)}">${fmtDate(b.date)}</a>`).join(" · ")}</p>`:""}</section>`;
+  if(arr(p.sources).length) h+=`<section class="panel stack"><h2>Sources</h2>${srcList(p.sources)}</section>`;
+  if(S.owner) h+=noteBox("person-"+id,p.name);
+  return h;
+}
+async function togglePersonTrack(id){if(!S.db)return;const k="person-"+id,p=S.people[id];try{if(S.watch[k])await S.db.doc("mine/watch/items/"+k).delete();else await S.db.doc("mine/watch/items/"+k).set({type:"keyword",kind:"person",personId:id,label:p?p.name:id,note:"People file",added:new Date().toISOString()});}catch(e){alertBox("Could not update your watchlist: "+((e&&e.message)||"unknown error"));}}
+async function requestPerson(){
+  const n=document.getElementById("pp-name"),w=document.getElementById("pp-why");if(!n||!S.db)return;const name=n.value.trim();if(!name){n.focus();return;}
+  const k="pp-"+slug(name);
+  try{await noteSet(k,{key:k,label:"People file request: "+name,text:"Brief: build a people file on "+name+"."+(w&&w.value.trim()?" I want to know: "+w.value.trim():""),href:"#people",updated:new Date().toISOString()});n.value="";if(w)w.value="";alertBox("Requested. The profile appears in People Files after the next morning edition.");}
+  catch(e){alertBox("Could not save the request: "+((e&&e.message)||"unknown error"));}
+}
+
 /* ---------- router ---------- */
 function render(){
   const h=decodeURIComponent((location.hash||"").slice(1))||"brief";
@@ -935,6 +1067,8 @@ function render(){
   else if(h.startsWith("story-")){key="stories";html=viewStory(h.slice(6));}
   else if(h==="narratives") html=viewNarratives();
   else if(h==="elections") html=viewElections();
+  else if(h==="people") html=viewPeople();
+  else if(h.startsWith("person-")){key="people";html=viewPerson(h.slice(7));}
   else if(h==="watchlist") html=viewWatch();
   else if(h==="scorecard") html=viewScorecard();
   else if(h==="predictions") html=viewPredictions();
@@ -956,8 +1090,9 @@ let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.getElementById("app").addEventListener("click",e=>{
-  const t=e.target.closest("[data-bk],[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
+  const t=e.target.closest("[data-ptrack],[data-ppreq],[data-pcat],[data-bk],[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
   const d=t.dataset;
+  if(d.ptrack){togglePersonTrack(d.ptrack);return;} if(d.ppreq){requestPerson();return;} if(d.pcat){S.pcat=d.pcat==="*"?"":d.pcat;render();return;}
   if(d.bk){backupDownload();return;}
   if(d.pnew){pNew(d.pnew);return;} if(d.psave){pSaveDraft(d.psave);return;} if(d.plock){pLock(d.plock);return;} if(d.pupd){pUpdateProb(d.pupd);return;}
   if(d.pres){const [k,o]=d.pres.split("|");pResolve(k,o);return;} if(d.preopen){pReopen(d.preopen);return;} if(d.pdel){pDelete(d.pdel);return;}
@@ -976,9 +1111,9 @@ document.getElementById("app").addEventListener("click",e=>{
 });
 document.getElementById("app").addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.note){S.drafts[e.target.dataset.note]=e.target.value;setNoteMsg(e.target.dataset.note,"Unsaved changes");}});
 document.getElementById("app").addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.note&&S.drafts[e.target.dataset.note]!=null)saveNote(e.target.dataset.note);});
-document.getElementById("app").addEventListener("keydown",e=>{if(e.target.id==="wl-label"&&e.key==="Enter"){e.preventDefault();addWatch();}if(e.target.id&&e.target.id.startsWith("xq-")&&e.key==="Enter"){e.preventDefault();xAsk(e.target.id.slice(3));}});
+document.getElementById("app").addEventListener("keydown",e=>{if(e.target.id==="wl-label"&&e.key==="Enter"){e.preventDefault();addWatch();}if(e.target.id==="pp-name"&&e.key==="Enter"){e.preventDefault();requestPerson();}if(e.target.id&&e.target.id.startsWith("xq-")&&e.key==="Enter"){e.preventDefault();xAsk(e.target.id.slice(3));}});
 document.getElementById("app").addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.pf;if(!k)return;const f=e.target.id.slice(3);S.pdraft[k]=Object.assign(S.pdraft[k]||{},{[f]:e.target.value});if(f==="probability"){const pv=document.getElementById("pf-pv"),tm=document.getElementById("pf-term");if(pv)pv.textContent=e.target.value+"%";if(tm)tm.textContent=termFor(e.target.value);}});
-document.getElementById("app").addEventListener("input",e=>{const id=e.target.id||"";if(id==="n-q"){S.nq=e.target.value;render();}else if(id.startsWith("ne-")){S.drafts[id]=e.target.value;}});
+document.getElementById("app").addEventListener("input",e=>{const id=e.target.id||"";if(id==="pe-q"){S.peq=e.target.value;render();}else if(id==="n-q"){S.nq=e.target.value;render();}else if(id.startsWith("ne-")){S.drafts[id]=e.target.value;}});
 window.addEventListener("beforeunload",e=>{if(Object.keys(S.drafts).length){e.preventDefault();e.returnValue="";}});
 document.getElementById("app").addEventListener("change",e=>{if(e.target.id==="bk-file"&&e.target.files&&e.target.files[0]){backupRestore(e.target.files[0]);e.target.value="";}});
 document.getElementById("app").addEventListener("change",e=>{if(e.target.id!=="arch-date"||!e.target.value)return;const v=e.target.value;const l=briefsDesc();const hit=l.find(b=>b.date<=v)||l[l.length-1];if(hit)location.hash="brief-"+hit._id;});
@@ -1035,7 +1170,8 @@ async function bootStatic(){
   S.db.collection("mine/predictions/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({id:d.id},d.data());});S.preds=o;render();});
   const timer=setTimeout(()=>{S.slow=true;render();},10000);
   try{
-    const [idx,stories,forecasts]=await Promise.all([getJSON("data/index.json"),getJSON("data/stories.json"),getJSON("data/forecasts.json")]);
+    const [idx,stories,forecasts,people]=await Promise.all([getJSON("data/index.json"),getJSON("data/stories.json"),getJSON("data/forecasts.json"),getJSON("data/people.json").catch(()=>[])]);
+    const po={};arr(people).forEach(x=>{if(x&&x._id)po[x._id]=x;});S.people=po;S.got.pp=true;
     S.meta=idx.meta||null;
     S.briefs=arr(idx.briefs).map(b=>Object.assign({_light:true},b));
     const o={};arr(stories).forEach(s=>{o[s._id]=s;});S.stories=o;S.forecasts=arr(forecasts);
@@ -1065,6 +1201,7 @@ async function bootStatic(){
   db.collection("briefs").orderBy("date","desc").limit(120).onSnapshot(q=>{S.briefs=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.b=true;done();}render();},fail);
   db.collection("stories").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({_id:d.id},d.data());});S.stories=o;if(!q.metadata.fromCache){S.got.s=true;done();}render();},fail);
   db.collection("forecasts").onSnapshot(q=>{S.forecasts=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.f=true;done();}render();},fail);
+  db.collection("people").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({_id:d.id},d.data());});S.people=o;S.got.pp=true;render();},()=>{S.got.pp=true;render();});
 })();
 })();
 </script>
