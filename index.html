@@ -304,7 +304,7 @@ function viewBrief(b){
   // top stories
   const tops=arr(b.topStories).map(id=>S.stories[id]).filter(Boolean);
   if(tops.length){h+=`<section class="panel stack"><h2>Priority Stories and Outlook</h2><div class="grid2">${tops.map(storyCard).join("")}</div></section>`;}
-  h+=conspiracyPanel(b)+discoursePanel(b)+mediaPanel(b)+electionsPanel(b)+travelPanel(b)+sanctionsPanel(b);
+  h+=underRadarPanel(b)+conspiracyPanel(b)+discoursePanel(b)+mediaPanel(b)+electionsPanel(b)+travelPanel(b)+sanctionsPanel(b);
   // sections
   const secs=arr(b.sections);
   if(secs.length){
@@ -314,7 +314,7 @@ function viewBrief(b){
   }
   if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}${hlBtn(x.headline,{url:x.url,source:x.outlet,category:"Headlines",date:b.date})}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
-  if(b.coverageNote||arr(b.gaps).length){h+=`<section class="panel stack"><h2>Collection Gaps and Coverage Check</h2>${b.coverageNote?`<p class="prose">${esc(b.coverageNote)}</p>`:""}${arr(b.gaps).length?`<ul class="plain">${arr(b.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}</section>`;}
+  if(b.coverageNote||arr(b.gaps).length||b.sourceBalance){const sb=b.sourceBalance||{};h+=`<section class="panel stack"><h2>Collection Gaps and Coverage Check</h2>${b.coverageNote?`<p class="prose">${esc(b.coverageNote)}</p>`:""}${b.sourceBalance?`<div><p class="eyebrow">Source balance this edition</p><div class="row" style="gap:8px">${[["Left leaning","left"],["Center or wire","center"],["Right leaning","right"],["State media","state"],["Primary documents","primary"],["Independent or local","independent"]].filter(([l,k])=>sb[k]!=null).map(([l,k])=>`<span class="chip plain">${l}: ${esc(sb[k])}</span>`).join("")}</div>${sb.note?`<p class="small muted">${esc(sb.note)}</p>`:""}</div>`:""}${arr(b.gaps).length?`<ul class="plain">${arr(b.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}</section>`;}
   if(arr(b.sources).length){h+=`<section class="panel stack"><h2>Sources</h2>${srcList(b.sources)}</section>`;}
   h+=noteBox("brief-"+b._id,"Edition "+(b.edition||"")+", "+fmtDate(b.date));
   return h;
@@ -853,7 +853,10 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
     <div class="row">${c.status?`<span class="chip plain">${esc(c.status)}</span>`:""}${c.harm?`<span class="chip plain">Real world risk: ${esc(c.harm)}</span>`:""}${date?`<span class="src">${fmtDate(date)}</span>`:""}</div>
     <div class="hlrow"><h3>${esc(c.claim)}</h3>${(date?hlBtn(c.claim,{kind:"claim",category:"Conspiracies",date:date}):"")}</div>
     <dl class="kv">
+      ${c.relatedTo?`<dt>Tied to</dt><dd>${S.stories[c.relatedTo]?`<a href="#story-${esc(c.relatedTo)}">${esc(S.stories[c.relatedTo].title)}</a>`:esc(c.relatedTo)}</dd>`:""}
       ${c.whereSpreading?`<dt>Where it is spreading</dt><dd>${esc(c.whereSpreading)}</dd>`:""}
+      ${c.forumChatter?`<dt>What forums are saying</dt><dd>${esc(c.forumChatter)}</dd>`:""}
+      ${c.audience?`<dt>Who mostly pushes it</dt><dd>${esc(c.audience)}</dd>`:""}
       ${c.origin?`<dt>Where it came from</dt><dd>${esc(c.origin)}</dd>`:""}
       ${c.whyBelieved?`<dt>Why it resonates</dt><dd>${esc(c.whyBelieved)}</dd>`:""}
       ${c.caseFor?`<dt>The case believers make</dt><dd>${esc(c.caseFor)}</dd>`:""}
@@ -864,6 +867,11 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
     ${arr(c.sources).length?`<div class="src">${arr(c.sources).map(s=>link(s.title,s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}
     ${(()=>{const ctx={kind:"claim",title:c.claim,body:[c.origin,c.caseFor,c.caseAgainst||c.evidence,c.unknowns].filter(Boolean).join(" "),category:"Conspiracy Watch",date:date,href:bid?"#brief-"+bid:"#narratives"};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>`:"";})()}${xBox(xk)}
   </article>`;
+}
+function underRadarPanel(b){
+  const u=arr(b.underRadar); if(!u.length&&!b.underRadarNote) return "";
+  return `<section class="panel stack"><h2>What Most Media Isn't Covering</h2><p class="small muted prose">Stories with real weight that got little or one sided coverage: found in court filings, government records, local and foreign press, and outlets across the spectrum. Each says why it is under the radar.</p>
+  ${u.length?u.map(x=>`<div class="item"><div class="hlrow"><span class="hl">${esc(x.headline)}</span>${hlBtn(x.headline,{url:x.url,source:x.source,category:"Under the radar",date:b.date})}</div><p class="prose">${pl(x.summary||"")}</p>${x.whyUndercovered?`<p class="assess prose">Why it's under the radar: ${esc(x.whyUndercovered)}</p>`:""}<div class="src">${x.coverage?esc(x.coverage)+" · ":""}${x.source?link(x.source,x.url):""}${x.grade?` [${esc(x.grade)}]`:""}${x.storyId?` · <a href="#story-${esc(x.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(b.underRadarNote)}</p>`}</section>`;
 }
 function conspiracyPanel(b){
   const c=arr(b.conspiracies);
@@ -980,7 +988,7 @@ function peopleInBrief(b){
   return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>People in This Edition</h2><a class="more mono small" href="#people">All people files</a></div><p class="small muted">Names with a dotted underline in this brief open a short profile: who they are, who they are connected to, and where money moves.</p><div class="row" style="gap:8px">${ps.map(p=>`<a class="pchip" href="#person-${esc(p._id)}"><b>${esc(p.name)}</b><span>${esc(trunc(p.role||"",44))}</span></a>`).join("")}</div></section>`;
 }
 function personCard(p){
-  return `<div class="card pcard"><div class="row" style="justify-content:space-between;gap:8px"><a class="hl" href="#person-${esc(p._id)}">${esc(p.name)}</a>${p.status?`<span class="chip plain">${esc(p.status)}</span>`:""}</div>
+  return `<div class="card pcard"><div class="row" style="justify-content:space-between;gap:8px"><a class="hl" href="#person-${esc(p._id)}">${esc(p.name)}</a>${p.depth==="stub"?'<span class="chip m-dis">Short file</span>':p.status?`<span class="chip plain">${esc(p.status)}</span>`:""}</div>
   <span class="small">${esc(p.role||"")}</span><span class="src">${esc([p.category,p.country].filter(Boolean).join(" · "))}</span>
   ${p.summary?`<p class="small muted">${esc(trunc(p.summary,190))}</p>`:""}
   <span class="src">${arr(p.connections).length} connections · ${arr(p.money).length} money links · updated ${fmtDate(String(p.updated||"").slice(0,10))}</span></div>`;
@@ -1035,10 +1043,11 @@ function viewPerson(id){
   <p class="prose"><b>${esc(p.role||"")}</b></p>
   ${p.status?`<div class="row"><span class="chip plain">${esc(p.status)}</span>${p.statusNote?`<span class="small">${esc(p.statusNote)}</span>`:""}</div>`:""}
   <div class="bluf"><p class="eyebrow">Who this is</p><p>${pl(p.summary||"")}</p></div>
+  ${p.depth==="stub"?`<div class="row" style="gap:8px"><span class="chip m-dis">Short file</span><span class="small muted">Built from today's reporting only. A full file adds the people map, money map and history.</span>${S.owner&&!S.local?`<button type="button" class="btn ghost" data-ppfull="${esc(id)}">${S.notes["pp-"+slug(p.name)]?"Full file requested ✓":"Ask for the full file"}</button>`:""}</div>`:""}
   <span class="src">File updated ${fmtDT(p.updated)}</span></section>`;
   if(arr(p.keyFacts).length) h+=`<section class="panel stack"><h2>Key Facts</h2><div class="kvgrid">${arr(p.keyFacts).map(f=>`<div><span class="src">${esc(f.label)}</span><span>${esc(f.value)}</span></div>`).join("")}</div></section>`;
-  h+=`<section class="panel stack"><h2>People Map</h2><p class="small muted">Who ${esc(p.name)} is tied to, and how. Hover or tap a box for detail.</p>${personMap(p)}</section>`;
-  h+=`<section class="panel stack"><h2>Money Map</h2>${moneyMap(p)}</section>`;
+  if(p.depth!=="stub"||arr(p.connections).length) h+=`<section class="panel stack"><h2>People Map</h2><p class="small muted">Who ${esc(p.name)} is tied to, and how. Hover or tap a box for detail.</p>${personMap(p)}</section>`;
+  if(p.depth!=="stub"||arr(p.money).length) h+=`<section class="panel stack"><h2>Money Map</h2>${moneyMap(p)}</section>`;
   if(arr(p.timeline).length) h+=`<section class="panel stack"><h2>Timeline</h2><div class="tablewrap"><table><tbody>${arr(p.timeline).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).map(t=>`<tr><td class="mono small num" style="white-space:nowrap;width:120px">${esc(t.date)}</td><td>${pl(t.event)}${t.url?` <span class="src">${link(t.source||"source",t.url)}</span>`:t.source?` <span class="src">${esc(t.source)}</span>`:""}</td></tr>`).join("")}</tbody></table></div></section>`;
   if(p.background) h+=`<section class="panel stack"><h2>Background</h2><p class="prose">${pl(p.background)}</p></section>`;
   if(arr(p.openQuestions).length) h+=`<section class="panel stack"><h2>Open Questions</h2><ul class="plain">${arr(p.openQuestions).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>`;
@@ -1049,6 +1058,7 @@ function viewPerson(id){
   return h;
 }
 async function togglePersonTrack(id){if(!S.db)return;const k="person-"+id,p=S.people[id];try{if(S.watch[k])await S.db.doc("mine/watch/items/"+k).delete();else await S.db.doc("mine/watch/items/"+k).set({type:"keyword",kind:"person",personId:id,label:p?p.name:id,note:"People file",added:new Date().toISOString()});}catch(e){alertBox("Could not update your watchlist: "+((e&&e.message)||"unknown error"));}}
+async function requestFull(id){const p=S.people[id];if(!p||!S.db)return;const k="pp-"+slug(p.name);if(S.notes[k]){alertBox("Already requested for the next edition");return;}try{await noteSet(k,{key:k,label:"People file request: "+p.name,text:"Brief: build a full people file on "+p.name+" (person id "+id+").",href:"#person-"+id,updated:new Date().toISOString()});alertBox("Requested. The full file arrives with the next morning edition.");render();}catch(e){alertBox("Could not save the request: "+((e&&e.message)||"unknown error"));}}
 async function requestPerson(){
   const n=document.getElementById("pp-name"),w=document.getElementById("pp-why");if(!n||!S.db)return;const name=n.value.trim();if(!name){n.focus();return;}
   const k="pp-"+slug(name);
@@ -1090,9 +1100,9 @@ let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.getElementById("app").addEventListener("click",e=>{
-  const t=e.target.closest("[data-ptrack],[data-ppreq],[data-pcat],[data-bk],[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
+  const t=e.target.closest("[data-ppfull],[data-ptrack],[data-ppreq],[data-pcat],[data-bk],[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
   const d=t.dataset;
-  if(d.ptrack){togglePersonTrack(d.ptrack);return;} if(d.ppreq){requestPerson();return;} if(d.pcat){S.pcat=d.pcat==="*"?"":d.pcat;render();return;}
+  if(d.ppfull){requestFull(d.ppfull);return;} if(d.ptrack){togglePersonTrack(d.ptrack);return;} if(d.ppreq){requestPerson();return;} if(d.pcat){S.pcat=d.pcat==="*"?"":d.pcat;render();return;}
   if(d.bk){backupDownload();return;}
   if(d.pnew){pNew(d.pnew);return;} if(d.psave){pSaveDraft(d.psave);return;} if(d.plock){pLock(d.plock);return;} if(d.pupd){pUpdateProb(d.pupd);return;}
   if(d.pres){const [k,o]=d.pres.split("|");pResolve(k,o);return;} if(d.preopen){pReopen(d.preopen);return;} if(d.pdel){pDelete(d.pdel);return;}
