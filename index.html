@@ -176,6 +176,16 @@ button.lk{background:none;border:0;padding:0;color:var(--accent);font:inherit;te
 .ncard.closed .txt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 button.btn.danger{border-color:#b4453a;background:#b4453a}
 button.btn.ghost.danger{background:transparent;color:#c9574b}
+.pform{display:flex;flex-direction:column;gap:6px}
+.pform label{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:8px}
+.pform .hint{font-size:13px;color:var(--muted)}
+.prob{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.prob input[type=range]{flex:1 1 260px;accent-color:var(--accent)}
+.prob .pv{font-family:var(--mono);font-size:22px;min-width:64px}
+.bgfile h4{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);margin:14px 0 4px;text-transform:uppercase}
+.bgfile p{margin:0 0 8px}.bgfile ul{margin:0 0 8px 18px;padding:0}
+.qpick{display:flex;flex-direction:column;gap:6px}
+.qpick button{text-align:left}
 button.trk.sm{white-space:nowrap;flex-shrink:0;font-size:11px;padding:3px 8px;margin-left:8px;vertical-align:middle}
 .hlrow{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
 button.btn:hover,button.trk:hover{filter:brightness(1.08)}
@@ -202,6 +212,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
       <a href="#narratives" data-r="narratives">Narrative Watch</a>
       <a href="#elections" data-r="elections">Elections</a>
       <a href="#watchlist" data-r="watchlist">My Watchlist</a>
+      <a href="#predictions" data-r="predictions">My Predictions</a>
       <a href="#scorecard" data-r="scorecard">Forecast Scorecard</a>
       <a href="#archive" data-r="archive">Archive</a>
       <a href="#methods" data-r="methods">Methods</a>
@@ -215,7 +226,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 <script>
 (function(){
 "use strict";
-const S={static:false,full:{},hl:{},xc:{},ex:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const S={static:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
 const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
 const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
 const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
@@ -272,7 +283,7 @@ function viewBrief(b){
   if(secs.length){
     h+=`<section class="panel stack"><h2>Category Sections</h2><p class="small muted">Every category is checked on every run. Grey buttons mean nothing significant was located; that section still states so below.</p>
     <div class="toc">${secs.map((s,i)=>`<button type="button" data-jump="sec-${i}" class="${arr(s.items).length?"":"quiet"}">${esc(s.category)}${arr(s.items).length?` <span class="muted">${arr(s.items).length}</span>`:""}</button>`).join("")}</div></section>`;
-    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const x=xBtn(k,{title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id});return x?" · "+x:"";})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
+    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const ctx={title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id,storyId:it.storyId||"",explainer:it.explainer||null};const x=xBtn(k,ctx),pb=pBtn(ctx);return (x?" · "+x:"")+(pb?" · "+pb:"");})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
   }
   if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}${hlBtn(x.headline,{url:x.url,source:x.outlet,category:"Headlines",date:b.date})}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
@@ -290,7 +301,7 @@ function storyCard(s){
     <h3><a href="#story-${esc(s._id)}" style="color:inherit;text-decoration:none">${esc(s.title)}</a></h3>
     <p class="small">${esc(s.bluf)}</p>
     ${kj.text?`<p class="small"><span class="mono muted">KEY JUDGMENT</span> ${esc(kj.text)} <span class="chip conf">${esc(kj.confidence||"")} confidence</span></p>`:""}
-    <div class="row" style="justify-content:space-between"><span class="src">Updated ${fmtDate(s.lastUpdated)}</span><span class="row">${trackBtn(s._id)}<a class="more" href="#story-${esc(s._id)}">Open story file</a></span></div>
+    <div class="row" style="justify-content:space-between"><span class="src">Updated ${fmtDate(s.lastUpdated)}</span><span class="row">${pBtn(storyCtx(s),true)}${trackBtn(s._id)}<a class="more" href="#story-${esc(s._id)}">Open story file</a></span></div>
   </article>`;
 }
 
@@ -390,7 +401,7 @@ function viewStory(id){
   const fc=S.forecasts.filter(f=>f.storyId===id);
   let h=`<section class="panel stack">
     <p class="eyebrow"><a href="#stories">Story Files</a> // ${esc(s.region||"")} // Opened ${fmtDate(s.opened)}</p>
-    <div class="row">${chip(st)}${s.category?`<span class="chip plain">${esc(s.category)}</span>`:""}<span class="src">Last updated ${fmtDate(s.lastUpdated)}</span>${trackBtn(s._id)}</div>
+    <div class="row">${chip(st)}${s.category?`<span class="chip plain">${esc(s.category)}</span>`:""}<span class="src">Last updated ${fmtDate(s.lastUpdated)}</span>${trackBtn(s._id)}${pBtn(storyCtx(s),true)}</div>
     <h1>${esc(s.title)}</h1>
     <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${esc(s.bluf)}</p></div>
   </section>`;
@@ -420,7 +431,10 @@ function viewScorecard(){
   return `<section class="panel stack"><p class="eyebrow">Forecast Scorecard</p><h1>How the Forecasts Are Holding Up</h1>
   <p class="prose">Every forecast has a probability and a resolution date. When it resolves, it gets a Brier score: 0 is a perfect call, 0.25 is what always saying 50% would earn, and 1 is a confident miss. Lower is better.</p>
   <div class="ind"><div><b>Forecasts logged</b><span>${f.length}</span></div><div><b>Resolved</b><span>${res.length}</span></div><div><b>Mean Brier score</b><span>${mean==null?"Pending":mean.toFixed(3)}</span><em>${mean==null?"Scores appear as forecasts resolve":mean<0.15?"Strong":mean<0.25?"Better than chance":"Needs work"}</em></div></div></section>
-  <section class="panel stack"><h2>All Forecasts</h2>${f.length?forecastTable(f):`<p class="quietnote">No forecasts logged yet.</p>`}</section>`;
+  <section class="panel stack"><h2>Brief's Forecasts</h2>${f.length?forecastTable(f):`<p class="quietnote">No forecasts logged yet.</p>`}</section>
+  ${S.owner?(()=>{const mine=Object.values(S.preds).filter(p=>p.status!=="draft");const rs=mine.map(pBrier).filter(x=>x!=null);const mm=rs.length?rs.reduce((a,x)=>a+x,0)/rs.length:null;return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Forecasts <span class="muted num">${mine.length}</span></h2><a class="more mono small" href="#predictions">My Predictions</a></div>
+  <div class="ind"><div><b>Your mean Brier</b><span>${mm==null?"Pending":mm.toFixed(3)}</span><em>${rs.length} resolved</em></div><div><b>Brief's mean Brier</b><span>${mean==null?"Pending":mean.toFixed(3)}</span><em>${res.length} resolved</em></div></div>
+  ${mine.length?`<div class="tablewrap"><table><thead><tr><th>Your prediction</th><th>Locked at</th><th>Now</th><th>Resolves by</th><th>Outcome</th><th>Brier</th></tr></thead><tbody>${mine.sort((a,b)=>String(a.resolveBy).localeCompare(String(b.resolveBy))).map(p=>{const br=pBrier(p);return `<tr><td class="small"><a href="#predict-${esc(p.id)}">${esc(p.statement)}</a></td><td class="small">${esc(termFor(p.lockedProbability))} <span class="num muted">${esc(p.lockedProbability)}%</span></td><td class="num small">${esc(p.probability)}%</td><td class="num small">${fmtDate(p.resolveBy)}</td><td>${p.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':p.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`}).join("")}</tbody></table></div>`:`<p class="quietnote">No locked predictions yet. Tap Make a prediction on any headline or story file.</p>`}</section>`;})():""}`;
 }
 /* ---- watchlist and notes (private: mine/...) ---- */
 function slug(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||("item-"+Date.now());}
@@ -441,10 +455,11 @@ function xInner(key){
   const o=S.ex[key]; if(!o) return "";
   const turns=o.msgs.slice(1).map((m,i)=>m.role==="user"?`<div class="q">You asked: ${esc(m.content)}</div>`:`<div class="ans">${fmtAns(m.content)}</div>`).join("");
   const live=o.busy?`<div class="ans">${o.live?fmtAns(o.live):'<p class="muted">Thinking…</p>'}</div>`:"";
-  return `${turns}${live}${o.err?`<p class="notice">${esc(o.err)}</p>`:""}
+  const head=o.researched?`<div class="q">Researched background${arr(o.sources).length?" · "+arr(o.sources).map(s=>link(s.title||"source",s.url)).join(" · "):""}</div>`:"";
+  return `${head}${turns}${live}${o.err?`<p class="notice">${esc(o.err)}</p>`:""}
   <div class="bar"><input type="text" id="xq-${esc(key)}" placeholder="Ask a follow up question" ${o.busy?"disabled":""}><button type="button" class="btn" data-xask="${esc(key)}" ${o.busy?"disabled":""}>Ask</button></div>
   <div class="bar"><button type="button" class="btn ghost" data-xsave="${esc(key)}" ${o.busy||o.msgs.length<2?"disabled":""}>Save to my notes</button><button type="button" class="btn ghost" data-xbrief="${esc(key)}">Have tomorrow's brief research it</button><span class="src" id="xs-${esc(key)}">${esc(o.msg||"")}</span></div>
-  <p class="small muted">Explanations come from Claude's background knowledge plus the item above. It cannot browse, so for anything after mid 2026 it says what it does not know. Tomorrow's brief can research it live.</p>`;
+  <p class="small muted">${o.researched?"The background above was researched live when this edition was built. Follow up answers build on it plus Claude's own knowledge; Claude cannot browse from here.":"This item has no researched background yet, so this answer comes only from Claude's own knowledge, which ends mid 2026. Tap Have tomorrow's brief research it for a live answer."}</p>`;
 }
 function xBox(key){const o=S.ex[key];if(!o||!o.open)return "";return `<div class="xbox" id="xb-${esc(key)}">${xInner(key)}</div>`;}
 function xPaint(key){const el=document.getElementById("xb-"+key);if(el)el.innerHTML=xInner(key);}
@@ -452,7 +467,7 @@ function xPrompt(c){
   const today=new Date().toISOString().slice(0,10);
   return `You are the analyst behind Brief, an open source intelligence briefing for one reader who studied intelligence analysis and knows IC tradecraft. Today is ${today}. Explain the item below so she fully understands it: what it is, the background and history behind it, the key people, groups or institutions involved, why it matters (including for the United States where relevant), and what to watch next.
 
-Rules: You cannot browse the web and your knowledge may end before this event. For the specifics of this event, rely only on the item text below. For background, use what you know, and say plainly when something is beyond what you know or may have changed. Never invent facts, figures, names or quotes.${c.kind==="claim"?" This is a conspiracy theory or contested narrative: give no verdict. Lay out the case believers make, the evidence against, and what is unknown, even handedly.":""} Write plainly and directly like an analyst talking to a colleague. No em dashes, no hyphenated compound words, no markdown headings, no bold. Use short paragraphs, and lines starting with "- " for lists. Keep it under 280 words unless asked for more.
+Rules: You cannot browse the web and your knowledge may end before this event. For the specifics of this event, rely only on the item text below. For background, use what you know, and say plainly when something is beyond what you know or may have changed. Never invent facts, figures, names or quotes, and do not guess what something is from its name. If you do not know it, say so in one sentence and give only background you are sure of.${c.kind==="claim"?" This is a conspiracy theory or contested narrative: give no verdict. Lay out the case believers make, the evidence against, and what is unknown, even handedly.":""} Write plainly and directly like an analyst talking to a colleague. No em dashes, no hyphenated compound words, no markdown headings, no bold. Use short paragraphs, and lines starting with "- " for lists. Keep it under 280 words unless asked for more.
 
 ITEM
 ${c.category?"Section: "+c.category+"\n":""}Title: ${c.title}
@@ -473,6 +488,8 @@ function xToggle(key){
   const c=S.xc[key]; let o=S.ex[key];
   if(o){o.open=!o.open;render();return;}
   if(!c) return;
+  const ex=c.explainer&&(c.explainer.text||typeof c.explainer==="string")?c.explainer:null;
+  if(ex){const txt=typeof ex==="string"?ex:ex.text;o=S.ex[key]={open:true,researched:true,sources:arr(ex.sources),msgs:[{role:"user",content:xPrompt(c)+"\n\nRESEARCHED BACKGROUND (gathered from live web sources this morning; treat it as more current and reliable than your own memory, and build on it):\n"+txt},{role:"assistant",content:txt}],busy:false,err:"",msg:""};render();return;}
   o=S.ex[key]={open:true,msgs:[{role:"user",content:xPrompt(c)}],busy:false,err:"",msg:""};render();xRun(key);
 }
 function xAsk(key){const o=S.ex[key];const inp=document.getElementById("xq-"+key);if(!o||!inp)return;const q=inp.value.trim();if(!q){inp.focus();return;}o.msgs.push({role:"user",content:q});inp.value="";xRun(key);}
@@ -494,6 +511,146 @@ async function xBrief(key){
   try{await noteAppend("item-"+key.replace(/^hl-/,""),c.title,c.href,`Brief: research this in depth for me. What is it, the background, what changed, and what it means: ${c.title}`);if(o)o.msg="Queued for tomorrow's brief (answer appears in My Watchlist)";else alertBox("Queued for tomorrow's brief");}
   catch(e){if(o)o.msg="Could not queue it: "+((e&&e.message)||"unknown error");}
   if(o)xPaint(key);
+}
+/* ---- My Predictions (private: mine/predictions, research in mine/dossiers) ---- */
+function termFor(p){p=Number(p);if(p<=5)return "almost no chance";if(p<20)return "very unlikely";if(p<45)return "unlikely";if(p<=55)return "roughly even chance";if(p<80)return "likely";if(p<95)return "very likely";return "almost certain";}
+function storyCtx(s){return {kind:"story",title:s.title,body:[s.bluf,(s.keyJudgment||{}).text].filter(Boolean).join(" "),category:s.category||"Story file",storyId:s._id,href:"#story-"+s._id,date:s.lastUpdated};}
+function pid(ctx){return "p-"+hkey(ctx.title+"|"+(ctx.url||ctx.storyId||"")).slice(3);}
+function pBtn(ctx,asBtn){if(!S.owner||S.static)return "";const k=pid(ctx);S.pc[k]=ctx;const ex=S.preds[k];const label=ex?(ex.status==="draft"?"Continue your prediction":"Your prediction"):"Make a prediction";return asBtn?`<button type="button" class="trk" data-pnew="${k}">${ex?"◆ ":"◇ "}${label}</button>`:`<button type="button" class="lk" data-pnew="${k}">${label}</button>`;}
+async function pNew(k){
+  if(S.preds[k]){location.hash="predict-"+k;return;}
+  const c=S.pc[k]; if(!c||!S.db) return; const now=new Date().toISOString();
+  const doc={id:k,title:c.title,topic:c,created:now,updated:now,status:"draft",statement:"",probability:50,resolveBy:c.resolveHint||"",reasoning:"",assumptions:"",changeMind:"",history:[],outcome:null,dossierRequested:true,requestedAt:now};
+  try{await S.db.doc("mine/predictions/items/"+k).set(doc);S.preds[k]=doc;location.hash="predict-"+k;if(S.sample)pBg(k);}
+  catch(e){alertBox("Could not start the prediction: "+((e&&e.message)||"unknown error"));}
+}
+function pVal(k,f){const d=S.pdraft[k];if(d&&d[f]!=null)return d[f];const p=S.preds[k]||{};return p[f]!=null?p[f]:"";}
+function pFields(k){const g=id=>{const el=document.getElementById("pf-"+id);return el?el.value:pVal(k,id);};return {statement:g("statement").trim(),probability:Math.max(1,Math.min(99,Number(g("probability"))||50)),resolveBy:g("resolveBy"),reasoning:g("reasoning"),assumptions:g("assumptions"),changeMind:g("changeMind")};}
+async function pWrite(k,patch,msg){const p=S.preds[k];if(!p||!S.db)return false;const doc=Object.assign({},p,patch,{updated:new Date().toISOString()});try{await S.db.doc("mine/predictions/items/"+k).set(doc);S.preds[k]=doc;if(msg)S.pmsg[k]=msg;return true;}catch(e){alertBox("Could not save: "+((e&&e.message)||"unknown error"));return false;}}
+async function pSaveDraft(k){const f=pFields(k);const p=S.preds[k];if(!p)return;const patch=p.status==="draft"?f:{reasoning:f.reasoning,assumptions:f.assumptions,changeMind:f.changeMind};if(await pWrite(k,patch,"Saved "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}))){delete S.pdraft[k];render();}}
+async function pLock(k){const f=pFields(k);if(!f.statement){alertBox("Write the prediction statement first");const el=document.getElementById("pf-statement");if(el)el.focus();return;}if(!f.resolveBy){alertBox("Pick a resolve by date first");return;}const now=new Date().toISOString();if(await pWrite(k,Object.assign({},f,{status:"open",lockedAt:now,lockedProbability:f.probability,history:[{date:now,probability:f.probability,note:"Locked in"}]}),"Locked in")){delete S.pdraft[k];render();}}
+async function pUpdateProb(k){const p=S.preds[k];if(!p)return;const el=document.getElementById("pf-probability"),nt=document.getElementById("pf-upnote");const v=Math.max(1,Math.min(99,Number(el&&el.value)||p.probability));if(v===Number(p.probability)){alertBox("Move the slider to a new probability first");return;}const now=new Date().toISOString();if(await pWrite(k,{probability:v,history:arr(p.history).concat([{date:now,probability:v,note:nt?nt.value.trim():""}])},"Update recorded")){delete S.pdraft[k];render();}}
+async function pResolve(k,outcome){const p=S.preds[k];if(!p)return;const nt=document.getElementById("pf-resnote");if(await pWrite(k,{status:"resolved",outcome,resolvedOn:new Date().toISOString().slice(0,10),resolutionNote:nt?nt.value.trim():""},"Resolved")){render();}}
+async function pReopen(k){if(await pWrite(k,{status:"open",outcome:null,resolvedOn:"",resolutionNote:""},"Reopened"))render();}
+async function pDelete(k){if(!S.parm[k]){S.parm[k]=true;render();setTimeout(()=>{if(S.parm[k]){delete S.parm[k];render();}},4000);return;}delete S.parm[k];try{await S.db.doc("mine/predictions/items/"+k).delete();delete S.preds[k];location.hash="predictions";}catch(e){alertBox("Could not delete: "+((e&&e.message)||"unknown error"));}}
+async function pRequest(k){if(await pWrite(k,{dossierRequested:true,requestedAt:new Date().toISOString()},"Research requested for the next morning edition"))render();}
+function pBrier(p){if(p.outcome!=="yes"&&p.outcome!=="no")return null;const q=(Number(p.lockedProbability!=null?p.lockedProbability:p.probability)||0)/100,o=p.outcome==="yes"?1:0;return (q-o)*(q-o);}
+function bgPrompt(c){const today=new Date().toISOString().slice(0,10);return `You are helping a forecaster who knows intelligence tradecraft prepare to make a probabilistic prediction. Today is ${today}.
+
+TOPIC: ${c.title}
+${c.category?"Section: "+c.category+"\n":""}${c.body?"Context from her briefing: "+c.body+"\n":""}${c.note?"Analyst note: "+c.note+"\n":""}${c.source?"Source: "+c.source+(c.url?" ("+c.url+")":"")+"\n":""}
+Write a background file with these sections in this order. Start each section with its name in capitals on its own line, exactly as written:
+BACKGROUND
+How this situation came about, going back months or years as far as is relevant.
+TIMELINE
+Key dated events in order, one per line starting with "- " and the date (for example "- March 2024: ...").
+KEY ACTORS
+Who matters, what each wants, and what leverage each has.
+BASE RATES AND HISTORICAL ANALOGUES
+Comparable past cases and how they turned out, with rough frequencies where you know them. This is the starting point for a probability.
+WHAT IT HINGES ON
+The two to four factors that will decide the outcome.
+SIGNPOSTS TO WATCH
+Observable events that would move the odds up or down.
+QUESTIONS YOU COULD FORECAST
+Three to five yes or no questions with a date, each one line starting with "- ", worded so anyone could check the answer later.
+
+Rules: You cannot browse the web and your knowledge may end before recent events. For anything recent rely only on the context above, and say plainly what you do not know or what may have changed. Never invent facts, figures, names or quotes. Do not give your own probability; she makes the call.${c.kind==="claim"?" This topic is a conspiracy theory or contested narrative: give no verdict on it.":""} No em dashes, no hyphenated compound words, no markdown headings or bold. Up to 650 words.`;}
+async function pBg(k){
+  const p=S.preds[k]; if(!p||!S.sample||S.pbg[k]&&S.pbg[k].busy) return;
+  const st=S.pbg[k]={busy:true,live:"",err:""}; render();
+  try{const r=await S.sample(bgPrompt(p.topic||{title:p.title}),{modelTier:"complex",cache:false,onText:({text})=>{st.live=text;const el=document.getElementById("pbg-"+k);if(el)el.innerHTML=fmtBg(text);}});
+    st.busy=false; await pWrite(k,{background:(r&&r.text)||st.live,backgroundAt:new Date().toISOString()});}
+  catch(e){st.busy=false;st.err=e&&e.code==="not_granted"?"Background files need permission for Claude. Allow it when asked, then tap Build background file.":"Could not build the background file: "+((e&&e.message)||"unknown error");}
+  render();
+}
+function fmtBg(s){const lines=String(s||"").split(/\n/);let h="",ul=false;const close=()=>{if(ul){h+="</ul>";ul=false;}};lines.forEach(l=>{const tl=l.trim();if(!tl){close();return;}if(/^[A-Z][A-Z ,&]{3,}$/.test(tl)){close();h+=`<h4>${esc(tl)}</h4>`;return;}const m=tl.match(/^[-•*]\s+(.*)/);if(m){if(!ul){h+="<ul>";ul=true;}h+=`<li>${esc(m[1])}</li>`;return;}close();h+=`<p>${esc(tl.replace(/\*\*/g,""))}</p>`;});close();return h;}
+function bgQuestions(s){const m=String(s||"").split(/\n/);let on=false;const out=[];m.forEach(l=>{const tl=l.trim();if(/^QUESTIONS YOU COULD FORECAST/.test(tl)){on=true;return;}if(on&&/^[A-Z][A-Z ,&]{3,}$/.test(tl)){on=false;return;}const q=tl.match(/^[-•*]\s+(.*)/);if(on&&q)out.push(q[1]);});return out.slice(0,6);}
+function archiveHits(p){
+  const c=p.topic||{}; const words=String(p.title||"").toLowerCase().match(/[a-zà-ÿ0-9]{5,}/g)||[];
+  const out=[]; briefsDesc().forEach(b=>arr(b.sections).forEach(s=>arr(s.items).forEach(it=>{
+    const hay=(it.headline+" "+(it.summary||"")).toLowerCase(); const hits=words.filter(w=>hay.includes(w)).length;
+    if((c.storyId&&it.storyId===c.storyId)||hits>=Math.min(2,words.length)&&words.length) out.push({b,it});
+  }))); return out.slice(0,40);
+}
+function viewPredictions(){
+  if(S.dbMissing) return emptyState();
+  if(!S.owner) return `<section class="panel empty">${S.static?"This is a shared reading copy. Predictions are private to the owner's copy.":"Predictions are private to the owner of this page."}</section>`;
+  const all=Object.values(S.preds).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
+  const dr=all.filter(p=>p.status==="draft"),op=all.filter(p=>p.status==="open"),rs=all.filter(p=>p.status==="resolved");
+  const mine=rs.map(pBrier).filter(x=>x!=null),mm=mine.length?mine.reduce((a,x)=>a+x,0)/mine.length:null;
+  const theirs=S.forecasts.map(brier).filter(x=>x!=null),tm=theirs.length?theirs.reduce((a,x)=>a+x,0)/theirs.length:null;
+  const row=p=>{const br=pBrier(p);return `<tr><td class="small"><a href="#predict-${esc(p.id)}"><b>${esc(p.statement||p.title)}</b></a>${p.statement?`<div class="src">${esc(p.title)}</div>`:""}</td><td class="small">${p.status==="draft"?'<span class="muted">Not set</span>':`${esc(termFor(p.probability))} <span class="num muted">${esc(p.probability)}%</span>`}</td><td class="num small">${p.resolveBy?fmtDate(p.resolveBy):""}</td><td>${p.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':p.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':p.status==="draft"?'<span class="chip plain">Draft</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`;};
+  const tbl=l=>`<div class="tablewrap"><table><thead><tr><th>Prediction</th><th>Your call</th><th>Resolves by</th><th>Status</th><th>Brier</th></tr></thead><tbody>${l.map(row).join("")}</tbody></table></div>`;
+  return `<section class="panel stack"><p class="eyebrow">My Predictions // private</p><h1>Your Forecasting Desk</h1>
+  <p class="prose muted">Tap <b>Make a prediction</b> on any headline, story file, conspiracy or election. Each one opens a workspace with a background file, Brief's own analysis, the archive of related coverage and, after the next morning run, a researched dossier with news going back months or years. Write your forecast, lock it in, update it as things change, and resolve it when the date comes. Resolved predictions get a Brier score so you can see how good your calls are against Brief's.</p>
+  <div class="ind"><div><b>Your predictions</b><span>${all.length}</span><em>${op.length} open, ${dr.length} drafts</em></div><div><b>Your mean Brier</b><span>${mm==null?"Pending":mm.toFixed(3)}</span><em>${mine.length} resolved${mm!=null?(mm<0.15?" · strong":mm<0.25?" · better than chance":" · needs work"):""}</em></div><div><b>Brief's mean Brier</b><span>${tm==null?"Pending":tm.toFixed(3)}</span><em>${theirs.length} resolved</em></div></div></section>
+  ${op.length?`<section class="panel stack"><h2>Open <span class="muted num">${op.length}</span></h2>${tbl(op)}</section>`:""}
+  ${dr.length?`<section class="panel stack"><h2>Drafts <span class="muted num">${dr.length}</span></h2>${tbl(dr)}</section>`:""}
+  ${rs.length?`<section class="panel stack"><h2>Resolved <span class="muted num">${rs.length}</span></h2>${tbl(rs)}</section>`:""}
+  ${all.length?"":`<section class="panel empty">No predictions yet. Open the Current Brief or Story Files and tap Make a prediction on anything.</section>`}`;
+}
+function viewPredict(k){
+  if(!S.owner) return viewPredictions();
+  const p=S.preds[k]; if(!p) return `<section class="panel empty">${Object.keys(S.preds).length||S.got.p?"That prediction was not found.":"Loading your predictions."} <a href="#predictions">My Predictions</a></section>`;
+  const c=p.topic||{}, s=c.storyId?S.stories[c.storyId]:null, dz=S.dossiers[k], bg=S.pbg[k]||{};
+  const locked=p.status!=="draft", prob=pVal(k,"probability")||50;
+  const hist=arr(p.history);
+  let h=`<section class="panel stack"><p class="eyebrow"><a href="#predictions">My Predictions</a> // ${esc(c.category||"")} // started ${fmtDate(String(p.created).slice(0,10))}</p>
+  <div class="row">${p.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':p.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':locked?'<span class="chip s-unassessed">Open</span>':'<span class="chip plain">Draft</span>'}${S.pmsg[k]?`<span class="src">${esc(S.pmsg[k])}</span>`:""}</div>
+  <h1>${esc(p.title)}</h1>
+  ${c.body?`<p class="prose">${esc(c.body)}</p>`:""}
+  <div class="src">${c.source?link(c.source,c.url)+" · ":""}${c.href?`<a href="${esc(c.href)}">Where you found it</a>`:""}${s?` · <a href="#story-${esc(s._id)}">Story file</a>`:""}</div></section>`;
+  // forecast form
+  h+=`<section class="panel stack"><h2>Your Forecast</h2><div class="pform">
+  <label for="pf-statement">The prediction</label><span class="hint">Write it so anyone could check it later: what happens, and by when. Example: "Iran and the US announce a deal that reopens Hormuz by March 31, 2027."</span>
+  <textarea id="pf-statement" data-pf="${k}" rows="2" ${locked?"readonly":""}>${esc(pVal(k,"statement"))}</textarea>
+  <label for="pf-resolveBy">Resolves by</label><input id="pf-resolveBy" data-pf="${k}" type="date" value="${esc(pVal(k,"resolveBy"))}" ${locked?"readonly":""} style="max-width:220px">
+  <label for="pf-probability">Your probability it happens</label>
+  <div class="prob"><input id="pf-probability" data-pf="${k}" type="range" min="1" max="99" value="${esc(prob)}"><span class="pv" id="pf-pv">${esc(prob)}%</span><span class="mono small" id="pf-term">${esc(termFor(prob))}</span></div>
+  ${locked?`<span class="hint">Locked in at ${esc(p.lockedProbability)}% on ${fmtDate(String(p.lockedAt).slice(0,10))}. Your score uses the locked number; updates are recorded so you can see how your thinking moved.</span>${p.status==="open"?`<input id="pf-upnote" type="text" placeholder="Why you are updating (optional)"><div class="bar"><button type="button" class="btn ghost" data-pupd="${k}">Record updated probability</button></div>`:""}`:""}
+  <label for="pf-reasoning">Your reasoning</label><textarea id="pf-reasoning" data-pf="${k}" rows="4" placeholder="Start from the base rate, then adjust for what is different this time">${esc(pVal(k,"reasoning"))}</textarea>
+  <label for="pf-assumptions">Key assumptions</label><textarea id="pf-assumptions" data-pf="${k}" rows="2" placeholder="What has to stay true for your call to hold">${esc(pVal(k,"assumptions"))}</textarea>
+  <label for="pf-changeMind">What would change my mind</label><textarea id="pf-changeMind" data-pf="${k}" rows="2" placeholder="Signposts that would move you up or down">${esc(pVal(k,"changeMind"))}</textarea>
+  <div class="bar" style="margin-top:10px"><button type="button" class="btn ghost" data-psave="${k}">Save</button>${locked?"":`<button type="button" class="btn" data-plock="${k}">Lock in forecast</button>`}<button type="button" class="btn ghost danger" data-pdel="${k}">${S.parm[k]?"Tap again to delete":"Delete"}</button></div>
+  ${hist.length>1?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Probability</th><th>Note</th></tr></thead><tbody>${hist.map(x=>`<tr><td class="small num">${fmtDT(x.date)}</td><td class="mono small">${esc(x.probability)}%</td><td class="small">${esc(x.note||"")}</td></tr>`).join("")}</tbody></table></div>`:""}
+  ${p.status==="open"?`<label for="pf-resnote">Resolve it</label><span class="hint">When the date comes or the answer is clear, mark what happened.${dz&&dz.suggestedOutcome?` The morning run thinks it ${dz.suggestedOutcome.outcome==="yes"?"happened":"did not happen"}: ${esc(dz.suggestedOutcome.note||"")}`:""}</span><input id="pf-resnote" type="text" placeholder="What happened, with a source if you have one"><div class="bar"><button type="button" class="btn" data-pres="${k}|yes">It happened</button><button type="button" class="btn" data-pres="${k}|no">It did not happen</button></div>`:""}
+  ${p.status==="resolved"?`<p class="prose">Resolved ${fmtDate(p.resolvedOn)}: <b>${p.outcome==="yes"?"it happened":"it did not happen"}</b>. Your Brier score: <span class="mono">${(pBrier(p)||0).toFixed(3)}</span>. ${esc(p.resolutionNote||"")}</p><div class="bar"><button type="button" class="btn ghost" data-preopen="${k}">Reopen</button></div>`:""}
+  </div></section>`;
+  // Brief's view
+  if(s){const kj=s.keyJudgment||{};const fc=S.forecasts.filter(f=>f.storyId===s._id);
+    h+=`<section class="panel stack"><h2>Brief's View</h2><p class="small muted">For comparison. Try making your own call before you lean on this.</p>
+    ${kj.text?`<p class="prose"><span class="mono muted small">KEY JUDGMENT</span> ${esc(kj.text)} <span class="chip conf">${esc(kj.confidence||"")} confidence</span></p>`:""}
+    ${arr(s.scenarios).length?`<div class="tablewrap"><table><thead><tr><th>Scenario</th><th>Likelihood</th></tr></thead><tbody>${arr(s.scenarios).map(x=>`<tr><td class="small"><b>${esc(x.label)}: ${esc(x.name)}</b><div class="src">${esc(x.description||"")}</div></td><td class="small">${esc(x.likelihood||"")} <span class="num muted">${esc(x.probability)}%</span></td></tr>`).join("")}</tbody></table></div>`:""}
+    ${fc.length?`<h3>Brief's forecasts on this</h3>${forecastTable(fc)}`:""}
+    ${arr(s.indicators).length?`<h3>Indicators Brief is watching</h3><ul class="plain small">${arr(s.indicators).map(i=>`<li>${esc(i.text)} <span class="muted">(${esc(i.status)}, points to ${esc(i.pointsTo)})</span></li>`).join("")}</ul>`:""}</section>`;}
+  // background file
+  const bgText=bg.busy?bg.live:p.background, qs=bgQuestions(p.background);
+  h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Background File</h2>${S.sample?`<button type="button" class="btn ghost" data-pbg="${k}" ${bg.busy?"disabled":""}>${bg.busy?"Building…":p.background?"Rebuild":"Build background file"}</button>`:""}</div>
+  <p class="small muted">History, base rates, key actors and what it hinges on, written by Claude from its background knowledge. It cannot browse, so anything after mid 2026 comes only from your briefing; the research dossier below fills in live news.${p.backgroundAt?" Built "+fmtDT(p.backgroundAt)+".":""}</p>
+  ${bg.err?`<p class="notice">${esc(bg.err)}</p>`:""}
+  <div class="bgfile" id="pbg-${k}">${bgText?fmtBg(bgText):bg.busy?'<p class="muted">Thinking…</p>':'<p class="quietnote">Not built yet.</p>'}</div>
+  ${qs.length&&!locked?`<h3>Use one of these as your prediction</h3><div class="qpick">${qs.map((q,i)=>`<button type="button" class="btn ghost" data-puse="${k}|${i}">${esc(q)}</button>`).join("")}</div>`:""}</section>`;
+  // dossier
+  h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Research Dossier</h2><button type="button" class="btn ghost" data-preq="${k}">${dz?"Request fresh research":"Request research"}</button></div>`;
+  if(dz){h+=`<p class="small muted">Researched live by the morning run${dz.updated?", updated "+fmtDT(dz.updated):""}.${p.dossierRequested&&p.requestedAt>(dz.updated||"")?" A refresh is queued for the next run.":""}</p>
+    ${dz.summary?`<div class="bluf"><p>${esc(dz.summary)}</p></div>`:""}
+    ${arr(dz.timeline).length?`<h3>News timeline</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>What happened</th><th>Source</th></tr></thead><tbody>${arr(dz.timeline).map(x=>`<tr><td class="small num" style="white-space:nowrap">${esc(x.date)}</td><td class="small">${esc(x.event)}</td><td class="small">${link(x.source||"source",x.url)}</td></tr>`).join("")}</tbody></table></div>`:""}
+    ${dz.background?`<h3>Background</h3><p class="prose">${esc(dz.background)}</p>`:""}
+    ${arr(dz.baseRates).length?`<h3>Base rates and analogues</h3><ul class="plain small">${arr(dz.baseRates).map(x=>`<li><b>${esc(x.analogue)}</b>: ${esc(x.outcome||"")} ${x.note?`<span class="muted">${esc(x.note)}</span>`:""}</li>`).join("")}</ul>`:""}
+    ${arr(dz.actors).length?`<h3>Key actors</h3><ul class="plain small">${arr(dz.actors).map(x=>`<li><b>${esc(x.name)}</b>: ${esc(x.role||"")}</li>`).join("")}</ul>`:""}
+    ${arr(dz.signposts).length?`<h3>Signposts</h3><ul class="plain small">${arr(dz.signposts).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+    ${arr(dz.keyQuestions).length?`<h3>Open questions</h3><ul class="plain small">${arr(dz.keyQuestions).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+    ${arr(dz.sources).length?`<div class="src">${arr(dz.sources).map(x=>link(x.title,x.url)+(x.grade?` [${esc(x.grade)}]`:"")).join(" · ")}</div>`:""}`;}
+  else h+=`<p class="quietnote">${p.dossierRequested?"Queued. The next morning edition researches this live on the web: a news timeline going back months or years, background, base rates, key actors and signposts. It lands here.":"Tap Request research and the next morning edition builds a live dossier."}</p>`;
+  h+=`</section>`;
+  // archive
+  const hits=archiveHits(p); const tl=s?arr(s.timeline).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))):[];
+  h+=`<section class="panel stack"><h2>From the Brief Archive</h2>
+  ${tl.length?`<h3>Story file timeline</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Event</th></tr></thead><tbody>${tl.map(x=>`<tr><td class="small num" style="white-space:nowrap">${fmtDate(x.date)}</td><td class="small">${esc(x.event)} ${x.url?`<span class="src">${link(x.source||"source",x.url)}</span>`:""}</td></tr>`).join("")}</tbody></table></div>`:""}
+  ${hits.length?`<h3>Related items in past editions</h3><div class="tablewrap"><table><thead><tr><th>Edition</th><th>Headline</th></tr></thead><tbody>${hits.map(x=>`<tr><td class="small num" style="white-space:nowrap"><a href="#brief-${esc(x.b._id)}">${fmtDate(x.b.date)}</a></td><td class="small"><b>${esc(x.it.headline)}</b>${x.it.summary?`<div class="src">${esc(trunc(x.it.summary,200))}</div>`:""}</td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">${tl.length?"":"No related items in the archive yet. This fills in as editions pile up."}</p>`}</section>`;
+  h+=noteBox("pred-"+k,p.title);
+  return h;
 }
 function isQ(t){t=String(t||"").trim();return /^brief:/i.test(t)||/\?\s*$/.test(t)||/\nbrief:/i.test(t);}
 function noteBox(key,label){
@@ -589,7 +746,7 @@ function electionCard(e,from){
   ${arr(e.candidates).length?`<div class="cands">${arr(e.candidates).map(c=>`<div class="cand"><div class="who"><b>${esc(c.name)}</b>${c.party?`<span class="src">${esc(c.party)}</span>`:""}</div>${c.standing?`<span class="st">${esc(c.standing)}</span>`:""}${c.note?`<span class="nt">${esc(c.note)}</span>`:""}</div>`).join("")}</div>`:""}
   <dl class="kv">${e.outlook?`<dt>Outlook</dt><dd>${esc(e.outlook)}</dd>`:""}${e.stakes?`<dt>What it means</dt><dd>${esc(e.stakes)}</dd>`:""}${e.usAngle?`<dt>US angle</dt><dd>${esc(e.usAngle)}</dd>`:""}</dl>
   ${arr(e.sources).length?`<div class="src">${arr(e.sources).map(s=>link(s.title,s.url)).join(" · ")}</div>`:""}
-  ${(()=>{const xk=hkey("el|"+e.country+"|"+e.date);const x=xBtn(xk,{title:e.country+": "+(e.type||"election")+" on "+e.date,body:[arr(e.candidates).map(c=>c.name+(c.party?" ("+c.party+")":"")+(c.standing?", "+c.standing:"")).join("; "),e.outlook,e.stakes].filter(Boolean).join(" "),category:"Elections",date:from,href:"#elections"});return x?`<div class="src">${x}</div>${xBox(xk)}`:"";})()}</article>`;
+  ${(()=>{const xk=hkey("el|"+e.country+"|"+e.date);const ctx={kind:"election",title:e.country+": "+(e.type||"election")+" on "+e.date,body:[arr(e.candidates).map(c=>c.name+(c.party?" ("+c.party+")":"")+(c.standing?", "+c.standing:"")).join("; "),e.outlook,e.stakes].filter(Boolean).join(" "),category:"Elections",date:from,href:"#elections",resolveHint:e.date};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>${xBox(xk)}`:"";})()}</article>`;
 }
 function electionsPanel(b){
   const e=arr(b.elections).filter(x=>daysUntil(x.date,b.date)>=-3).sort((a,z)=>String(a.date).localeCompare(String(z.date))).slice(0,4);
@@ -667,7 +824,7 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
       ${c.watch?`<dt>Watch for</dt><dd>${esc(c.watch)}</dd>`:""}
     </dl>
     ${arr(c.sources).length?`<div class="src">${arr(c.sources).map(s=>link(s.title,s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}
-    ${(()=>{const x=xBtn(xk,{kind:"claim",title:c.claim,body:[c.origin,c.caseFor,c.caseAgainst||c.evidence,c.unknowns].filter(Boolean).join(" "),category:"Conspiracy Watch",date:date,href:bid?"#brief-"+bid:"#narratives"});return x?`<div class="src">${x}</div>`:"";})()}${xBox(xk)}
+    ${(()=>{const ctx={kind:"claim",title:c.claim,body:[c.origin,c.caseFor,c.caseAgainst||c.evidence,c.unknowns].filter(Boolean).join(" "),category:"Conspiracy Watch",date:date,href:bid?"#brief-"+bid:"#narratives"};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>`:"";})()}${xBox(xk)}
   </article>`;
 }
 function conspiracyPanel(b){
@@ -778,6 +935,8 @@ function render(){
   else if(h==="elections") html=viewElections();
   else if(h==="watchlist") html=viewWatch();
   else if(h==="scorecard") html=viewScorecard();
+  else if(h==="predictions") html=viewPredictions();
+  else if(h.startsWith("predict-")){key="predictions";html=viewPredict(h.slice(8));}
   else if(h==="archive") html=viewArchive();
   else if(h==="methods") html=viewMethods();
   else {key="brief";html=viewBrief(latest());}
@@ -795,8 +954,12 @@ let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.getElementById("app").addEventListener("click",e=>{
-  const t=e.target.closest("[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
+  const t=e.target.closest("[data-pnew],[data-psave],[data-plock],[data-pupd],[data-pres],[data-preopen],[data-pdel],[data-preq],[data-pbg],[data-puse],[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl],[data-x],[data-xask],[data-xsave],[data-xbrief],[data-nask],[data-ndel],[data-nopen],[data-nedit],[data-nsave],[data-ncancel],[data-nnew],[data-nnewsave],[data-nnewcancel]"); if(!t) return;
   const d=t.dataset;
+  if(d.pnew){pNew(d.pnew);return;} if(d.psave){pSaveDraft(d.psave);return;} if(d.plock){pLock(d.plock);return;} if(d.pupd){pUpdateProb(d.pupd);return;}
+  if(d.pres){const [k,o]=d.pres.split("|");pResolve(k,o);return;} if(d.preopen){pReopen(d.preopen);return;} if(d.pdel){pDelete(d.pdel);return;}
+  if(d.preq){pRequest(d.preq);return;} if(d.pbg){pBg(d.pbg);return;}
+  if(d.puse){const [k,i]=d.puse.split("|");const q=bgQuestions((S.preds[k]||{}).background)[Number(i)];if(q){S.pdraft[k]=Object.assign(S.pdraft[k]||{},{statement:q});const dm=q.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})/);if(dm){const dt=new Date(dm[0]);if(!isNaN(dt))S.pdraft[k].resolveBy=dt.toISOString().slice(0,10);}render();const el=document.getElementById("pf-statement");if(el)el.scrollIntoView({block:"center"});}return;}
   if(d.x){xToggle(d.x);return;} if(d.xask){xAsk(d.xask);return;} if(d.xsave){xSave(d.xsave);return;} if(d.xbrief){xBrief(d.xbrief);return;}
   if(d.nask){noteAsk(d.nask);return;} if(d.ndel){noteDelete(d.ndel);return;}
   if(d.nopen){S.nopen[d.nopen]=!S.nopen[d.nopen];render();return;} if(d.nedit){S.nedit[d.nedit]=true;render();const ta=document.getElementById("ne-"+d.nedit);if(ta)ta.focus();return;}
@@ -811,6 +974,7 @@ document.getElementById("app").addEventListener("click",e=>{
 document.getElementById("app").addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.note){S.drafts[e.target.dataset.note]=e.target.value;setNoteMsg(e.target.dataset.note,"Unsaved changes");}});
 document.getElementById("app").addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.note&&S.drafts[e.target.dataset.note]!=null)saveNote(e.target.dataset.note);});
 document.getElementById("app").addEventListener("keydown",e=>{if(e.target.id==="wl-label"&&e.key==="Enter"){e.preventDefault();addWatch();}if(e.target.id&&e.target.id.startsWith("xq-")&&e.key==="Enter"){e.preventDefault();xAsk(e.target.id.slice(3));}});
+document.getElementById("app").addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.pf;if(!k)return;const f=e.target.id.slice(3);S.pdraft[k]=Object.assign(S.pdraft[k]||{},{[f]:e.target.value});if(f==="probability"){const pv=document.getElementById("pf-pv"),tm=document.getElementById("pf-term");if(pv)pv.textContent=e.target.value+"%";if(tm)tm.textContent=termFor(e.target.value);}});
 document.getElementById("app").addEventListener("input",e=>{const id=e.target.id||"";if(id==="n-q"){S.nq=e.target.value;render();}else if(id.startsWith("ne-")){S.drafts[id]=e.target.value;}});
 window.addEventListener("beforeunload",e=>{if(Object.keys(S.drafts).length){e.preventDefault();e.returnValue="";}});
 document.getElementById("app").addEventListener("change",e=>{if(e.target.id!=="arch-date"||!e.target.value)return;const v=e.target.value;const l=briefsDesc();const hit=l.find(b=>b.date<=v)||l[l.length-1];if(hit)location.hash="brief-"+hit._id;});
@@ -848,6 +1012,8 @@ async function bootStatic(){
   try{S.sample=S.owner?await window.claude.use("sample"):null;}catch(e){S.sample=null;}
   if(S.owner){
     db.collection("mine/watch/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.watch=o;render();},()=>{});
+    db.collection("mine/predictions/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({id:d.id},d.data());});S.preds=o;S.got.p=true;render();},()=>{S.got.p=true;});
+    db.collection("mine/dossiers/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.dossiers=o;render();},()=>{});
     db.collection("mine/notes/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.notes=o;render();},()=>{});
   }
   const timer=setTimeout(()=>{S.slow=true;render();},10000);
