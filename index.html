@@ -156,6 +156,8 @@ input[type=date],input[type=search]{font-family:var(--mono);font-size:13px;paddi
 button.btn,button.trk{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:7px 12px;border-radius:3px;border:1px solid var(--accent);background:var(--accent);color:var(--panel);cursor:pointer}
 button.btn.ghost,button.trk{background:transparent;color:var(--accent)}
 button.trk.on{background:var(--accent-soft)}
+button.trk.sm{font-size:11px;padding:3px 8px;margin-left:8px;vertical-align:middle}
+.hlrow{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
 button.btn:hover,button.trk:hover{filter:brightness(1.08)}
 textarea,input[type=text]{width:100%;font-family:var(--body);font-size:15px;line-height:1.5;padding:9px 11px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink)}
 textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
@@ -193,7 +195,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 <script>
 (function(){
 "use strict";
-const S={static:false,full:{},meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const S={static:false,full:{},hl:{},meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
 const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
 const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
 const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
@@ -250,9 +252,9 @@ function viewBrief(b){
   if(secs.length){
     h+=`<section class="panel stack"><h2>Category Sections</h2><p class="small muted">Every category is checked on every run. Grey buttons mean nothing significant was located; that section still states so below.</p>
     <div class="toc">${secs.map((s,i)=>`<button type="button" data-jump="sec-${i}" class="${arr(s.items).length?"":"quiet"}">${esc(s.category)}${arr(s.items).length?` <span class="muted">${arr(s.items).length}</span>`:""}</button>`).join("")}</div></section>`;
-    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><span class="hl">${esc(it.headline)}</span>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
+    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
   }
-  if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}</td></tr>`).join("")}</tbody></table></div></section>`;}
+  if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}${hlBtn(x.headline,{url:x.url,source:x.outlet,category:"Headlines",date:b.date})}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(b.coverageNote||arr(b.gaps).length){h+=`<section class="panel stack"><h2>Collection Gaps and Coverage Check</h2>${b.coverageNote?`<p class="prose">${esc(b.coverageNote)}</p>`:""}${arr(b.gaps).length?`<ul class="plain">${arr(b.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}</section>`;}
   if(arr(b.sources).length){h+=`<section class="panel stack"><h2>Sources</h2>${srcList(b.sources)}</section>`;}
@@ -402,6 +404,15 @@ function viewScorecard(){
 }
 /* ---- watchlist and notes (private: mine/...) ---- */
 function slug(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||("item-"+Date.now());}
+function hkey(s){let h=5381;s=String(s||"");for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return "hl-"+(h>>>0).toString(36);}
+/* Track any headline: saved as a keyword item so the morning run follows it up. */
+function hlBtn(label,o){if(!S.owner||!label)return "";o=o||{};const k=hkey(label+"|"+(o.url||""));S.hl[k]=Object.assign({label},o);const on=!!S.watch[k];return `<button type="button" class="trk sm ${on?"on":""}" data-hl="${k}" aria-pressed="${on}" title="${on?"Remove from":"Add to"} My Watchlist">${on?"★ Tracking":"☆ Track"}</button>`;}
+async function toggleHl(k){
+  if(!S.db)return; const o=S.hl[k]; if(!o&&!S.watch[k])return;
+  try{ if(S.watch[k]) await S.db.doc("mine/watch/items/"+k).delete();
+       else await S.db.doc("mine/watch/items/"+k).set({type:"keyword",kind:o.kind||"headline",label:o.label,note:"Follow up on this "+(o.kind==="claim"?"narrative":"headline")+(o.category?" from "+o.category:"")+(o.source?" ("+o.source+")":"")+(o.date?", seen "+o.date:""),url:o.url||"",source:o.source||"",category:o.category||"",briefId:o.date||"",added:new Date().toISOString()}); }
+  catch(e){alertBox("Could not update your watchlist: "+((e&&e.message)||"unknown error"));}
+}
 function trackBtn(id){if(!S.owner)return "";const on=!!S.watch["story-"+id];return `<button type="button" class="trk ${on?"on":""}" data-track="${esc(id)}" aria-pressed="${on}">${on?"★ Tracking":"☆ Track this story"}</button>`;}
 function noteBox(key,label){
   if(!S.owner) return "";
@@ -443,16 +454,17 @@ function viewWatch(){
   if(S.dbMissing) return emptyState();
   if(!S.owner) return `<section class="panel empty">${S.static?"This is a shared reading copy. The watchlist and private notes live only on the owner's copy.":"The watchlist and notes are private to the owner of this page."}</section>`;
   const items=Object.entries(S.watch).map(([k,v])=>Object.assign({_k:k},v));
-  const st=items.filter(i=>i.type==="story"), kw=items.filter(i=>i.type!=="story");
+  const st=items.filter(i=>i.type==="story"), hls=items.filter(i=>i.type!=="story"&&i.kind), kw=items.filter(i=>i.type!=="story"&&!i.kind);
   const b=latest(); const notes=Object.values(S.notes).filter(n=>n.text).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
   return `<section class="panel stack"><p class="eyebrow">My Watchlist // private</p><h1>What You Are Tracking</h1>
-  <p class="prose muted">Track any story with its ☆ button, or add a person, place, group or keyword below. Every morning edition checks your list and reports what changed.</p>
+  <p class="prose muted">Track any story file, headline or conspiracy with its ☆ button, or add a person, place, group or keyword below. Every morning edition checks your list and reports what changed.</p>
   <div class="row" style="gap:10px;align-items:flex-end">
     <div class="stack" style="gap:4px;flex:1 1 220px"><label class="small mono" for="wl-label">ADD ITEM</label><input id="wl-label" type="text" placeholder="e.g. Wagner in Mali, Kosovo north, Tren de Aragua"></div>
     <div class="stack" style="gap:4px;flex:2 1 260px"><label class="small mono" for="wl-note">WHY (OPTIONAL)</label><input id="wl-note" type="text" placeholder="What you want to know about it"></div>
     <button type="button" class="btn" data-wladd="1">Add to watchlist</button>
   </div></section>
   <section class="panel stack"><h2>Tracked Stories <span class="muted num">${st.length}</span></h2>${st.length?`<div class="grid2">${st.map(i=>S.stories[i.storyId]?storyCard(S.stories[i.storyId]):`<div class="card"><b>${esc(i.label)}</b><span class="src">Story file not found</span><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></div>`).join("")}</div>`:`<p class="quietnote">No stories tracked yet. Open the Story Tracker and click ☆ on any story.</p>`}</section>
+  <section class="panel stack"><h2>Tracked Headlines <span class="muted num">${hls.length}</span></h2>${hls.length?`<div class="tablewrap"><table><thead><tr><th>Headline</th><th>From</th><th>Added</th><th></th></tr></thead><tbody>${hls.map(i=>`<tr><td><b>${i.url?link(i.label,i.url):esc(i.label)}</b></td><td class="small">${esc([i.category,i.source].filter(Boolean).join(" · "))}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Click ☆ Track next to any headline in a brief and it lands here.</p>`}</section>
   <section class="panel stack"><h2>Keywords and Topics <span class="muted num">${kw.length}</span></h2>${kw.length?`<div class="tablewrap"><table><thead><tr><th>Item</th><th>Why</th><th>Added</th><th></th></tr></thead><tbody>${kw.map(i=>`<tr><td><b>${esc(i.label)}</b></td><td class="small">${esc(i.note||"")}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing added yet.</p>`}</section>
   <section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>
   <section class="panel stack"><h2>All My Notes <span class="muted num">${notes.length}</span></h2>${notes.length?notes.map(n=>{const href=n.key&&n.key.startsWith("story-")?"#story-"+n.key.slice(6):n.key&&n.key.startsWith("brief-")?"#brief-"+n.key.slice(6):"#watchlist";return `<div class="item"><a class="hl" href="${esc(href)}">${esc(n.label||n.key)}</a><p class="small prose" style="white-space:pre-wrap">${esc(trunc(n.text,400))}</p><span class="src">Saved ${fmtDT(n.updated)}</span></div>`}).join(""):`<p class="quietnote">No notes yet. Every brief and story file has a notes box at the bottom.</p>`}</section>`;
@@ -542,7 +554,7 @@ function verdictChip(v){return v?`<span class="chip ${VERDICT[String(v).toLowerC
 function conspCard(c,date){
   return `<article class="card sev-${c.harm==="High"?"escalating":c.harm==="Moderate"?"steady":"unassessed"}">
     <div class="row">${c.status?`<span class="chip plain">${esc(c.status)}</span>`:""}${c.harm?`<span class="chip plain">Real world risk: ${esc(c.harm)}</span>`:""}${date?`<span class="src">${fmtDate(date)}</span>`:""}</div>
-    <h3>${esc(c.claim)}</h3>
+    <div class="hlrow"><h3>${esc(c.claim)}</h3>${hlBtn(c.claim,{kind:"claim",category:"Conspiracies",date:date})}</div>
     <dl class="kv">
       ${c.whereSpreading?`<dt>Where it is spreading</dt><dd>${esc(c.whereSpreading)}</dd>`:""}
       ${c.origin?`<dt>Where it came from</dt><dd>${esc(c.origin)}</dd>`:""}
@@ -680,8 +692,9 @@ let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.getElementById("app").addEventListener("click",e=>{
-  const t=e.target.closest("[data-track],[data-savenote],[data-wladd],[data-wlremove]"); if(!t) return;
-  if(t.dataset.track) toggleTrack(t.dataset.track);
+  const t=e.target.closest("[data-track],[data-savenote],[data-wladd],[data-wlremove],[data-hl]"); if(!t) return;
+  if(t.dataset.hl) toggleHl(t.dataset.hl);
+  else if(t.dataset.track) toggleTrack(t.dataset.track);
   else if(t.dataset.savenote) saveNote(t.dataset.savenote);
   else if(t.dataset.wladd) addWatch();
   else if(t.dataset.wlremove) removeWatch(t.dataset.wlremove);
