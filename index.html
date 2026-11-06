@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: classification band, masthead, tab rail, one reading column; diagrams get wide scrollable panels */
+  --bg:#eceff2; --panel:#ffffff; --ink:#141a22; --muted:#56616f; --line:#d3d9e0;
+  --accent:#1d4b75; --accent-soft:#e2ebf4; --band:#1d2834; --band-ink:#e6ebf0;
+  --crit:#a8231b; --crit-soft:#fbe8e6; --warn:#995a00; --warn-soft:#fbefd9;
+  --ok:#2b6537; --ok-soft:#e3f1e5; --new:#58399b; --new-soft:#ece6f8; --na:#69717c; --na-soft:#e9ecef;
+  --display:"IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d131a; --panel:#141c26; --ink:#e2e7ed; --muted:#97a3b1; --line:#283443;
+    --accent:#86b5df; --accent-soft:#1a2b3d; --band:#080c11; --band-ink:#c7d1db;
+    --crit:#ff8f84; --crit-soft:#3a1c1a; --warn:#f0b45c; --warn-soft:#382a13;
+    --ok:#82c890; --ok-soft:#162d1c; --new:#bba6f2; --new-soft:#282040; --na:#9ca5af; --na-soft:#202934;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d131a; --panel:#141c26; --ink:#e2e7ed; --muted:#97a3b1; --line:#283443;
+  --accent:#86b5df; --accent-soft:#1a2b3d; --band:#080c11; --band-ink:#c7d1db;
+  --crit:#ff8f84; --crit-soft:#3a1c1a; --warn:#f0b45c; --warn-soft:#382a13;
+  --ok:#82c890; --ok-soft:#162d1c; --new:#bba6f2; --new-soft:#282040; --na:#9ca5af; --na-soft:#202934;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.band{background:var(--band);color:var(--band-ink);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-align:center;padding:5px 16px;text-transform:uppercase}
+header.mast{background:var(--panel);border-bottom:1px solid var(--line)}
+.mast-in{max-width:1080px;margin:0 auto;padding:18px 20px 0;display:flex;flex-direction:column;gap:12px}
+.mast-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px}
+.brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brand b{font-family:var(--mono);font-weight:600;font-size:22px;letter-spacing:.32em;color:var(--ink)}
+.brand span{font-family:var(--display);font-size:18px;color:var(--muted)}
+.mast-meta{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin}
+nav.tabs a{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:9px 14px;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+main{max-width:1080px;margin:0 auto;padding:22px 20px 60px;display:flex;flex-direction:column;gap:20px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px 22px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:28px;line-height:1.2}
+h2{font-size:21px;line-height:1.25}
+h3{font-size:17px;line-height:1.3}
+p{margin:0}
+.prose{max-width:72ch}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.muted{color:var(--muted)}
+.mono{font-family:var(--mono)}
+.small{font-size:13.5px}
+.bluf{border-left:4px solid var(--accent);background:var(--accent-soft);padding:14px 18px;border-radius:0 4px 4px 0}
+.bluf .eyebrow{color:var(--accent)}
+.bluf p{font-size:16.5px;max-width:78ch}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:3px;white-space:nowrap;border:1px solid transparent}
+.s-escalating{color:var(--crit);background:var(--crit-soft);border-color:color-mix(in srgb,var(--crit) 30%,transparent)}
+.s-steady{color:var(--warn);background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.s-cooling,.s-resolved{color:var(--ok);background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+.s-new{color:var(--new);background:var(--new-soft);border-color:color-mix(in srgb,var(--new) 30%,transparent)}
+.s-unassessed,.s-dormant{color:var(--na);background:var(--na-soft);border-color:color-mix(in srgb,var(--na) 30%,transparent)}
+.chip.plain{color:var(--muted);background:transparent;border-color:var(--line)}
+.conf{color:var(--accent);background:var(--accent-soft)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:4px;padding:14px 16px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.card.sev-escalating{border-left:4px solid var(--crit)}
+.card.sev-steady{border-left:4px solid var(--warn)}
+.card.sev-cooling,.card.sev-resolved{border-left:4px solid var(--ok)}
+.card.sev-new{border-left:4px solid var(--new)}
+.card.sev-unassessed,.card.sev-dormant{border-left:4px solid var(--na)}
+.card a.more{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-decoration:none}
+.posture{display:flex;gap:4px;align-items:center}
+.posture i{display:block;width:34px;height:10px;background:var(--na-soft);border-radius:2px}
+.posture i.on1{background:var(--ok)} .posture i.on2{background:#6f8f3a} .posture i.on3{background:var(--warn)} .posture i.on4{background:#c4531c} .posture i.on5{background:var(--crit)}
+.postlabel{font-family:var(--mono);font-weight:600;letter-spacing:.1em}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tablewrap{overflow-x:auto}
+.num{font-variant-numeric:tabular-nums}
+.hist{display:flex;gap:3px}
+.hist i{display:block;width:12px;height:12px;border-radius:2px;background:var(--na-soft)}
+.hist i.h-escalating{background:var(--crit)} .hist i.h-steady{background:var(--warn)} .hist i.h-cooling{background:var(--ok)} .hist i.h-new{background:var(--new)} .hist i.h-unassessed{background:var(--na)}
+.toc{display:flex;flex-wrap:wrap;gap:6px}
+.toc button{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;background:transparent;border:1px solid var(--line);color:var(--ink);padding:4px 9px;border-radius:3px;cursor:pointer}
+.toc button:hover{border-color:var(--accent);color:var(--accent)}
+.toc button.quiet{color:var(--muted)}
+.sec{scroll-margin-top:14px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:4px;flex-wrap:wrap}
+.sec-h h2{font-size:18px}
+.item{padding:10px 0;border-bottom:1px dashed var(--line);display:flex;flex-direction:column;gap:4px}
+.item:last-child{border-bottom:none}
+.item .hl{font-weight:600}
+.item .assess{font-size:14px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.src a{color:var(--muted)}
+.quietnote{font-size:14px;color:var(--muted);font-style:italic;padding:8px 0}
+.kj{border:1px solid var(--line);border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kj .judg{font-size:16.5px;max-width:78ch}
+.diagram{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--bg);padding:8px}
+.diagram svg{display:block;min-width:680px;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend svg{min-width:0;width:28px;height:8px}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.tl li{position:relative;padding-left:18px}
+.tl li::before{content:"";position:absolute;left:-6px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
+.tl .d{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.sc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sc-cards .card ul{margin:0;padding-left:18px;font-size:14px}
+.lbl-base{color:var(--accent)} .lbl-better{color:var(--ok)} .lbl-worse{color:var(--crit)} .lbl-wildcard{color:var(--new)}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.notice{font-family:var(--mono);font-size:12.5px;color:var(--warn);background:var(--warn-soft);padding:8px 12px;border-radius:3px}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:14.5px}
+.kv dt{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.kv dd{margin:0}
+.ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ind div{border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.ind b{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.ind span{display:block;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.ind em{display:block;font-style:normal;font-size:13px;color:var(--muted)}
+.moon{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:10px 14px}
+.ind div.outl{border-color:var(--crit);background:var(--crit-soft)}
+.ednav{gap:14px;font-family:var(--mono);font-size:12px}
+.ednav a{text-decoration:none}
+input[type=date],input[type=search]{font-family:var(--mono);font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:3px;background:var(--panel);color:var(--ink)}
+.cals{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.cal h3{font-size:15px;margin-bottom:6px}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-g b{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-align:center;font-weight:500}
+.cal-d,.cal-x{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--muted);border-radius:3px;position:relative;font-variant-numeric:tabular-nums}
+.cal-d.has{background:var(--accent-soft);color:var(--accent);font-weight:600;text-decoration:none;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.cal-d.has:hover{border-color:var(--accent)}
+.cal-d.wk{outline:2px solid var(--accent);outline-offset:-2px}
+.cal-d i{position:absolute;bottom:3px;left:20%;right:20%;height:3px;border-radius:2px;background:var(--na)}
+.cal-d i.p1{background:var(--ok)} .cal-d i.p2{background:#6f8f3a} .cal-d i.p3{background:var(--warn)} .cal-d i.p4{background:#c4531c} .cal-d i.p5{background:var(--crit)}
+button.btn,button.trk{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:7px 12px;border-radius:3px;border:1px solid var(--accent);background:var(--accent);color:var(--panel);cursor:pointer}
+button.btn.ghost,button.trk{background:transparent;color:var(--accent)}
+button.trk.on{background:var(--accent-soft)}
+button.btn:hover,button.trk:hover{filter:brightness(1.08)}
+textarea,input[type=text]{width:100%;font-family:var(--body);font-size:15px;line-height:1.5;padding:9px 11px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink)}
+textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--band);color:var(--band-ink);font-family:var(--mono);font-size:12.5px;padding:10px 14px;border-radius:4px;z-index:9;max-width:90vw}
+footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+@media (max-width:520px){ .panel{padding:16px} h1{font-size:23px} .kv{grid-template-columns:1fr} }
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+<div class="band" id="band">Open source intelligence // Personal use only // Not a government product</div>
+<header class="mast">
+  <div class="mast-in">
+    <div class="mast-top">
+      <div class="brand"><b>BRIEF</b><span>Open Source Intelligence Desk</span></div>
+      <div class="mast-meta" id="mastmeta">Loading latest edition</div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#brief" data-r="brief">Current Brief</a>
+      <a href="#conditions" data-r="conditions">World Conditions</a>
+      <a href="#stories" data-r="stories">Story Tracker</a>
+      <a href="#narratives" data-r="narratives">Narrative Watch</a>
+      <a href="#elections" data-r="elections">Elections</a>
+      <a href="#watchlist" data-r="watchlist">My Watchlist</a>
+      <a href="#scorecard" data-r="scorecard">Forecast Scorecard</a>
+      <a href="#archive" data-r="archive">Archive</a>
+      <a href="#methods" data-r="methods">Methods</a>
+    </nav>
+  </div>
+</header>
+<div id="toast" class="toast" role="status" hidden></div>
+<main id="app"><div class="empty">Loading the briefing database.</div></main>
+<footer>Assessments are analytic judgments built from open sources and can be wrong. Estimative terms follow ICD 203. Source links open the original reporting.</footer>
+
+<script>
+(function(){
+"use strict";
+const S={static:false,full:{},meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
+const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
+const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function safeUrl(u){try{const x=new URL(u);return (x.protocol==="https:"||x.protocol==="http:")?x.href:null;}catch(e){return null;}}
+function link(t,u){const v=safeUrl(u);return v?`<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`:esc(t);}
+function chip(st){const k=STATUS[st]?st:"unassessed";const [l,sym]=STATUS[k];return `<span class="chip s-${k}">${sym} ${esc(l)}</span>`;}
+function fmtDate(d){if(!d)return "";const x=new Date(d.length===10?d+"T12:00:00":d);if(isNaN(x))return esc(d);return x.toLocaleDateString("en-US",{year:"numeric",month:"short",day:"numeric"});}
+function fmtDT(d){if(!d)return "";const x=new Date(d);if(isNaN(x))return esc(d);return x.toLocaleString("en-US",{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"});}
+function arr(a){return Array.isArray(a)?a:[];}
+function rangeOf(term,p){if(typeof p==="number")return [p,p];const r=TERMS[String(term||"").toLowerCase()];return r||null;}
+function likeText(term,p){const r=rangeOf(term);let t=term?esc(term):"";if(typeof p==="number")t+=` <span class="muted num">(${p}%)</span>`;else if(r)t+=` <span class="muted num">(${r[0]} to ${r[1]}%)</span>`;return t;}
+function srcList(list){list=arr(list);if(!list.length)return "";return `<ul class="plain small">${list.map(s=>`<li>${link(s.title||s.url,s.url)}${s.grade?` <span class="src">[${esc(s.grade)}]</span>`:""}</li>`).join("")}</ul>`;}
+function briefsDesc(){return S.briefs.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(b.generatedAt||"").localeCompare(String(a.generatedAt||"")));}
+function latest(){const l=briefsDesc();if(S.meta&&S.meta.latestBriefId){const m=l.find(b=>b._id===S.meta.latestBriefId);if(m)return m;}return l[0]||null;}
+
+/* ---------- views ---------- */
+function postureMeter(lvl){lvl=Math.max(0,Math.min(5,Number(lvl)||0));let h='<div class="posture" role="img" aria-label="Posture '+lvl+' of 5">';for(let i=1;i<=5;i++)h+=`<i class="${i<=lvl?"on"+lvl:""}"></i>`;return h+`</div>`;}
+
+function viewBrief(b){
+  if(!b) return emptyState();
+  const wc=b.worldConditions||{};
+  const asc=briefsDesc().slice().reverse(); const ix=asc.findIndex(x=>x._id===b._id);
+  const prev=ix>0?asc[ix-1]:null, next=ix>=0&&ix<asc.length-1?asc[ix+1]:null;
+  let h=`<section class="panel stack">
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">${esc(b.type==="weekly"?"Sunday Deep Dive":b.type==="initial"?"Baseline Edition":"Daily Brief")} // Edition ${esc(b.edition||"")} // ${fmtDate(b.date)}</p>
+      <div class="row ednav">${prev?`<a href="#brief-${esc(prev._id)}">◀ ${fmtDate(prev.date)}</a>`:`<span class="muted">◀ First edition</span>`}<a href="#archive">Calendar</a>${next?`<a href="#brief-${esc(next._id)}">${fmtDate(next.date)} ▶</a>`:`<span class="muted">Latest ▶</span>`}</div>
+    </div>
+    <span class="src">Produced ${fmtDT(b.generatedAt)}</span>
+    <h1>${esc(b.title||"Daily Intelligence Brief")}</h1>
+    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${esc(b.bluf)}</p></div>
+  </section>`;
+  // world conditions summary
+  h+=`<section class="panel stack">
+    <div class="row" style="justify-content:space-between"><h2>World Conditions</h2><a class="more mono small" href="#conditions">Full board</a></div>
+    <div class="row" style="gap:14px">${postureMeter(wc.postureLevel)}<span class="postlabel">${esc(POSTURE[wc.postureLevel]||"")}</span>${wc.postureTrend?`<span class="chip plain">${esc(wc.postureTrend)}</span>`:""}</div>
+    <p class="prose">${esc(wc.overall)}</p>
+    <div class="row">${arr(wc.hotspots).map(x=>`<span title="${esc(x.change)}">${chip(x.status)} <span class="small">${esc(x.name)}</span></span>`).join('<span class="muted">·</span>')}</div>
+    ${arr(wc.watchNext).length?`<div><p class="eyebrow">Watch next 24 to 72 hours</p><ul class="plain">${arr(wc.watchNext).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+  </section>`;
+  h+=statsPanel(b);
+  if(S.owner&&(arr(b.watchlist).length||Object.keys(S.watch).length)) h+=`<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Your Watchlist</h2><a class="more mono small" href="#watchlist">Manage</a></div>${arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">${esc(b.watchlistNote||"Items you add are covered starting with the next morning edition.")}</p>`}</section>`;
+  // updates on followed stories
+  const ups=arr(b.updates);
+  h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${esc(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
+  // top stories
+  const tops=arr(b.topStories).map(id=>S.stories[id]).filter(Boolean);
+  if(tops.length){h+=`<section class="panel stack"><h2>Priority Stories and Outlook</h2><div class="grid2">${tops.map(storyCard).join("")}</div></section>`;}
+  h+=conspiracyPanel(b)+discoursePanel(b)+mediaPanel(b)+electionsPanel(b)+travelPanel(b)+sanctionsPanel(b);
+  // sections
+  const secs=arr(b.sections);
+  if(secs.length){
+    h+=`<section class="panel stack"><h2>Category Sections</h2><p class="small muted">Every category is checked on every run. Grey buttons mean nothing significant was located; that section still states so below.</p>
+    <div class="toc">${secs.map((s,i)=>`<button type="button" data-jump="sec-${i}" class="${arr(s.items).length?"":"quiet"}">${esc(s.category)}${arr(s.items).length?` <span class="muted">${arr(s.items).length}</span>`:""}</button>`).join("")}</div></section>`;
+    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><span class="hl">${esc(it.headline)}</span>${it.summary?`<p class="prose">${esc(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${esc(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}</div></div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
+  }
+  if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}</td></tr>`).join("")}</tbody></table></div></section>`;}
+  if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
+  if(b.coverageNote||arr(b.gaps).length){h+=`<section class="panel stack"><h2>Collection Gaps and Coverage Check</h2>${b.coverageNote?`<p class="prose">${esc(b.coverageNote)}</p>`:""}${arr(b.gaps).length?`<ul class="plain">${arr(b.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}</section>`;}
+  if(arr(b.sources).length){h+=`<section class="panel stack"><h2>Sources</h2>${srcList(b.sources)}</section>`;}
+  h+=noteBox("brief-"+b._id,"Edition "+(b.edition||"")+", "+fmtDate(b.date));
+  return h;
+}
+
+function storyCard(s){
+  const st=s.status==="active"?(s.trend||"steady"):s.status;
+  const kj=s.keyJudgment||{};
+  return `<article class="card sev-${esc(st)}">
+    <div class="row">${chip(st)}<span class="chip plain">${esc(s.region||"")}</span>${s.category?`<span class="chip plain">${esc(s.category)}</span>`:""}</div>
+    <h3><a href="#story-${esc(s._id)}" style="color:inherit;text-decoration:none">${esc(s.title)}</a></h3>
+    <p class="small">${esc(s.bluf)}</p>
+    ${kj.text?`<p class="small"><span class="mono muted">KEY JUDGMENT</span> ${esc(kj.text)} <span class="chip conf">${esc(kj.confidence||"")} confidence</span></p>`:""}
+    <div class="row" style="justify-content:space-between"><span class="src">Updated ${fmtDate(s.lastUpdated)}</span><span class="row">${trackBtn(s._id)}<a class="more" href="#story-${esc(s._id)}">Open story file</a></span></div>
+  </article>`;
+}
+
+function hotspotHistory(name){
+  const asc=briefsDesc().slice(0,14).reverse();
+  return `<div class="hist">${asc.map(b=>{const hs=arr((b.worldConditions||{}).hotspots).find(x=>x.name===name);const st=hs?hs.status:"";return `<i class="${st?"h-"+esc(st):""}" title="${esc(fmtDate(b.date))}: ${esc(hs?(STATUS[st]||["Not listed"])[0]:"Not listed")}"></i>`}).join("")}</div>`;
+}
+
+function viewConditions(){
+  const b=latest(); if(!b) return emptyState();
+  const wc=b.worldConditions||{};
+  const hist=briefsDesc().slice(0,14).reverse();
+  let h=`<section class="panel stack">
+    <p class="eyebrow">World Conditions // as of ${fmtDate(b.date)} // Edition ${esc(b.edition)}</p>
+    <h1>Global Posture: ${esc(POSTURE[wc.postureLevel]||"Not set")}</h1>
+    <div class="row" style="gap:14px">${postureMeter(wc.postureLevel)}${wc.postureTrend?`<span class="chip plain">${esc(wc.postureTrend)}</span>`:""}</div>
+    <p class="prose">${esc(wc.overall)}</p>
+    ${wc.postureBasis?`<p class="small muted prose"><span class="mono">BASIS</span> ${esc(wc.postureBasis)}</p>`:""}
+  </section>`;
+  h+=`<section class="panel stack"><h2>Hotspot Board</h2><p class="small muted">History squares run oldest to newest across the last 14 editions. Hover a square for its date and status.</p>
+  <div class="tablewrap"><table><thead><tr><th>Hotspot</th><th>Status</th><th>What changed</th><th>History</th></tr></thead><tbody>
+  ${arr(wc.hotspots).map(x=>`<tr><td><b>${x.storyId?`<a href="#story-${esc(x.storyId)}">${esc(x.name)}</a>`:esc(x.name)}</b><div class="src">${esc(x.region||"")}</div></td><td>${chip(x.status)}</td><td class="small">${esc(x.change)}</td><td>${hotspotHistory(x.name)}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="legend"><span><i class="chip s-escalating">▲</i> Escalating</span><span><i class="chip s-steady">■</i> Steady</span><span><i class="chip s-cooling">▼</i> Cooling</span><span><i class="chip s-new">●</i> New</span><span><i class="chip s-unassessed">○</i> Not assessed</span></div></section>`;
+  if(arr(wc.newOnRadar).length) h+=`<section class="panel stack"><h2>New on the Radar</h2><ul class="plain">${arr(wc.newOnRadar).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>`;
+  if(arr(wc.indicators).length) h+=`<section class="panel stack"><h2>Key Indicators</h2><div class="ind">${arr(wc.indicators).map(x=>`<div><b>${esc(x.label)}</b><span>${esc(x.value)}</span><em>${esc(x.note||"")}${x.url?` · ${link("source",x.url)}`:""}</em></div>`).join("")}</div></section>`;
+  if(arr(wc.watchNext).length) h+=`<section class="panel stack"><h2>Watch Next 24 to 72 Hours</h2><ul class="plain">${arr(wc.watchNext).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>`;
+  h+=`<section class="panel stack"><h2>Posture Over Time</h2>${hist.length>1?`<div class="tablewrap"><table><thead><tr><th>Edition</th><th>Date</th><th>Posture</th><th>Level</th></tr></thead><tbody>${hist.slice().reverse().map(x=>`<tr><td class="mono num">${esc(x.edition)}</td><td class="num">${fmtDate(x.date)}</td><td>${postureMeter((x.worldConditions||{}).postureLevel)}</td><td class="mono">${esc(POSTURE[(x.worldConditions||{}).postureLevel]||"")}</td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">This is the baseline edition. The trend line starts with the next run.</p>`}</section>`;
+  return h;
+}
+
+function viewStories(){
+  const all=Object.values(S.stories);
+  if(!all.length) return emptyState();
+  const groups=[["active","Active"],["dormant","Dormant"],["resolved","Resolved"]];
+  const order={escalating:0,new:1,steady:2,cooling:3};
+  return `<section class="panel stack"><p class="eyebrow">Story Tracker</p><h1>Tracked Stories</h1><p class="prose muted">Each story stays here until it is resolved or marked dormant. Dormant stories are flagged again if they come back.</p></section>`+
+  groups.map(([k,l])=>{const list=all.filter(s=>(s.status||"active")===k).sort((a,b)=>(a.priority||9)-(b.priority||9)||(order[a.trend]??5)-(order[b.trend]??5)||String(b.lastUpdated).localeCompare(String(a.lastUpdated)));
+    return `<section class="panel stack"><h2>${l} <span class="muted num">${list.length}</span></h2>${list.length?`<div class="grid2">${list.map(storyCard).join("")}</div>`:`<p class="quietnote">None.</p>`}</section>`}).join("");
+}
+
+/* ---- diagrams ---- */
+function trunc(s,n){s=String(s||"");return s.length>n?s.slice(0,n-1)+"…":s;}
+function nameLines(s){s=String(s||"");if(s.length<=27)return [s];const w=s.split(" ");let a="",i=0;while(i<w.length&&(a+(a?" ":"")+w[i]).length<=27){a+=(a?" ":"")+w[i];i++;}if(!a){a=s.slice(0,27);return [a,trunc(s.slice(27),29)];}return [a,trunc(w.slice(i).join(" "),29)];}
+function actorMap(s){
+  const A=arr(s.actors); if(!A.length) return "";
+  const cols={a:[],broker:[],b:[],other:[]};
+  A.forEach(a=>{(cols[a.side]||cols.other).push(a);});
+  const nodeW=230,nodeH=52,gap=16,top=52,xs={a:24,broker:335,b:646};
+  const pos={};
+  ["a","broker","b"].forEach(k=>cols[k].forEach((a,i)=>{pos[a.name]={x:xs[k],y:top+i*(nodeH+gap),side:k};}));
+  const colMax=Math.max(cols.a.length,cols.broker.length,cols.b.length,1);
+  const y2=top+colMax*(nodeH+gap)+34;
+  cols.other.forEach((a,i)=>{pos[a.name]={x:24+(i%3)*311,y:y2+Math.floor(i/3)*(nodeH+gap),side:"other"};});
+  const H=cols.other.length?y2+Math.ceil(cols.other.length/3)*(nodeH+gap)+8:y2-18;
+  const sides=s.actorSides||{};
+  const stroke={ally:"var(--ok)",adversary:"var(--crit)",pressure:"var(--warn)",mediates:"var(--accent)"};
+  const dash={ally:"",adversary:"6 4",pressure:"2 4",mediates:"10 3 2 3"};
+  let svg=`<svg viewBox="0 0 900 ${H}" role="img" aria-label="Actor map for ${esc(s.title)}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans, system-ui, sans-serif">`;
+  const hdr=(x,t)=>`<text x="${x+nodeW/2}" y="30" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.2" fill="var(--muted)">${esc(String(t).toUpperCase())}</text>`;
+  if(cols.a.length) svg+=hdr(xs.a,sides.a||"Side A");
+  if(cols.broker.length) svg+=hdr(xs.broker,sides.broker||"Brokers and mediators");
+  if(cols.b.length) svg+=hdr(xs.b,sides.b||"Side B");
+  if(cols.other.length) svg+=`<text x="24" y="${y2-12}" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.2" fill="var(--muted)">${esc(String(sides.other||"Other parties with a stake").toUpperCase())}</text>`;
+  arr(s.relations).forEach(r=>{const p=pos[r.from],q=pos[r.to];if(!p||!q)return;
+    const x1=p.x+nodeW/2,y1=p.y+nodeH/2,x2=q.x+nodeW/2,y2b=q.y+nodeH/2;
+    const mx=(x1+x2)/2,my=(y1+y2b)/2-(p.side===q.side?40:0);
+    svg+=`<path d="M${x1},${y1} Q${mx},${my} ${x2},${y2b}" fill="none" stroke="${stroke[r.type]||"var(--muted)"}" stroke-width="1.8" stroke-dasharray="${dash[r.type]||""}" opacity=".85"><title>${esc(r.from)} to ${esc(r.to)}: ${esc(r.type)}${r.note?" ("+esc(r.note)+")":""}</title></path>`;});
+  A.forEach(a=>{const p=pos[a.name];if(!p)return;
+    const edge={a:"var(--accent)",b:"var(--crit)",broker:"var(--ok)",other:"var(--na)"}[p.side];
+    svg+=`<g><title>${esc(a.name)}: ${esc(a.interests||"")}</title><rect x="${p.x}" y="${p.y}" width="${nodeW}" height="${nodeH}" rx="3" fill="var(--panel)" stroke="var(--line)"/><rect x="${p.x}" y="${p.y}" width="4" height="${nodeH}" fill="${edge}"/>${nameLines(a.name).length>1?`<text x="${p.x+14}" y="${p.y+17}" font-size="12.5" font-weight="600" fill="var(--ink)">${esc(nameLines(a.name)[0])}</text><text x="${p.x+14}" y="${p.y+31}" font-size="12.5" font-weight="600" fill="var(--ink)">${esc(nameLines(a.name)[1])}</text><text x="${p.x+14}" y="${p.y+45}" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">${esc(trunc(String(a.type||"").toUpperCase(),36))}</text>`:`<text x="${p.x+14}" y="${p.y+22}" font-size="13.5" font-weight="600" fill="var(--ink)">${esc(a.name)}</text><text x="${p.x+14}" y="${p.y+40}" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">${esc(trunc(String(a.type||"").toUpperCase(),34))}</text>`}</g>`;});
+  svg+=`</svg>`;
+  const lg=(t,l)=>`<span><svg viewBox="0 0 28 8"><line x1="0" y1="4" x2="28" y2="4" stroke="${stroke[t]}" stroke-width="2" stroke-dasharray="${dash[t]}"/></svg>${l}</span>`;
+  return `<div class="diagram">${svg}</div><div class="legend">${lg("ally","Aligned")}${lg("adversary","Adversarial")}${lg("pressure","Coercion or pressure")}${lg("mediates","Mediation or talks")}</div>`;
+}
+function scenarioTree(s){
+  const sc=arr(s.scenarios); if(!sc.length) return "";
+  const rowH=74,H=sc.length*rowH+16,rootY=H/2;
+  const col={base:"var(--accent)",better:"var(--ok)",worse:"var(--crit)",wildcard:"var(--new)"};
+  let svg=`<svg viewBox="0 0 900 ${H}" role="img" aria-label="Scenario tree for ${esc(s.title)}" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans, system-ui, sans-serif">`;
+  svg+=`<rect x="12" y="${rootY-34}" width="210" height="68" rx="3" fill="var(--panel)" stroke="var(--ink)"/><text x="26" y="${rootY-10}" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--muted)">CURRENT SITUATION</text><text x="26" y="${rootY+10}" font-size="13" font-weight="600" fill="var(--ink)">${esc(trunc(s.shortTitle||s.title,26))}</text><text x="26" y="${rootY+26}" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">AS OF ${esc(String(s.lastUpdated||"").slice(0,10))}</text>`;
+  sc.forEach((x,i)=>{const y=8+i*rowH,cy=y+29,k=String(x.label||"base").toLowerCase(),c=col[k]||"var(--muted)";
+    const r=rangeOf(x.likelihood,x.probability);const p=typeof x.probability==="number"?x.probability:(r?(r[0]+r[1])/2:0);
+    svg+=`<path d="M222,${rootY} C280,${rootY} 280,${cy} 338,${cy}" fill="none" stroke="${c}" stroke-width="2"/>`;
+    svg+=`<rect x="338" y="${y}" width="550" height="58" rx="3" fill="var(--panel)" stroke="var(--line)"/><rect x="338" y="${y}" width="4" height="58" fill="${c}"/>`;
+    svg+=`<text x="352" y="${y+20}" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="${c}">${esc(String(x.label||"").toUpperCase())}</text><text x="352" y="${y+42}" font-size="13.5" font-weight="600" fill="var(--ink)">${esc(trunc(x.name,44))}</text>`;
+    svg+=`<rect x="690" y="${y+16}" width="180" height="9" rx="2" fill="var(--na-soft)"/><rect x="690" y="${y+16}" width="${(1.8*Math.max(0,Math.min(100,p))).toFixed(1)}" height="9" rx="2" fill="${c}"/><text x="690" y="${y+44}" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">${esc(String(x.likelihood||"").toUpperCase())} ${typeof x.probability==="number"?"~"+x.probability+"%":""}</text>`;});
+  svg+=`</svg>`;
+  return `<div class="diagram">${svg}</div>`;
+}
+
+function viewStory(id){
+  const s=S.stories[id];
+  if(!s) return `<section class="panel empty">That story file was not found. <a href="#stories">Back to the tracker</a></section>`;
+  const st=s.status==="active"?(s.trend||"steady"):s.status;
+  const kj=s.keyJudgment||{};
+  const fc=S.forecasts.filter(f=>f.storyId===id);
+  let h=`<section class="panel stack">
+    <p class="eyebrow"><a href="#stories">Story Tracker</a> // ${esc(s.region||"")} // Opened ${fmtDate(s.opened)}</p>
+    <div class="row">${chip(st)}${s.category?`<span class="chip plain">${esc(s.category)}</span>`:""}<span class="src">Last updated ${fmtDate(s.lastUpdated)}</span>${trackBtn(s._id)}</div>
+    <h1>${esc(s.title)}</h1>
+    <div class="bluf"><p class="eyebrow">Bottom line up front</p><p>${esc(s.bluf)}</p></div>
+  </section>`;
+  if(kj.text) h+=`<section class="panel stack"><h2>Key Judgment</h2><div class="kj"><p class="judg">${esc(kj.text)}</p><div class="row"><span class="chip plain">${likeText(kj.likelihood,kj.probability)}</span><span class="chip conf">${esc(kj.confidence||"")} confidence</span></div>${kj.basis?`<p class="small muted prose"><span class="mono">BASIS</span> ${esc(kj.basis)}</p>`:""}</div>
+  ${arr(s.keyAssumptions).length?`<div><p class="eyebrow">Key assumptions check</p><ul class="plain">${arr(s.keyAssumptions).map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`:""}</section>`;
+  if(arr(s.actors).length) h+=`<section class="panel stack"><h2>Actor Map</h2><p class="small muted">Who is involved, who is aligned with whom, and who could be pulled in. Hover a box or line for detail.</p>${actorMap(s)}
+    <div class="tablewrap"><table><thead><tr><th>Actor</th><th>What they want</th><th>Leverage</th></tr></thead><tbody>${arr(s.actors).map(a=>`<tr><td><b>${esc(a.name)}</b><div class="src">${esc(a.type||"")}</div></td><td class="small">${esc(a.interests||"")}</td><td class="small">${esc(a.leverage||"")}</td></tr>`).join("")}</tbody></table></div></section>`;
+  if(arr(s.scenarios).length) h+=`<section class="panel stack"><h2>Alternative Futures</h2><p class="small muted">Horizon: ${esc(s.horizon||"next 30 to 90 days")}. Likelihoods use ICD 203 estimative terms. Drivers: ${esc(arr(s.drivers).join("; ")||"see scenarios")}.</p>${scenarioTree(s)}
+    <div class="sc-cards">${arr(s.scenarios).map(x=>{const k=String(x.label||"").toLowerCase();return `<div class="card"><p class="eyebrow lbl-${esc(k)}">${esc(x.label)} · ${likeText(x.likelihood,x.probability)}</p><h3>${esc(x.name)}</h3><p class="small">${esc(x.description)}</p>${arr(x.signposts).length?`<p class="eyebrow" style="margin-top:4px">Signposts</p><ul>${arr(x.signposts).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}${x.usImpact?`<p class="small muted"><span class="mono">US IMPACT</span> ${esc(x.usImpact)}</p>`:""}</div>`}).join("")}</div></section>`;
+  if(arr(s.indicators).length) h+=`<section class="panel stack"><h2>Indicators Being Tracked</h2><div class="tablewrap"><table><thead><tr><th>Indicator</th><th>Points toward</th><th>Status</th><th>Checked</th></tr></thead><tbody>${arr(s.indicators).map(x=>`<tr><td class="small">${esc(x.text)}</td><td class="small mono">${esc(x.pointsTo||"")}</td><td><span class="chip ${x.status==="observed"?"s-escalating":x.status==="partial"?"s-steady":"s-unassessed"}">${esc(x.status||"not observed")}</span></td><td class="num small">${fmtDate(x.checked)}</td></tr>`).join("")}</tbody></table></div></section>`;
+  if(arr(s.usInterests).length) h+=`<section class="panel stack"><h2>US Interests and Exposure</h2><dl class="kv">${arr(s.usInterests).map(x=>`<dt>${esc(x.domain)}</dt><dd>${esc(x.note)}</dd>`).join("")}</dl></section>`;
+  if(arr(s.timeline).length) h+=`<section class="panel stack"><h2>Timeline</h2><ol class="tl">${arr(s.timeline).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(t=>`<li><div class="d">${fmtDate(t.date)}</div><div>${esc(t.event)}</div>${t.url||t.source?`<div class="src">${link(t.source||"source",t.url)}</div>`:""}</li>`).join("")}</ol></section>`;
+  if(fc.length) h+=`<section class="panel stack"><h2>Forecasts on This Story</h2>${forecastTable(fc)}</section>`;
+  if(arr(s.gaps).length) h+=`<section class="panel stack"><h2>Collection Gaps</h2><ul class="plain">${arr(s.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul></section>`;
+  if(arr(s.sources).length) h+=`<section class="panel stack"><h2>Sources</h2>${srcList(s.sources)}</section>`;
+  h+=noteBox("story-"+s._id,s.title);
+  return h;
+}
+
+function brier(f){if(f.outcome!=="yes"&&f.outcome!=="no")return null;const p=(Number(f.probability)||0)/100,o=f.outcome==="yes"?1:0;return (p-o)*(p-o);}
+function forecastTable(list){
+  return `<div class="tablewrap"><table><thead><tr><th>Forecast</th><th>Made</th><th>Likelihood</th><th>Resolves by</th><th>Outcome</th><th>Brier</th></tr></thead><tbody>${list.slice().sort((a,b)=>String(a.resolveBy).localeCompare(String(b.resolveBy))).map(f=>{const br=brier(f);return `<tr><td class="small">${esc(f.statement)}${f.storyId&&S.stories[f.storyId]?`<div class="src"><a href="#story-${esc(f.storyId)}">${esc(S.stories[f.storyId].title)}</a></div>`:""}${f.resolutionNote?`<div class="src">${esc(f.resolutionNote)}</div>`:""}</td><td class="num small">${fmtDate(f.made)}</td><td class="small">${esc(f.term||"")} <span class="num muted">${esc(f.probability)}%</span></td><td class="num small">${fmtDate(f.resolveBy)}</td><td>${f.outcome==="yes"?'<span class="chip s-cooling">Occurred</span>':f.outcome==="no"?'<span class="chip s-escalating">Did not occur</span>':'<span class="chip s-unassessed">Open</span>'}</td><td class="num mono small">${br==null?"":br.toFixed(3)}</td></tr>`}).join("")}</tbody></table></div>`;
+}
+function viewScorecard(){
+  const f=S.forecasts; const res=f.filter(x=>brier(x)!=null);
+  const mean=res.length?res.reduce((a,x)=>a+brier(x),0)/res.length:null;
+  return `<section class="panel stack"><p class="eyebrow">Forecast Scorecard</p><h1>How the Forecasts Are Holding Up</h1>
+  <p class="prose">Every forecast has a probability and a resolution date. When it resolves, it gets a Brier score: 0 is a perfect call, 0.25 is what always saying 50% would earn, and 1 is a confident miss. Lower is better.</p>
+  <div class="ind"><div><b>Forecasts logged</b><span>${f.length}</span></div><div><b>Resolved</b><span>${res.length}</span></div><div><b>Mean Brier score</b><span>${mean==null?"Pending":mean.toFixed(3)}</span><em>${mean==null?"Scores appear as forecasts resolve":mean<0.15?"Strong":mean<0.25?"Better than chance":"Needs work"}</em></div></div></section>
+  <section class="panel stack"><h2>All Forecasts</h2>${f.length?forecastTable(f):`<p class="quietnote">No forecasts logged yet.</p>`}</section>`;
+}
+/* ---- watchlist and notes (private: mine/...) ---- */
+function slug(s){return String(s||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||("item-"+Date.now());}
+function trackBtn(id){if(!S.owner)return "";const on=!!S.watch["story-"+id];return `<button type="button" class="trk ${on?"on":""}" data-track="${esc(id)}" aria-pressed="${on}">${on?"★ Tracking":"☆ Track this story"}</button>`;}
+function noteBox(key,label){
+  if(!S.owner) return "";
+  const n=S.notes[key]; const val=S.drafts[key]!=null?S.drafts[key]:(n?n.text:"");
+  const msg=S.saveMsg[key]||(n&&n.updated?"Saved "+fmtDT(n.updated):"Nothing saved yet");
+  return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>My Notes</h2><span class="src" id="ns-${esc(key)}">${esc(msg)}</span></div>
+  <p class="small muted">Private to you and kept with your account. Saves when you click Save or click away. Questions you leave here for the analyst get answered in the next edition.</p>
+  <label class="small mono" for="nt-${esc(key)}">Notes on ${esc(label)}</label>
+  <textarea id="nt-${esc(key)}" data-note="${esc(key)}" data-label="${esc(label)}" rows="5">${esc(val)}</textarea>
+  <div class="row"><button type="button" class="btn" data-savenote="${esc(key)}">Save note</button></div></section>`;
+}
+async function saveNote(key){
+  const ta=document.getElementById("nt-"+key); if(!ta||!S.db) return;
+  if(S.saving[key]) return; S.saving[key]=true;
+  const text=ta.value, label=ta.dataset.label||key;
+  const prev=S.notes[key]; if(prev&&prev.text===text){S.saving[key]=false;delete S.drafts[key];return;}
+  setNoteMsg(key,"Saving…");
+  try{await S.db.doc("mine/notes/items/"+key).set({key,label,text,updated:new Date().toISOString()});delete S.drafts[key];setNoteMsg(key,"Saved just now");}
+  catch(e){setNoteMsg(key,"Could not save: "+((e&&e.message)||"unknown error")+". Your text is still in the box; try again.");}
+  finally{S.saving[key]=false;}
+}
+function setNoteMsg(key,m){S.saveMsg[key]=m;const el=document.getElementById("ns-"+key);if(el)el.textContent=m;}
+async function toggleTrack(id){
+  if(!S.db) return; const key="story-"+id; const s=S.stories[id];
+  try{ if(S.watch[key]) await S.db.doc("mine/watch/items/"+key).delete();
+       else await S.db.doc("mine/watch/items/"+key).set({type:"story",storyId:id,label:s?s.title:id,added:new Date().toISOString()}); }
+  catch(e){alertBox("Could not update your watchlist: "+((e&&e.message)||"unknown error"));}
+}
+async function addWatch(){
+  const l=document.getElementById("wl-label"), n=document.getElementById("wl-note"); if(!l||!S.db) return;
+  const label=l.value.trim(); if(!label){l.focus();return;}
+  const key="kw-"+slug(label);
+  try{await S.db.doc("mine/watch/items/"+key).set({type:"keyword",label,note:n?n.value.trim():"",added:new Date().toISOString()});l.value="";if(n)n.value="";}
+  catch(e){alertBox("Could not add that item: "+((e&&e.message)||"unknown error"));}
+}
+async function removeWatch(key){if(!S.db)return;try{await S.db.doc("mine/watch/items/"+key).delete();}catch(e){alertBox("Could not remove it: "+((e&&e.message)||"unknown error"));}}
+function alertBox(m){const el=document.getElementById("toast");if(!el)return;el.textContent=m;el.hidden=false;clearTimeout(alertBox.t);alertBox.t=setTimeout(()=>{el.hidden=true;},6000);}
+function viewWatch(){
+  if(S.dbMissing) return emptyState();
+  if(!S.owner) return `<section class="panel empty">${S.static?"This is a shared reading copy. The watchlist and private notes live only on the owner's copy.":"The watchlist and notes are private to the owner of this page."}</section>`;
+  const items=Object.entries(S.watch).map(([k,v])=>Object.assign({_k:k},v));
+  const st=items.filter(i=>i.type==="story"), kw=items.filter(i=>i.type!=="story");
+  const b=latest(); const notes=Object.values(S.notes).filter(n=>n.text).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)));
+  return `<section class="panel stack"><p class="eyebrow">My Watchlist // private</p><h1>What You Are Tracking</h1>
+  <p class="prose muted">Track any story with its ☆ button, or add a person, place, group or keyword below. Every morning edition checks your list and reports what changed.</p>
+  <div class="row" style="gap:10px;align-items:flex-end">
+    <div class="stack" style="gap:4px;flex:1 1 220px"><label class="small mono" for="wl-label">ADD ITEM</label><input id="wl-label" type="text" placeholder="e.g. Wagner in Mali, Kosovo north, Tren de Aragua"></div>
+    <div class="stack" style="gap:4px;flex:2 1 260px"><label class="small mono" for="wl-note">WHY (OPTIONAL)</label><input id="wl-note" type="text" placeholder="What you want to know about it"></div>
+    <button type="button" class="btn" data-wladd="1">Add to watchlist</button>
+  </div></section>
+  <section class="panel stack"><h2>Tracked Stories <span class="muted num">${st.length}</span></h2>${st.length?`<div class="grid2">${st.map(i=>S.stories[i.storyId]?storyCard(S.stories[i.storyId]):`<div class="card"><b>${esc(i.label)}</b><span class="src">Story file not found</span><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></div>`).join("")}</div>`:`<p class="quietnote">No stories tracked yet. Open the Story Tracker and click ☆ on any story.</p>`}</section>
+  <section class="panel stack"><h2>Keywords and Topics <span class="muted num">${kw.length}</span></h2>${kw.length?`<div class="tablewrap"><table><thead><tr><th>Item</th><th>Why</th><th>Added</th><th></th></tr></thead><tbody>${kw.map(i=>`<tr><td><b>${esc(i.label)}</b></td><td class="small">${esc(i.note||"")}</td><td class="small num">${fmtDate(String(i.added||"").slice(0,10))}</td><td><button type="button" class="btn ghost" data-wlremove="${esc(i._k)}">Remove</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing added yet.</p>`}</section>
+  <section class="panel stack"><h2>Latest on Your List</h2>${b&&arr(b.watchlist).length?arr(b.watchlist).map(w=>`<div class="item"><span class="hl">${esc(w.item)}</span><p class="prose">${esc(w.update)}</p>${w.url?`<div class="src">${link(w.source||"source",w.url)}</div>`:""}</div>`).join(""):`<p class="quietnote">Updates on your items appear here after the next morning edition.</p>`}</section>
+  <section class="panel stack"><h2>All My Notes <span class="muted num">${notes.length}</span></h2>${notes.length?notes.map(n=>{const href=n.key&&n.key.startsWith("story-")?"#story-"+n.key.slice(6):n.key&&n.key.startsWith("brief-")?"#brief-"+n.key.slice(6):"#watchlist";return `<div class="item"><a class="hl" href="${esc(href)}">${esc(n.label||n.key)}</a><p class="small prose" style="white-space:pre-wrap">${esc(trunc(n.text,400))}</p><span class="src">Saved ${fmtDT(n.updated)}</span></div>`}).join(""):`<p class="quietnote">No notes yet. Every brief and story file has a notes box at the bottom.</p>`}</section>`;
+}
+
+/* ---- media comparison, elections, travel, sanctions ---- */
+function mediaPanel(b){
+  const m=arr(b.mediaComparison);
+  return `<section class="panel stack"><h2>How the World's Media Framed It</h2><p class="small muted prose">The same story as told by outlets in different countries, including state controlled media, with the differences that matter.</p>
+  ${m.length?m.map(x=>`<article class="card"><h3>${x.storyId?`<a href="#story-${esc(x.storyId)}" style="color:inherit">${esc(x.story)}</a>`:esc(x.story)}</h3>
+    <div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Country</th><th>Ownership</th><th>Framing</th></tr></thead><tbody>${arr(x.outlets).map(o=>`<tr><td class="small"><b>${o.url?link(o.outlet,o.url):esc(o.outlet)}</b></td><td class="small">${esc(o.country||"")}</td><td class="small mono">${esc(o.affiliation||"")}</td><td class="small">${esc(o.framing||"")}</td></tr>`).join("")}</tbody></table></div>
+    ${arr(x.differences).length?`<p class="eyebrow">Key differences</p><ul class="plain small">${arr(x.differences).map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`:""}
+    ${x.assessment?`<p class="assess small prose">${esc(x.assessment)}</p>`:""}
+    ${x.gap?`<p class="small muted">Gap: ${esc(x.gap)}</p>`:""}</article>`).join(""):`<p class="quietnote">${esc(b.mediaNote||"No comparison this edition.")}</p>`}</section>`;
+}
+function daysUntil(d,from){const a=new Date(from+"T12:00:00"),z=new Date(String(d).slice(0,10)+"T12:00:00");return Math.round((z-a)/86400000);}
+function electionCard(e,from){
+  const dd=daysUntil(e.date,from); const when=isNaN(dd)?"":dd>0?`in ${dd} days`:dd===0?"today":`${-dd} days ago`;
+  return `<article class="card"><div class="row"><span class="chip plain num">${fmtDate(e.date)}</span><span class="src">${esc(when)}</span>${e.status?`<span class="chip plain">${esc(e.status)}</span>`:""}</div>
+  <h3>${esc(e.country)}: ${esc(e.type||"")}</h3>
+  ${arr(e.candidates).length?`<div class="tablewrap"><table><thead><tr><th>Candidate or party</th><th>Standing</th><th>Notes</th></tr></thead><tbody>${arr(e.candidates).map(c=>`<tr><td class="small"><b>${esc(c.name)}</b>${c.party?`<div class="src">${esc(c.party)}</div>`:""}</td><td class="small num">${esc(c.standing||"")}</td><td class="small">${esc(c.note||"")}</td></tr>`).join("")}</tbody></table></div>`:""}
+  <dl class="kv">${e.outlook?`<dt>Outlook</dt><dd>${esc(e.outlook)}</dd>`:""}${e.stakes?`<dt>What it means</dt><dd>${esc(e.stakes)}</dd>`:""}${e.usAngle?`<dt>US angle</dt><dd>${esc(e.usAngle)}</dd>`:""}</dl>
+  ${arr(e.sources).length?`<div class="src">${arr(e.sources).map(s=>link(s.title,s.url)).join(" · ")}</div>`:""}</article>`;
+}
+function electionsPanel(b){
+  const e=arr(b.elections).filter(x=>daysUntil(x.date,b.date)>=-3).sort((a,z)=>String(a.date).localeCompare(String(z.date))).slice(0,4);
+  return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Elections Ahead</h2><a class="more mono small" href="#elections">Full calendar</a></div>
+  ${e.length?`<div class="grid2">${e.map(x=>electionCard(x,b.date)).join("")}</div>`:`<p class="quietnote">No elections logged this edition.</p>`}</section>`;
+}
+function viewElections(){
+  const b=latest(); if(!b) return emptyState();
+  const e=arr(b.elections).slice().sort((a,z)=>String(a.date).localeCompare(String(z.date)));
+  const up=e.filter(x=>daysUntil(x.date,b.date)>=0), past=e.filter(x=>daysUntil(x.date,b.date)<0);
+  return `<section class="panel stack"><p class="eyebrow">Elections // as of ${fmtDate(b.date)}</p><h1>World Elections Calendar</h1><p class="prose muted">National votes coming up, who is running, who is ahead in polls or markets, and what the outcome would mean, including for the US. Polling figures are reported as published, not endorsed.</p>${b.electionsNote?`<p class="small muted">${esc(b.electionsNote)}</p>`:""}</section>
+  <section class="panel stack"><h2>Upcoming <span class="muted num">${up.length}</span></h2>${up.length?`<div class="grid2">${up.map(x=>electionCard(x,b.date)).join("")}</div>`:`<p class="quietnote">None logged.</p>`}</section>
+  ${past.length?`<section class="panel stack"><h2>Recent Results</h2><div class="grid2">${past.map(x=>electionCard(x,b.date)).join("")}</div></section>`:""}`;
+}
+function travelPanel(b){
+  const t=arr(b.travel);
+  return `<section class="panel stack"><h2>Travel Advisories and Entry Rules</h2><p class="small muted prose">Changes to US State Department advisory levels, new visa and entry rules, and border changes worth knowing before a trip.</p>
+  ${t.length?`<div class="tablewrap"><table><thead><tr><th>Country</th><th>Type</th><th>Change</th><th>Level</th><th>Date</th></tr></thead><tbody>${t.map(x=>`<tr><td class="small"><b>${esc(x.country)}</b></td><td class="small mono">${esc(x.kind||"")}</td><td class="small">${x.url?link(x.change,x.url):esc(x.change)}</td><td class="small mono">${esc(x.level||"")}</td><td class="small num" style="white-space:nowrap">${esc(x.effective||"")}</td></tr>`).join("")}</tbody></table></div>`:""}
+  ${b.travelNote?`<p class="${t.length?"small muted":"quietnote"}">${esc(b.travelNote)}</p>`:(!t.length?`<p class="quietnote">No changes located this cycle.</p>`:"")}</section>`;
+}
+function sanctionsPanel(b){
+  const s=arr(b.sanctions);
+  return `<section class="panel stack"><h2>Sanctions and Terrorist Designations</h2><p class="small muted prose">New US Treasury (OFAC) sanctions, State Department terrorist designations (FTO and SDGT), and removals. New designations often signal the next escalation.</p>
+  ${s.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Authority</th><th>Action</th><th>Target</th><th>Why it matters</th></tr></thead><tbody>${s.map(x=>`<tr><td class="small num" style="white-space:nowrap">${esc(x.date||"")}</td><td class="small mono">${esc(x.authority||"")}</td><td class="small">${esc(x.action||"")}</td><td class="small"><b>${x.url?link(x.target,x.url):esc(x.target)}</b>${x.program?`<div class="src">${esc(x.program)}</div>`:""}</td><td class="small">${esc(x.summary||"")}</td></tr>`).join("")}</tbody></table></div>`:""}
+  ${b.sanctionsNote?`<p class="${s.length?"small muted":"quietnote"}">${esc(b.sanctionsNote)}</p>`:(!s.length?`<p class="quietnote">No new actions located this cycle.</p>`:"")}</section>`;
+}
+
+/* ---- stats of the day ---- */
+function moonFor(dateStr){
+  const t=new Date(dateStr+"T12:00:00-05:00").getTime();
+  const days=(t-Date.UTC(2000,0,6,18,14))/86400000;
+  let f=(days/29.530588853)%1; if(f<0)f+=1;
+  const illum=(1-Math.cos(2*Math.PI*f))/2;
+  const names=[[0.0339,"New Moon"],[0.216,"Waxing Crescent"],[0.284,"First Quarter"],[0.466,"Waxing Gibbous"],[0.534,"Full Moon"],[0.716,"Waning Gibbous"],[0.784,"Last Quarter"],[0.966,"Waning Crescent"],[1.01,"New Moon"]];
+  const name=names.find(n=>f<n[0])[1];
+  const age=f*29.530588853;
+  const toFull=((0.5-f+1)%1)*29.530588853, toNew=((1-f)%1)*29.530588853;
+  return {f,illum,name,age,toFull,toNew};
+}
+function moonSvg(f){
+  const r=26,cx=30,cy=30,k=Math.cos(2*Math.PI*f),rx=Math.abs(k)*r,lit=(1-k)/2,wax=f<0.5;
+  const outer=wax?1:0, inner=wax?(lit<0.5?0:1):(lit<0.5?1:0);
+  const d=`M${cx},${cy-r} A${r},${r} 0 0 ${outer} ${cx},${cy+r} A${rx.toFixed(2)},${r} 0 0 ${inner} ${cx},${cy-r} Z`;
+  return `<svg viewBox="0 0 60 60" width="60" height="60" role="img" aria-label="Moon phase"><circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--na-soft)" stroke="var(--line)"/>${lit>0.01?`<path d="${d}" fill="var(--warn)" opacity=".85"/>`:""}</svg>`;
+}
+function dayCount(from,dateStr){return Math.round((new Date(dateStr+"T12:00:00")-new Date(from+"T12:00:00"))/86400000)+1;}
+function statsPanel(b){
+  const m=moonFor(b.date);
+  const fixed=[
+    {label:"Iran war",value:"Day "+dayCount("2026-02-28",b.date),note:"Since US and Israeli strikes began Feb 28, 2026"},
+    {label:"Russia's full scale invasion of Ukraine",value:"Day "+dayCount("2022-02-24",b.date),note:"Since Feb 24, 2022"}
+  ];
+  const st=arr(b.stats);
+  const tile=x=>`<div class="${x.outlier?"outl":""}"><b>${esc(x.label)}${x.outlier?' <span class="chip s-escalating">Outlier</span>':""}</b><span>${esc(x.value)}</span><em>${esc(x.note||"")}${x.url?` · ${link("source",x.url)}`:""}</em></div>`;
+  return `<section class="panel stack"><h2>Stats of the Day</h2>
+  <div class="moon"><div>${moonSvg(m.f)}</div><div><b class="mono small muted">MOON PHASE · ${esc(fmtDate(b.date))}</b><p style="font-size:17px;font-weight:600">${esc(m.name)}, ${Math.round(m.illum*100)}% illuminated</p><p class="small muted">Day ${m.age.toFixed(1)} of the lunar cycle · ${m.name==="Full Moon"?"full now":`full in ${Math.round(m.toFull)} days`} · ${m.name==="New Moon"?"new now":`new in ${Math.round(m.toNew)} days`}</p></div></div>
+  <div class="ind">${fixed.concat(st).map(tile).join("")}</div>
+  ${st.some(x=>x.outlier)?`<p class="small muted">Outliers are figures well outside their normal range, such as a record or a move far from the recent average.</p>`:""}</section>`;
+}
+
+/* ---- conspiracies and discourse ---- */
+const VERDICT={"false":"s-escalating","unsupported":"s-steady","misleading":"s-steady","unverified":"s-unassessed","partly true":"s-new","true":"s-cooling"};
+function verdictChip(v){return v?`<span class="chip ${VERDICT[String(v).toLowerCase()]||"s-unassessed"}">${esc(v)}</span>`:"";}
+function conspCard(c,date){
+  return `<article class="card sev-${c.harm==="High"?"escalating":c.harm==="Moderate"?"steady":"unassessed"}">
+    <div class="row">${c.status?`<span class="chip plain">${esc(c.status)}</span>`:""}${c.harm?`<span class="chip plain">Real world risk: ${esc(c.harm)}</span>`:""}${date?`<span class="src">${fmtDate(date)}</span>`:""}</div>
+    <h3>${esc(c.claim)}</h3>
+    <dl class="kv">
+      ${c.whereSpreading?`<dt>Where it is spreading</dt><dd>${esc(c.whereSpreading)}</dd>`:""}
+      ${c.origin?`<dt>Where it came from</dt><dd>${esc(c.origin)}</dd>`:""}
+      ${c.whyBelieved?`<dt>Why it resonates</dt><dd>${esc(c.whyBelieved)}</dd>`:""}
+      ${c.caseFor?`<dt>The case believers make</dt><dd>${esc(c.caseFor)}</dd>`:""}
+      ${c.caseAgainst||c.evidence?`<dt>Evidence that cuts against it</dt><dd>${esc(c.caseAgainst||c.evidence)}</dd>`:""}
+      ${c.unknowns?`<dt>Still unknown</dt><dd>${esc(c.unknowns)}</dd>`:""}
+      ${c.watch?`<dt>Watch for</dt><dd>${esc(c.watch)}</dd>`:""}
+    </dl>
+    ${arr(c.sources).length?`<div class="src">${arr(c.sources).map(s=>link(s.title,s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}
+  </article>`;
+}
+function conspiracyPanel(b){
+  const c=arr(b.conspiracies);
+  return `<section class="panel stack"><div class="row" style="justify-content:space-between"><h2>Conspiracy Watch</h2><a class="more mono small" href="#narratives">All narratives</a></div>
+  <p class="small muted prose">New and resurging theories: what is being claimed, where it came from, why it resonates, the case believers make, the evidence that cuts against it, and what is still unknown. No verdicts; you weigh it.</p>
+  ${c.length?`<div class="grid2">${c.map(x=>conspCard(x)).join("")}</div>`:`<p class="quietnote">${esc(b.conspiraciesNote||"No new conspiracy narratives of note located this cycle.")}</p>`}</section>`;
+}
+function discoursePanel(b){
+  const d=b.discourse||{}; const n=arr(d.narratives), t=arr(d.talkingPoints);
+  if(!d.summary&&!n.length&&!t.length) return `<section class="panel stack"><h2>Online Discourse and Amplification Watch</h2><p class="quietnote">No discourse analysis this edition.</p></section>`;
+  return `<section class="panel stack"><h2>Online Discourse and Amplification Watch</h2>
+  <p class="small muted prose">Dominant online narratives, signs of coordinated or automated amplification (identical wording across unrelated accounts, synchronized bursts, new or impersonating accounts, inflated views), and the likely origin and motive. Attribution is a judgment and is labeled with confidence.</p>
+  ${d.summary?`<div class="bluf"><p class="eyebrow">Read of the information space</p><p>${esc(d.summary)}</p></div>`:""}
+  ${n.map(x=>`<article class="card sev-${x.coordination==="Likely coordinated"||x.coordination==="Confirmed coordinated"?"escalating":x.coordination==="Mixed"?"steady":"unassessed"}">
+    <div class="row">${x.coordination?`<span class="chip plain">${esc(x.coordination)}</span>`:""}${x.trend?`<span class="chip plain">${esc(x.trend)}</span>`:""}${x.platforms?`<span class="src">${esc(x.platforms)}</span>`:""}</div>
+    <h3>${esc(x.narrative)}</h3>
+    ${x.description?`<p class="small prose">${esc(x.description)}</p>`:""}
+    ${arr(x.signals).length?`<div><p class="eyebrow">Amplification signals</p><ul class="plain small">${arr(x.signals).map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>`:""}
+    <dl class="kv">
+      ${x.suspectedOrigin?`<dt>Suspected origin</dt><dd>${esc(x.suspectedOrigin)}</dd>`:""}
+      ${x.motive?`<dt>Why</dt><dd>${esc(x.motive)}</dd>`:""}
+      ${x.assessment?`<dt>Assessment</dt><dd>${esc(x.assessment)}${x.confidence?` <span class="chip conf">${esc(x.confidence)} confidence</span>`:""}</dd>`:""}
+    </dl>
+    ${arr(x.sources).length?`<div class="src">${arr(x.sources).map(s=>link(s.title,s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}
+  </article>`).join("")}
+  ${t.length?`<div><p class="eyebrow">Talking points to watch for</p><div class="tablewrap"><table><thead><tr><th>Talking point</th><th>Status</th><th>Likely beneficiary</th><th>Basis</th></tr></thead><tbody>${t.map(x=>`<tr><td class="small"><b>${esc(x.line)}</b></td><td><span class="chip ${x.status==="Observed"?"s-escalating":"s-unassessed"}">${esc(x.status||"Anticipated")}</span></td><td class="small">${esc(x.beneficiary||"")}</td><td class="small">${esc(x.basis||"")}</td></tr>`).join("")}</tbody></table></div><p class="small muted">Observed means seen in reporting this cycle. Anticipated is a forecast of likely messaging, based on the actor's past behavior.</p></div>`:""}
+  </section>`;
+}
+function viewNarratives(){
+  const b=latest(); if(!b) return emptyState();
+  const rows=[]; briefsDesc().forEach(x=>arr(x.conspiracies).forEach(c=>rows.push({c,b:x})));
+  const nrows=[]; briefsDesc().forEach(x=>arr((x.discourse||{}).narratives).forEach(n=>nrows.push({n,b:x})));
+  return `<section class="panel stack"><p class="eyebrow">Narrative Watch // latest ${fmtDate(b.date)}</p><h1>Conspiracies, Discourse and Amplification</h1><p class="prose muted">The latest edition's readout, then every narrative logged so far so you can see what keeps coming back.</p></section>`+
+  conspiracyPanel(b)+discoursePanel(b)+
+  `<section class="panel stack"><h2>Conspiracy Log</h2>${rows.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Claim</th><th>Status</th><th>Risk</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="num small" style="white-space:nowrap"><a href="#brief-${esc(r.b._id)}">${fmtDate(r.b.date)}</a></td><td class="small">${esc(r.c.claim)}</td><td class="small mono">${esc(r.c.status||"")}</td><td class="small mono">${esc(r.c.harm||"")}</td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing logged yet.</p>`}</section>
+  <section class="panel stack"><h2>Amplification Log</h2>${nrows.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Narrative</th><th>Coordination</th><th>Suspected origin</th></tr></thead><tbody>${nrows.map(r=>`<tr><td class="num small" style="white-space:nowrap"><a href="#brief-${esc(r.b._id)}">${fmtDate(r.b.date)}</a></td><td class="small">${esc(r.n.narrative)}</td><td class="small mono">${esc(r.n.coordination||"")}</td><td class="small">${esc(r.n.suspectedOrigin||"")}</td></tr>`).join("")}</tbody></table></div>`:`<p class="quietnote">Nothing logged yet.</p>`}</section>`;
+}
+
+/* ---- archive: calendar, date jump, search ---- */
+function monthGrid(y,m,byDate){
+  const first=new Date(y,m,1), days=new Date(y,m+1,0).getDate(), lead=first.getDay();
+  const name=first.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+  let cells="";for(let i=0;i<lead;i++)cells+=`<span class="cal-x"></span>`;
+  for(let d=1;d<=days;d++){const k=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;const b=byDate[k];
+    cells+=b?`<a class="cal-d has ${b.type==="weekly"?"wk":""}" href="#brief-${esc(b._id)}" title="Edition ${esc(b.edition)}: ${esc(trunc(b.title||b.bluf,90))}"><span>${d}</span><i class="p${esc((b.worldConditions||{}).postureLevel||0)}"></i></a>`:`<span class="cal-d">${d}</span>`;}
+  return `<div class="cal"><h3>${esc(name)}</h3><div class="cal-g">${["S","M","T","W","T","F","S"].map(x=>`<b>${x}</b>`).join("")}${cells}</div></div>`;
+}
+function searchText(b){if(b._s)return b._s;return [b.title,b.bluf,...arr(b.sections).flatMap(s=>arr(s.items).map(i=>i.headline+" "+(i.summary||""))),...arr(b.conspiracies).map(c=>c.claim),...arr((b.discourse||{}).narratives).map(n=>n.narrative)].join(" ").toLowerCase();}
+function viewArchive(){
+  const l=briefsDesc(); if(!l.length) return emptyState();
+  const byDate={}; l.forEach(b=>{if(!byDate[b.date])byDate[b.date]=b;});
+  const newest=new Date(l[0].date+"T12:00:00"), oldest=new Date(l[l.length-1].date+"T12:00:00");
+  let grids="";for(let y=newest.getFullYear(),m=newest.getMonth();y>oldest.getFullYear()||(y===oldest.getFullYear()&&m>=oldest.getMonth());m--){if(m<0){m=11;y--;}grids+=monthGrid(y,m,byDate);if(grids.length>200000)break;}
+  return `<section class="panel stack"><p class="eyebrow">Archive</p><h1>Every Edition</h1>
+  <div class="row" style="gap:16px"><label class="small mono" for="arch-date">JUMP TO DATE</label><input id="arch-date" type="date" min="${esc(l[l.length-1].date)}" max="${esc(l[0].date)}" value="${esc(l[0].date)}"><label class="small mono" for="arch-q">SEARCH</label><input id="arch-q" type="search" placeholder="Keyword, country, person" style="min-width:220px"></div>
+  <p class="small muted">Highlighted days have an edition. The colored bar shows that day's global posture; Sunday Deep Dives are outlined.</p>
+  <div class="cals">${grids}</div></section>
+  <section class="panel stack"><h2>All Editions</h2><div class="tablewrap"><table><thead><tr><th>Edition</th><th>Date</th><th>Type</th><th>Posture</th><th>Bottom line</th></tr></thead><tbody id="arch-rows">${l.map(b=>`<tr data-s="${esc(searchText(b))}"><td class="mono num"><a href="#brief-${esc(b._id)}">${esc(b.edition)}</a></td><td class="num" style="white-space:nowrap">${fmtDate(b.date)}</td><td class="small mono">${esc(b.type==="weekly"?"Sunday":b.type)}</td><td class="mono small">${esc(POSTURE[(b.worldConditions||{}).postureLevel]||"")}</td><td class="small">${esc(trunc(b.bluf,220))}</td></tr>`).join("")}</tbody></table></div><p class="quietnote" id="arch-none" hidden>No editions match that search.</p></section>`;
+}
+function viewMethods(){
+  return `<section class="panel stack"><p class="eyebrow">Methods</p><h1>Analytic Standards</h1><p class="prose">Briefs follow US intelligence community tradecraft for open source work. Judgments are labeled as judgments, sources are graded, and forecasts are scored so the record shows where the analysis has been right and wrong.</p></section>
+  <section class="panel stack"><h2>Estimative Language (ICD 203)</h2><div class="tablewrap"><table><thead><tr><th>Term</th><th>Probability</th></tr></thead><tbody>${Object.entries(TERMS).map(([k,v])=>`<tr><td>${esc(k[0].toUpperCase()+k.slice(1))}</td><td class="num mono">${v[0]} to ${v[1]}%</td></tr>`).join("")}</tbody></table></div>
+  <p class="small muted prose">Confidence is separate from likelihood. High confidence means strong, corroborated sourcing and few gaps. Moderate means credible but incomplete. Low means fragmentary or single source reporting.</p></section>
+  <section class="panel stack"><h2>Source Grading (Admiralty Code)</h2><div class="grid2"><dl class="kv"><dt>A</dt><dd>Completely reliable</dd><dt>B</dt><dd>Usually reliable</dd><dt>C</dt><dd>Fairly reliable</dd><dt>D</dt><dd>Not usually reliable</dd><dt>E</dt><dd>Unreliable</dd><dt>F</dt><dd>Reliability cannot be judged</dd></dl><dl class="kv"><dt>1</dt><dd>Confirmed by other sources</dd><dt>2</dt><dd>Probably true</dd><dt>3</dt><dd>Possibly true</dd><dt>4</dt><dd>Doubtful</dd><dt>5</dt><dd>Improbable</dd><dt>6</dt><dd>Truth cannot be judged</dd></dl></div><p class="small muted prose">State media claims, such as IRNA or Tasnim on Iran, are graded and labeled as claims until independently confirmed.</p></section>
+  <section class="panel stack"><h2>Structured Analytic Techniques in Use</h2><dl class="kv">
+  <dt>Alternative Futures</dt><dd>Each story file builds base, better, worse and wildcard branches from its two or three key drivers.</dd>
+  <dt>Indicators and Signposts</dt><dd>Observable events tied to each branch, rechecked every run and marked observed, partial or not observed.</dd>
+  <dt>Key Assumptions Check</dt><dd>Each key judgment lists what it depends on, so a broken assumption is visible.</dd>
+  <dt>Competing Hypotheses</dt><dd>Used for attribution and covert activity questions, weighing evidence against every explanation rather than the first one.</dd>
+  <dt>Red Team / High Impact Low Probability</dt><dd>The wildcard branch is a deliberate look at what is not being priced in.</dd>
+  <dt>Base Rates</dt><dd>Historical analogues anchor likelihoods before current specifics adjust them.</dd>
+  <dt>Brier Scoring</dt><dd>Resolved forecasts are scored on the Forecast Scorecard.</dd></dl></section>
+  <section class="panel stack"><h2>Spotting Coordinated Amplification</h2><p class="prose small muted">Signals used in the Online Discourse section. One signal alone proves little; several together raise confidence.</p><ul class="plain small">
+  <li>Identical or near identical wording posted by unrelated accounts or outlets within a short window.</li>
+  <li>A narrative appearing suddenly across platforms with no clear organic origin point.</li>
+  <li>Accounts that are new, recently renamed, or post at inhuman volume or on fixed schedules.</li>
+  <li>Impersonation of real outlets, logos or journalists, and synthetic video or cloned voices.</li>
+  <li>View or reply counts far out of line with authentic engagement.</li>
+  <li>Narratives that line up with a known state campaign's goals and timing (for example Storm-1516 or Matryoshka for Russia).</li></ul>
+  <p class="small muted prose">Coordination labels: Organic (no meaningful signs), Mixed (organic discussion with some inauthentic boosting), Likely coordinated, Confirmed coordinated (named by a platform takedown or credible research).</p></section>
+  <section class="panel stack"><h2>Status and Posture Definitions</h2><dl class="kv">
+  <dt>${chip("escalating")}</dt><dd>Measurably worse since the last edition: more violence, new actors, harder positions, or failed talks.</dd>
+  <dt>${chip("steady")}</dt><dd>Active and serious, but no meaningful change in direction since the last edition.</dd>
+  <dt>${chip("cooling")}</dt><dd>Measurably better: talks progressing, violence down, positions softening.</dd>
+  <dt>${chip("new")}</dt><dd>Entered the board this edition.</dd>
+  <dt>${chip("unassessed")}</dt><dd>On the watch list but not enough fresh reporting this cycle to judge direction. Stated as a gap, never silently dropped.</dd>
+  <dt>Posture</dt><dd>A five step overall read (Low, Guarded, Elevated, High, Severe) of global instability with direct consequences for US security and economic interests. It is an analytic judgment, explained in its basis line each edition.</dd></dl></section>`;
+}
+function emptyState(){
+  if(S.dbMissing) return `<section class="panel empty">The briefing database cannot be reached in this view. Open this page on claude.ai while signed in.</section>`;
+  if(S.static&&S.err) return `<section class="panel empty">The briefing files could not be loaded: ${esc(S.err)}. Reload the page to try again.</section>`;
+  if(S.err) return `<section class="panel empty">The briefing database returned an error: ${esc(S.err)}. Reload the page to try again.</section>`;
+  if(!(S.got.b&&S.got.s)) return `<section class="panel empty">Loading the briefing database.${S.slow?"<br><span class=\"notice\">This is taking longer than usual. The data may be unreachable right now.</span>":""}</section>`;
+  return `<section class="panel empty">No editions yet. The first brief appears here after the next scheduled run.</section>`;
+}
+
+/* ---------- router ---------- */
+function render(){
+  const h=decodeURIComponent((location.hash||"").slice(1))||"brief";
+  let key=h, html="";
+  if(h==="brief"||h==="") {key="brief";html=viewBrief(latest());}
+  else if(h.startsWith("brief-")){key="archive";const b=S.briefs.find(x=>x._id===h.slice(6));html=b?(b._light?(loadFull(b._id),`<section class="panel empty">Loading edition ${esc(b.edition||b._id)}.</section>`):viewBrief(b)):`<section class="panel empty">That edition was not found. <a href="#archive">Archive</a></section>`;}
+  else if(h==="conditions") html=viewConditions();
+  else if(h==="stories") html=viewStories();
+  else if(h.startsWith("story-")){key="stories";html=viewStory(h.slice(6));}
+  else if(h==="narratives") html=viewNarratives();
+  else if(h==="elections") html=viewElections();
+  else if(h==="watchlist") html=viewWatch();
+  else if(h==="scorecard") html=viewScorecard();
+  else if(h==="archive") html=viewArchive();
+  else if(h==="methods") html=viewMethods();
+  else {key="brief";html=viewBrief(latest());}
+  const app=document.getElementById("app"); const ae=document.activeElement;
+  const keep=(ae&&app.contains(ae)&&ae.id&&(ae.tagName==="TEXTAREA"||ae.tagName==="INPUT"))?{id:ae.id,v:ae.value,s:ae.selectionStart,e:ae.selectionEnd}:null;
+  const inputs={};app.querySelectorAll("input[type=text]").forEach(i=>{if(i.id&&i.value)inputs[i.id]=i.value;});
+  app.innerHTML=html;
+  Object.entries(inputs).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});
+  if(keep){const el=document.getElementById(keep.id);if(el){el.value=keep.v;el.focus();try{el.setSelectionRange(keep.s,keep.e);}catch(_){}}}
+  document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.r===key));
+  const b=latest();
+  document.getElementById("mastmeta").textContent=b?`Edition ${b.edition} · ${fmtDate(b.date)} · ${Object.values(S.stories).filter(s=>(s.status||"active")==="active").length} active stories`:(S.got.b?"No editions yet":"Loading latest edition");
+}
+let lastHash=location.hash;
+window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
+document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
+document.getElementById("app").addEventListener("click",e=>{
+  const t=e.target.closest("[data-track],[data-savenote],[data-wladd],[data-wlremove]"); if(!t) return;
+  if(t.dataset.track) toggleTrack(t.dataset.track);
+  else if(t.dataset.savenote) saveNote(t.dataset.savenote);
+  else if(t.dataset.wladd) addWatch();
+  else if(t.dataset.wlremove) removeWatch(t.dataset.wlremove);
+});
+document.getElementById("app").addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.note){S.drafts[e.target.dataset.note]=e.target.value;setNoteMsg(e.target.dataset.note,"Unsaved changes");}});
+document.getElementById("app").addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.note&&S.drafts[e.target.dataset.note]!=null)saveNote(e.target.dataset.note);});
+document.getElementById("app").addEventListener("keydown",e=>{if(e.target.id==="wl-label"&&e.key==="Enter"){e.preventDefault();addWatch();}});
+window.addEventListener("beforeunload",e=>{if(Object.keys(S.drafts).length){e.preventDefault();e.returnValue="";}});
+document.getElementById("app").addEventListener("change",e=>{if(e.target.id!=="arch-date"||!e.target.value)return;const v=e.target.value;const l=briefsDesc();const hit=l.find(b=>b.date<=v)||l[l.length-1];if(hit)location.hash="brief-"+hit._id;});
+document.getElementById("app").addEventListener("input",e=>{if(e.target.id!=="arch-q")return;const q=e.target.value.trim().toLowerCase();let shown=0;document.querySelectorAll("#arch-rows tr").forEach(tr=>{const ok=!q||tr.dataset.s.includes(q);tr.hidden=!ok;if(ok)shown++;});const n=document.getElementById("arch-none");if(n)n.hidden=shown>0;});
+render();
+
+/* ---------- data ---------- */
+/* Static mode: on a public host (no window.claude), read the JSON files published next to this page. Private notes and watchlist never leave claude.ai. */
+async function getJSON(u){const r=await fetch(u,{cache:"no-cache"});if(!r.ok)throw new Error(u+" returned "+r.status);return r.json();}
+function loadFull(id){
+  if(S.full[id])return S.full[id];
+  S.full[id]=getJSON("data/briefs/"+encodeURIComponent(id)+".json").then(b=>{const i=S.briefs.findIndex(x=>x._id===id);const rec=Object.assign({_id:id},b);if(i>=0)S.briefs[i]=rec;else S.briefs.push(rec);render();return rec;}).catch(e=>{delete S.full[id];alertBox("Could not load that edition: "+e.message);});
+  return S.full[id];
+}
+async function bootStatic(){
+  S.static=true;const band=document.getElementById("band");if(band)band.textContent="Open source intelligence // Shared reading copy // Not a government product";
+  const timer=setTimeout(()=>{S.slow=true;render();},10000);
+  try{
+    const [idx,stories,forecasts]=await Promise.all([getJSON("data/index.json"),getJSON("data/stories.json"),getJSON("data/forecasts.json")]);
+    S.meta=idx.meta||null;
+    S.briefs=arr(idx.briefs).map(b=>Object.assign({_light:true},b));
+    const o={};arr(stories).forEach(s=>{o[s._id]=s;});S.stories=o;S.forecasts=arr(forecasts);
+    const first=latest(); if(first) await loadFull(first._id);
+    S.got.b=S.got.s=S.got.f=true;
+  }catch(e){S.err=(e&&e.message)||"unknown error";}
+  clearTimeout(timer);render();
+}
+(async function(){
+  let db=null;
+  const hasClaude=!!(window.claude&&typeof window.claude.use==="function");
+  try{ db=hasClaude?await window.claude.use("db"):null; }catch(e){db=null;}
+  if(!db){ if(!hasClaude) return bootStatic(); S.dbMissing=true;render();return;}
+  S.db=db;
+  try{const u=(window.claude&&window.claude.use)?await window.claude.use("user"):null;S.owner=!!(u&&await Promise.resolve(u.isOwner()));}catch(e){S.owner=false;}
+  if(S.owner){
+    db.collection("mine/watch/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.watch=o;render();},()=>{});
+    db.collection("mine/notes/items").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});S.notes=o;render();},()=>{});
+  }
+  const timer=setTimeout(()=>{S.slow=true;render();},10000);
+  const fail=e=>{clearTimeout(timer);S.err=(e&&e.message)||"unknown error";render();};
+  const done=()=>{if(S.got.b&&S.got.s&&S.got.f)clearTimeout(timer);};
+  db.doc("meta/state").onSnapshot(snap=>{S.meta=snap.exists?snap.data():null;render();},()=>{});
+  db.collection("briefs").orderBy("date","desc").limit(120).onSnapshot(q=>{S.briefs=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.b=true;done();}render();},fail);
+  db.collection("stories").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({_id:d.id},d.data());});S.stories=o;if(!q.metadata.fromCache){S.got.s=true;done();}render();},fail);
+  db.collection("forecasts").onSnapshot(q=>{S.forecasts=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.f=true;done();}render();},fail);
+})();
+})();
+</script>
+</body>
+</html>
