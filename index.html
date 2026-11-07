@@ -191,6 +191,23 @@ button.trk.sm{white-space:nowrap;flex-shrink:0;font-size:11px;padding:3px 8px;ma
 button.btn:hover,button.trk:hover{filter:brightness(1.08)}
 textarea,input[type=text]{width:100%;font-family:var(--body);font-size:15px;line-height:1.5;padding:9px 11px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink)}
 textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+/* read and hide sections */
+.colhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.colbtn{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+.colbtn:hover{border-color:var(--accent);color:var(--accent)}
+.panel.collapsed{padding-top:10px;padding-bottom:10px;opacity:.72}
+.panel.collapsed > :not(.colhead){display:none!important}
+.panel.collapsed .colhead h2{font-size:15px;margin:0}
+.panel.collapsed .colhead h2::before{content:"\2713  ";color:var(--accent)}
+.readbar{position:sticky;top:0;z-index:8;background:var(--bg);padding:8px 0 6px;margin:-8px 0 -8px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line)}
+.readbar .rb-count{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.readbar .rb-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;flex:1;padding-bottom:2px}
+.readbar .rb-tabs button{flex:0 0 auto;font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:3px;padding:4px 8px;cursor:pointer}
+.readbar .rb-tabs button.done{color:var(--muted);background:transparent;text-decoration:line-through}
+.readbar .rb-tabs button.done::before{content:"\2713 "}
+.readbar .rb-act{flex:0 0 auto;font-family:var(--mono);font-size:11.5px;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:4px}
+.readbar.hideread .rb-tabs button.done{display:none}
+@media (max-width:700px){.readbar{flex-wrap:wrap;gap:4px 8px}.readbar .rb-count{flex:1}.readbar .rb-tabs{order:5;flex:1 1 100%}}
 /* notes dock */
 .dockwrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
 .dockmain{display:flex;flex-direction:column;gap:20px;min-width:0}
@@ -1136,10 +1153,51 @@ function render(){
   app.innerHTML=html;
   Object.entries(inputs).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});
   if(keep){const el=document.getElementById(keep.id);if(el){el.value=keep.v;el.focus();try{el.setSelectionRange(keep.s,keep.e);}catch(_){}}}
+  if(h==="brief"||h===""||!h.includes("-")&&key==="brief"){const lb=latest();if(lb&&!lb._light)enhanceRead(lb._id);}
+  else if(h.startsWith("brief-")){const bb=S.briefs.find(x=>x._id===h.slice(6));if(bb&&!bb._light)enhanceRead(bb._id);}
   document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on",a.dataset.r===key));
   const b=latest();
   document.getElementById("mastmeta").textContent=b?`Edition ${b.edition} · ${fmtDate(b.date)} · ${Object.values(S.stories).filter(s=>(s.status||"active")==="active").length} active stories`:(S.got.b?"No editions yet":"Loading latest edition");
 }
+
+/* ---- read and hide sections on a brief ---- */
+const RD={id:null,set:new Set(),hideTabs:false};
+function rdKey(id){return "brief-read-"+id;}
+function rdLoad(id){RD.id=id;RD.set=new Set();try{const v=JSON.parse(localStorage.getItem(rdKey(id))||"[]");if(Array.isArray(v))v.forEach(x=>RD.set.add(x));RD.hideTabs=localStorage.getItem("brief-read-hidetabs")==="1";}catch(_){}}
+function rdSave(){try{localStorage.setItem(rdKey(RD.id),JSON.stringify([...RD.set]));localStorage.setItem("brief-read-hidetabs",RD.hideTabs?"1":"0");}catch(_){}}
+function rdSlug(t){return "rd-"+String(t||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,48);}
+function rdPanels(){const root=document.querySelector("#app .dockmain")||document.getElementById("app");return [...root.children].filter(el=>el.matches("section.panel")&&el.querySelector("h2"));}
+function enhanceRead(briefId){
+  if(!briefId) return; if(RD.id!==briefId) rdLoad(briefId);
+  const panels=rdPanels(); if(!panels.length) return;
+  const used={};
+  panels.forEach(sec=>{
+    const h2=sec.querySelector("h2"); const title=h2.textContent.replace(/\s+\d+$/,"").trim();
+    let id=sec.id; if(!id){id=rdSlug(title);if(used[id])id+="-"+(++used[id]);else used[id]=1;sec.id=id;}
+    sec.dataset.rdid=id; sec.dataset.rdtitle=title;
+    let head=h2; while(head.parentElement&&head.parentElement!==sec) head=head.parentElement;
+    if(head===h2){const w=document.createElement("div");sec.insertBefore(w,h2);w.appendChild(h2);head=w;}
+    head.classList.add("colhead");
+    if(!head.querySelector(".colbtn")){const b=document.createElement("button");b.type="button";b.className="colbtn";b.dataset.rdtoggle=id;head.appendChild(b);}
+    rdApply(sec);
+  });
+  const bar=document.createElement("div"); bar.className="readbar"+(RD.hideTabs?" hideread":""); bar.id="readbar";
+  bar.innerHTML=`<span class="rb-count" id="rb-count"></span><div class="rb-tabs" role="list">${panels.map(p=>`<button type="button" role="listitem" data-rdgo="${esc(p.dataset.rdid)}">${esc(p.dataset.rdtitle)}</button>`).join("")}</div><button type="button" class="rb-act" data-rdhidetabs="1"></button><button type="button" class="rb-act" data-rdreset="1">Show all</button>`;
+  panels[0].parentElement.insertBefore(bar,panels[0]);
+  rdBar();
+}
+function rdApply(sec){const id=sec.dataset.rdid, on=RD.set.has(id);sec.classList.toggle("collapsed",on);const b=sec.querySelector(".colbtn");if(b){b.textContent=on?"Show again":"Done ✓ hide";b.setAttribute("aria-expanded",String(!on));}}
+function rdBar(){const panels=rdPanels();const n=panels.filter(p=>RD.set.has(p.dataset.rdid)).length;const c=document.getElementById("rb-count");if(c)c.textContent=`${n} of ${panels.length} read`;document.querySelectorAll("[data-rdgo]").forEach(b=>b.classList.toggle("done",RD.set.has(b.dataset.rdgo)));const bar=document.getElementById("readbar");if(bar){bar.classList.toggle("hideread",RD.hideTabs);const t=bar.querySelector("[data-rdhidetabs]");if(t)t.textContent=RD.hideTabs?"Show read tabs":"Hide read tabs";}}
+function rdToggle(id,force){const sec=document.querySelector(`[data-rdid="${CSS.escape(id)}"]`);if(!sec)return;const on=force!=null?force:!RD.set.has(id);if(on)RD.set.add(id);else RD.set.delete(id);rdSave();rdApply(sec);rdBar();
+  if(on){const r=sec.getBoundingClientRect();if(r.top<0)sec.scrollIntoView({block:"start"});const next=rdPanels().find(p=>!RD.set.has(p.dataset.rdid)&&p.compareDocumentPosition(sec)&Node.DOCUMENT_POSITION_PRECEDING);if(next&&sec.getBoundingClientRect().top<0)next.scrollIntoView({block:"start"});}}
+document.getElementById("app").addEventListener("click",e=>{
+  const t=e.target.closest("[data-rdtoggle],[data-rdgo],[data-rdreset],[data-rdhidetabs],[data-jump]"); if(!t) return; const d=t.dataset;
+  if(d.rdtoggle){rdToggle(d.rdtoggle);return;}
+  if(d.rdgo){const sec=document.querySelector(`[data-rdid="${CSS.escape(d.rdgo)}"]`);if(!sec)return;if(RD.set.has(d.rdgo))rdToggle(d.rdgo,false);const bar=document.getElementById("readbar");const off=bar?bar.offsetHeight+6:0;window.scrollTo({top:sec.getBoundingClientRect().top+window.scrollY-off,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});return;}
+  if(d.rdreset){RD.set.clear();rdSave();rdPanels().forEach(rdApply);rdBar();return;}
+  if(d.rdhidetabs){RD.hideTabs=!RD.hideTabs;rdSave();rdBar();return;}
+  if(d.jump&&RD.set.has(d.jump)) rdToggle(d.jump,false);
+},true);
 let lastHash=location.hash;
 window.addEventListener("hashchange",()=>{render();if(location.hash!==lastHash){window.scrollTo(0,0);lastHash=location.hash;}});
 document.getElementById("app").addEventListener("click",e=>{const t=e.target.closest("[data-jump]");if(!t)return;const el=document.getElementById(t.dataset.jump);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
