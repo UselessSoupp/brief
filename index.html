@@ -218,6 +218,9 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 .chip.m-dis{color:var(--new);background:var(--new-soft)}
 .chip.m-ann{color:var(--na);background:var(--na-soft)}
 @media (max-width:640px){.flow{grid-template-columns:1fr}.farrow{align-items:flex-start;text-align:left}}
+.otype{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:0 5px;color:var(--muted)}
+.also{border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
+.also li{padding:4px 0}
 </style>
 </head>
 <body>
@@ -300,6 +303,8 @@ function viewBrief(b){
   // updates on followed stories
   const ups=arr(b.updates);
   h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${pl(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
+  h+=missedPanel(b);
+  h+=capitalsPanel(b);
   h+=peopleInBrief(b);
   // top stories
   const tops=arr(b.topStories).map(id=>S.stories[id]).filter(Boolean);
@@ -310,7 +315,7 @@ function viewBrief(b){
   if(secs.length){
     h+=`<section class="panel stack"><h2>Category Sections</h2><p class="small muted">Every category is checked on every run. Grey buttons mean nothing significant was located; that section still states so below.</p>
     <div class="toc">${secs.map((s,i)=>`<button type="button" data-jump="sec-${i}" class="${arr(s.items).length?"":"quiet"}">${esc(s.category)}${arr(s.items).length?` <span class="muted">${arr(s.items).length}</span>`:""}</button>`).join("")}</div></section>`;
-    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${pl(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${pl(it.assessment)}</p>`:""}<div class="src">${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const ctx={title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id,storyId:it.storyId||"",explainer:it.explainer||null};const x=xBtn(k,ctx),pb=pBtn(ctx);return (x?" · "+x:"")+(pb?" · "+pb:"");})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}</section>`).join("");
+    h+=secs.map((s,i)=>`<section class="panel sec" id="sec-${i}"><div class="sec-h"><h2>${esc(s.category)}</h2>${s.status?chip(s.status):""}</div>${arr(s.items).length?arr(s.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:s.category,date:b.date})}</div>${it.summary?`<p class="prose">${pl(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${pl(it.assessment)}</p>`:""}<div class="src">${it.outletType?`<span class="otype">${esc(it.outletType)}</span> `:""}${it.region?esc(it.region)+" · ":""}${it.source?link(it.source,it.url):""}${it.grade?` [${esc(it.grade)}]`:""}${it.storyId?` · <a href="#story-${esc(it.storyId)}">story file</a>`:""}${(()=>{const k=hkey(it.headline+"|"+(it.url||""));const ctx={title:it.headline,body:it.summary,note:it.assessment,source:it.source,url:it.url,category:s.category,date:b.date,href:"#brief-"+b._id,storyId:it.storyId||"",explainer:it.explainer||null};const x=xBtn(k,ctx),pb=pBtn(ctx);return (x?" · "+x:"")+(pb?" · "+pb:"");})()}</div>${xBox(hkey(it.headline+"|"+(it.url||"")))}</div>`).join(""):`<p class="quietnote">${esc(s.quietNote||"Nothing significant located this cycle.")}</p>`}${arr(s.alsoNoted).length?`<div class="also"><p class="eyebrow">Also noted</p><ul class="plain">${arr(s.alsoNoted).map(a=>`<li>${a.outletType?`<span class="otype">${esc(a.outletType)}</span> `:""}${link(a.headline,a.url)}${a.note?` <span class="small muted">${pl(a.note)}</span>`:""} <span class="src">${esc([a.source,a.region,a.date].filter(Boolean).join(" · "))}</span>${hlBtn(a.headline,{url:a.url,source:a.source,category:s.category,date:b.date})}</li>`).join("")}</ul></div>`:""}</section>`).join("");
   }
   if(arr(b.headlines).length){h+=`<section class="panel stack"><h2>Headlines Across Major Outlets</h2><div class="tablewrap"><table><thead><tr><th>Outlet</th><th>Headline</th></tr></thead><tbody>${arr(b.headlines).map(x=>`<tr><td class="mono small" style="white-space:nowrap">${esc(x.outlet)}</td><td>${link(x.headline,x.url)}${hlBtn(x.headline,{url:x.url,source:x.outlet,category:"Headlines",date:b.date})}</td></tr>`).join("")}</tbody></table></div></section>`;}
   if(arr(b.weekAhead).length){h+=`<section class="panel stack"><h2>Calendar Ahead</h2><div class="tablewrap"><table><tbody>${arr(b.weekAhead).map(x=>`<tr><td class="mono small num" style="white-space:nowrap;width:130px">${esc(x.date)}</td><td>${esc(x.event)}</td></tr>`).join("")}</tbody></table></div></section>`;}
@@ -867,6 +872,17 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
     ${arr(c.sources).length?`<div class="src">${arr(c.sources).map(s=>link(s.title,s.url)+(s.grade?` [${esc(s.grade)}]`:"")).join(" · ")}</div>`:""}
     ${(()=>{const ctx={kind:"claim",title:c.claim,body:[c.origin,c.caseFor,c.caseAgainst||c.evidence,c.unknowns].filter(Boolean).join(" "),category:"Conspiracy Watch",date:date,href:bid?"#brief-"+bid:"#narratives"};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>`:"";})()}${xBox(xk)}
   </article>`;
+}
+function capitalsPanel(b){
+  const m=arr(b.stateNarratives); if(!m.length) return "";
+  const order=["Moscow","Beijing","Tehran","Havana"]; const caps=[...new Set(m.map(x=>x.capital||"Other"))].sort((a,c)=>(order.indexOf(a)+1||9)-(order.indexOf(c)+1||9));
+  return `<section class="panel stack"><h2>What Other Capitals Are Saying</h2><p class="small muted prose">How state media and pro government outlets in Moscow, Beijing, Tehran and Havana are framing the news, in their own terms. These are claims, shown so you can see the framing directly. The counterpoint line says what other sources report.</p>
+  ${caps.map(c=>`<h3 class="mono small">${esc(c)}</h3>${m.filter(x=>(x.capital||"Other")===c).map(x=>`<div class="item"><p class="prose">${pl(x.claim||"")}</p>${x.counterpoint?`<p class="assess prose">Counterpoint: ${esc(x.counterpoint)}</p>`:""}<div class="src"><span class="otype">state or pro government</span> ${x.relatedTo?esc(x.relatedTo)+" · ":""}${x.outlet?link(x.outlet,x.url):""}${x.date?" · "+esc(x.date):""}</div></div>`).join("")}`).join("")}</section>`;
+}
+function missedPanel(b){
+  const m=arr(b.missedThisWeek); if(!m.length) return "";
+  return `<section class="panel stack"><h2>This Week, You May Have Missed</h2><p class="small muted prose">Stories from the past seven days that never made an edition, from around the world and from independent outlets. Not breaking, but worth knowing.</p>
+  ${m.map(x=>`<div class="item"><div class="hlrow"><span class="hl">${esc(x.headline)}</span>${hlBtn(x.headline,{url:x.url,source:x.source,category:x.category||"This week",date:b.date})}</div>${x.summary?`<p class="prose">${pl(x.summary)}</p>`:""}<div class="src">${x.outletType?`<span class="otype">${esc(x.outletType)}</span> `:""}${esc([x.category,x.region,x.date].filter(Boolean).join(" · "))}${x.source?" · "+link(x.source,x.url):""}${x.grade?` [${esc(x.grade)}]`:""}</div></div>`).join("")}</section>`;
 }
 function underRadarPanel(b){
   const u=arr(b.underRadar); const pre=!u.length&&!b.underRadarNote&&String(b.date||"")<"2026-11-07";
