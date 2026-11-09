@@ -290,7 +290,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 <script>
 (function(){
 "use strict";
-const S={people:{},pmap:{},peq:"",pcat:"",static:false,local:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false,pp:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
+const S={fileCache:{},people:{},pmap:{},peq:"",pcat:"",static:false,local:false,full:{},hl:{},xc:{},ex:{},pc:{},preds:{},dossiers:{},pdraft:{},pbg:{},parm:{},pmsg:{},sample:null,nopen:{},nedit:{},narm:{},nq:"",newNote:false,meta:null,briefs:[],stories:{},forecasts:[],got:{b:false,s:false,f:false,pp:false},dbMissing:false,err:null,slow:false,db:null,owner:false,watch:{},notes:{},drafts:{},saving:{},saveMsg:{}};
 const TERMS={"almost no chance":[1,5],"very unlikely":[5,20],"unlikely":[20,45],"roughly even chance":[45,55],"likely":[55,80],"very likely":[80,95],"almost certain":[95,99]};
 const STATUS={escalating:["Escalating","▲"],steady:["Steady","■"],cooling:["Cooling","▼"],new:["New","●"],unassessed:["Not assessed","○"],resolved:["Resolved","✓"],dormant:["Dormant","○"]};
 const POSTURE=["","Low","Guarded","Elevated","High","Severe"];
@@ -340,7 +340,7 @@ function viewBrief(b){
   // updates on followed stories
   const ups=arr(b.updates);
   h+=`<section class="panel stack"><h2>Updates on Stories You Are Following</h2>${ups.length?ups.map(u=>{const s=S.stories[u.storyId];return `<div class="item"><div class="row">${u.statusChange?`<span class="chip plain">${esc(u.statusChange)}</span>`:""}${s?chip(s.status==="active"?s.trend:s.status):""}<a class="hl" href="#story-${esc(u.storyId)}">${esc(s?s.title:u.title||u.storyId)}</a></div><p>${pl(u.update)}</p></div>`}).join(""):`<p class="quietnote">${esc(b.updatesNote||"No previously tracked stories to update.")}</p>`}</section>`;
-  h+=anglesPanel(b)+underRadarPanel(b)+missedPanel(b);
+  h+=weekPanel(b)+anglesPanel(b)+underRadarPanel(b)+missedPanel(b);
   const SECS_EARLY=true;
   // top stories
   const tops=arr(b.topStories).map(id=>S.stories[id]).filter(Boolean);
@@ -910,6 +910,17 @@ function conspCard(c,date,bid){const xk=hkey(c.claim+"|");
     ${(()=>{const ctx={kind:"claim",title:c.claim,body:[c.origin,c.caseFor,c.caseAgainst||c.evidence,c.unknowns].filter(Boolean).join(" "),category:"Conspiracy Watch",date:date,href:bid?"#brief-"+bid:"#narratives"};const x=xBtn(xk,ctx),pb=pBtn(ctx);return x||pb?`<div class="src">${[x,pb].filter(Boolean).join(" · ")}</div>`:"";})()}${xBox(xk)}
   </article>`;
 }
+function weekPanel(b){
+  const w=b.weekInReview; if(!w||typeof w!=="object") return "";
+  const sh=arr(w.shifts), sc=arr(w.scenarioChanges), fs=w.forecasts||{};
+  const st=id=>id&&S.stories[id]?` <a class="more mono small" href="#story-${esc(id)}">${esc(S.stories[id].shortTitle||S.stories[id].title)}</a>`:"";
+  return `<section class="panel stack"><h2>The Week in Review</h2>${w.summary?`<p class="prose">${pl(w.summary)}</p>`:""}
+  ${sh.length?`<div><p class="eyebrow">What actually shifted this week</p>${sh.map(x=>`<div class="item"><span class="hl">${esc(x.title)}</span>${st(x.storyId)}${x.what?`<p class="prose">${pl(x.what)}</p>`:""}${x.soWhat?`<p class="assess prose">So what: ${pl(x.soWhat)}</p>`:""}${x.url?`<div class="src">${link(x.source||"source",x.url)}</div>`:""}</div>`).join("")}</div>`:""}
+  ${sc.length?`<div><p class="eyebrow">Scenario refresh</p><div class="tablewrap"><table><thead><tr><th>Story</th><th>Change</th><th>Why</th></tr></thead><tbody>${sc.map(x=>`<tr><td class="small">${x.storyId&&S.stories[x.storyId]?`<a href="#story-${esc(x.storyId)}">${esc(S.stories[x.storyId].shortTitle||S.stories[x.storyId].title)}</a>`:esc(x.storyId||"")}</td><td class="small">${esc(x.change)}</td><td class="small">${esc(x.reason)}</td></tr>`).join("")}</tbody></table></div></div>`:""}
+  ${fs.note||arr(fs.resolved).length?`<div><p class="eyebrow">Forecast scorecard</p>${fs.note?`<p class="prose small">${pl(fs.note)}</p>`:""}${arr(fs.resolved).length?`<ul class="plain small">${arr(fs.resolved).map(r=>`<li>${esc(r)}</li>`).join("")}</ul>`:""}<a class="more mono small" href="#scorecard">Full scorecard</a></div>`:""}
+  ${arr(w.nextWeek).length?`<div><p class="eyebrow">The week ahead: what would change the picture</p><ul class="plain">${arr(w.nextWeek).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+  </section>`;
+}
 function anglesPanel(b){
   const a=arr(b.angles); if(!a.length) return "";
   return `<section class="panel stack"><h2>Analysis You Wouldn't Think Of</h2><p class="small muted prose">Second order effects, overlooked connections and contrarian expert takes from this week, across hawkish, restraint, left and right sources. Each comes with the strongest objection.</p>
@@ -1128,7 +1139,7 @@ async function requestPerson(){
 function render(){
   const h=decodeURIComponent((location.hash||"").slice(1))||"brief";
   let key=h, html="";
-  if(h==="brief"||h==="") {key="brief";html=viewBrief(latest());}
+  if(h==="brief"||h==="") {key="brief";const lb=latest();html=(lb&&lb._light)?(loadFull(lb._id),`<section class="panel empty">Loading edition ${esc(lb.edition||lb._id)}.</section>`):viewBrief(lb);}
   else if(h.startsWith("brief-")){key="archive";const b=S.briefs.find(x=>x._id===h.slice(6));html=b?(b._light?(loadFull(b._id),`<section class="panel empty">Loading edition ${esc(b.edition||b._id)}.</section>`):viewBrief(b)):`<section class="panel empty">That edition was not found. <a href="#archive">Archive</a></section>`;}
   else if(h==="conditions") html=viewConditions();
   else if(h==="stories") html=viewStories();
@@ -1143,7 +1154,7 @@ function render(){
   else if(h.startsWith("predict-")){key="predictions";html=viewPredict(h.slice(8));}
   else if(h==="archive") html=viewArchive();
   else if(h==="methods") html=viewMethods();
-  else {key="brief";html=viewBrief(latest());}
+  else {key="brief";const lb=latest();html=(lb&&lb._light)?(loadFull(lb._id),`<section class="panel empty">Loading edition ${esc(lb.edition||lb._id)}.</section>`):viewBrief(lb);}
   const app=document.getElementById("app"); const ae=document.activeElement;
   const keep=(ae&&app.contains(ae)&&ae.id&&(ae.tagName==="TEXTAREA"||ae.tagName==="INPUT"))?{id:ae.id,v:ae.value,s:ae.selectionStart,e:ae.selectionEnd}:null;
   const inputs={};app.querySelectorAll("input[type=text]").forEach(i=>{if(i.id&&i.value)inputs[i.id]=i.value;});
@@ -1239,7 +1250,9 @@ render();
 async function getJSON(u){const r=await fetch(u,{cache:"no-cache"});if(!r.ok)throw new Error(u+" returned "+r.status);return r.json();}
 function loadFull(id){
   if(S.full[id])return S.full[id];
-  S.full[id]=getJSON("data/briefs/"+encodeURIComponent(id)+".json").then(b=>{const i=S.briefs.findIndex(x=>x._id===id);const rec=Object.assign({_id:id},b);if(i>=0)S.briefs[i]=rec;else S.briefs.push(rec);render();return rec;}).catch(e=>{delete S.full[id];alertBox("Could not load that edition: "+e.message);});
+  const src=S.briefs.find(x=>x._id===id)||{};
+  const path=src._file||("data/briefs/"+encodeURIComponent(id)+".json");
+  S.full[id]=getJSON(path).then(b=>{S.fileCache[id]=b;const i=S.briefs.findIndex(x=>x._id===id);const cur=i>=0?S.briefs[i]:src;const rec=Object.assign({_id:id},b);if(cur&&cur._file){Object.keys(cur).forEach(k=>{if(k!=="_light")rec[k]=cur[k];});}rec._light=false;if(i>=0)S.briefs[i]=rec;else S.briefs.push(rec);render();return rec;}).catch(e=>{delete S.full[id];alertBox("Could not load that edition: "+e.message);});
   return S.full[id];
 }
 /* Device storage for the shared copy: same interface as the claude.ai db, kept in this browser only. */
@@ -1312,7 +1325,7 @@ async function bootStatic(){
   const fail=e=>{clearTimeout(timer);S.err=(e&&e.message)||"unknown error";render();};
   const done=()=>{if(S.got.b&&S.got.s&&S.got.f)clearTimeout(timer);};
   db.doc("meta/state").onSnapshot(snap=>{S.meta=snap.exists?snap.data():null;render();},()=>{});
-  db.collection("briefs").orderBy("date","desc").limit(120).onSnapshot(q=>{S.briefs=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.b=true;done();}render();},fail);
+  db.collection("briefs").orderBy("date","desc").limit(120).onSnapshot(q=>{S.briefs=q.docs.map(d=>{const v=Object.assign({_id:d.id},d.data());if(v._file){const f=S.fileCache[d.id];if(f){const r=Object.assign({_id:d.id},f);Object.keys(v).forEach(k=>{r[k]=v[k];});r._light=false;return r;}v._light=true;}return v;});if(!q.metadata.fromCache){S.got.b=true;done();}render();},fail);
   db.collection("stories").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({_id:d.id},d.data());});S.stories=o;if(!q.metadata.fromCache){S.got.s=true;done();}render();},fail);
   db.collection("forecasts").onSnapshot(q=>{S.forecasts=q.docs.map(d=>Object.assign({_id:d.id},d.data()));if(!q.metadata.fromCache){S.got.f=true;done();}render();},fail);
   db.collection("people").onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=Object.assign({_id:d.id},d.data());});S.people=o;S.got.pp=true;render();},()=>{S.got.pp=true;render();});
