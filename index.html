@@ -258,6 +258,29 @@ footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;font-family:var(--mono
 .otype{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:0 5px;color:var(--muted)}
 .also{border-top:1px dashed var(--line);padding-top:8px;margin-top:4px}
 .also li{padding:4px 0}
+
+/* ---- focus mode ---- */
+.focusband{border-left:4px solid var(--crit);background:var(--crit-soft);padding:10px 14px;border-radius:0 4px 4px 0}
+.focusband .eyebrow{color:var(--crit);margin:0}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.fcol{border:1px solid var(--line);border-radius:4px;padding:12px 14px}
+.fcol h3{margin:0 0 8px;font-size:15px}
+.fcol ul{margin:0;padding-left:18px}
+.fcol li{margin:0 0 6px;font-size:14.5px}
+.f-confirmed{border-top:3px solid var(--ok)} .f-reported{border-top:3px solid var(--warn)} .f-claimed{border-top:3px solid var(--na)}
+.st-confirmed{color:var(--ok);background:var(--ok-soft)} .st-reported{color:var(--warn);background:var(--warn-soft)} .st-claimed{color:var(--na);background:var(--na-soft)}
+.hyp{border:1px solid var(--line);border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.hyp h3{margin:0;font-size:17px}
+.hbar{height:10px;background:var(--na-soft);border-radius:5px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--accent)}
+.hyp .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.hyp .cols ul{margin:4px 0 0;padding-left:18px}
+.hyp .cols li{font-size:14px;margin-bottom:5px}
+.conn{border-left:3px solid var(--line);padding:4px 0 4px 12px}
+.conn.direct{border-left-color:var(--crit)} .conn.possible{border-left-color:var(--warn)} .conn.timing{border-left-color:var(--na)}
+.chat{border:1px solid var(--line);border-radius:4px;padding:12px 14px}
+.chat h3{margin:0 0 4px;font-size:15px}
+.changes{border:1px dashed var(--line);border-radius:4px;padding:10px 14px}
 </style>
 </head>
 <body>
@@ -313,6 +336,7 @@ function postureMeter(lvl){lvl=Math.max(0,Math.min(5,Number(lvl)||0));let h='<di
 
 function viewBrief(b){
   if(!b) return emptyState();
+  if(b.type==="focus") return viewFocus(b);
   const wc=b.worldConditions||{};
   const asc=briefsDesc().slice().reverse(); const ix=asc.findIndex(x=>x._id===b._id);
   const prev=ix>0?asc[ix-1]:null, next=ix>=0&&ix<asc.length-1?asc[ix+1]:null;
@@ -359,6 +383,50 @@ function viewBrief(b){
   if(b.coverageNote||arr(b.gaps).length||b.sourceBalance){const sb=b.sourceBalance||{};h+=`<section class="panel stack"><h2>Collection Gaps and Coverage Check</h2>${b.coverageNote?`<p class="prose">${esc(b.coverageNote)}</p>`:""}${b.sourceBalance?`<div><p class="eyebrow">Source balance this edition</p><div class="row" style="gap:8px">${[["Left leaning","left"],["Center or wire","center"],["Right leaning","right"],["State media","state"],["Primary documents","primary"],["Independent or local","independent"]].filter(([l,k])=>sb[k]!=null).map(([l,k])=>`<span class="chip plain">${l}: ${esc(sb[k])}</span>`).join("")}</div>${sb.note?`<p class="small muted">${esc(sb.note)}</p>`:""}</div>`:""}${arr(b.gaps).length?`<ul class="plain">${arr(b.gaps).map(g=>`<li>${esc(g)}</li>`).join("")}</ul>`:""}</section>`;}
   if(arr(b.sources).length){h+=`<section class="panel stack"><h2>Sources</h2>${srcList(b.sources)}</section>`;}
   h+=noteBox("brief-"+b._id,"Edition "+(b.edition||"")+", "+fmtDate(b.date));
+  return h;
+}
+
+/* ---------- focus mode: one event, everything that bears on it ---------- */
+function fStat(x){const k=["confirmed","reported","claimed"].includes(x)?x:"claimed";return `<span class="chip st-${k}">${esc(k)}</span>`;}
+function fSrc(o){return [o.outletType?`<span class="otype">${esc(o.outletType)}</span>`:"",o.country?esc(o.country):"",o.source?link(o.source,o.url):(o.url?link("source",o.url):""),o.grade?`[${esc(o.grade)}]`:"",o.date?esc(o.date):""].filter(Boolean).join(" · ");}
+function fList(a){a=arr(a);return a.length?`<ul>${a.map(x=>typeof x==="string"?`<li>${pl(x)}</li>`:`<li>${pl(x.point||x.text||"")}${x.source||x.url?` <span class="src">${link(x.source||"source",x.url)}${x.grade?` [${esc(x.grade)}]`:""}</span>`:""}</li>`).join("")}</ul>`:`<p class="small muted">Nothing found yet.</p>`;}
+function viewFocus(b){
+  const asc=briefsDesc().slice().reverse(); const ix=asc.findIndex(x=>x._id===b._id);
+  const prev=ix>0?asc[ix-1]:null, next=ix>=0&&ix<asc.length-1?asc[ix+1]:null;
+  const st=b.status||{};
+  let h=`<section class="panel stack">
+    <div class="focusband"><p class="eyebrow">Focus mode // ${esc(b.topic||"Developing event")} // ${esc(b.statusLabel||"Developing")}</p></div>
+    <div class="row" style="justify-content:space-between">
+      <p class="eyebrow">Special edition ${esc(b.edition||"")} // ${fmtDate(b.date)}</p>
+      <div class="row ednav">${prev?`<a href="#brief-${esc(prev._id)}">◀ ${fmtDate(prev.date)}</a>`:""}<a href="#archive">Calendar</a>${next?`<a href="#brief-${esc(next._id)}">${fmtDate(next.date)} ▶</a>`:`<span class="muted">Latest ▶</span>`}</div>
+    </div>
+    <span class="src">Last updated ${fmtDT(b.updatedAt||b.generatedAt)}${b.updateCount?` · update ${esc(b.updateCount)}`:""}</span>
+    <h1>${esc(b.title||"Focus")}</h1>
+    <div class="bluf"><p class="eyebrow">Bottom line right now</p><p>${pl(b.bluf)}</p></div>
+    ${arr(b.changes).length?`<div class="changes"><p class="eyebrow">What changed in this update</p><ul class="plain">${arr(b.changes).map(x=>`<li>${pl(x)}</li>`).join("")}</ul></div>`:""}
+    ${b.caution?`<p class="small muted prose">${pl(b.caution)}</p>`:""}
+  </section>`;
+  h+=`<section class="panel stack"><h2>Where Things Stand</h2><p class="small muted prose">Confirmed means officials or two solid independent sources. Reported means one solid outlet. Claimed means a party's claim or a social post.</p>
+    <div class="fgrid">${[["confirmed","Confirmed"],["reported","Reported"],["claimed","Claimed, not verified"]].map(([k,l])=>`<div class="fcol f-${k}"><h3>${l}</h3>${fList(st[k])}</div>`).join("")}</div></section>`;
+  if(arr(b.timeline).length) h+=`<section class="panel stack"><h2>Timeline</h2><p class="small muted">US Eastern time.</p><div class="tablewrap"><table><thead><tr><th>Time</th><th>What happened</th><th>Status</th><th>Source</th></tr></thead><tbody>${arr(b.timeline).map(t=>`<tr><td class="mono small num" style="white-space:nowrap">${esc(t.time||"")}</td><td class="small">${pl(t.event)}</td><td>${fStat(t.status)}</td><td class="small">${link(t.source||"source",t.url)}${t.grade?` <span class="src">[${esc(t.grade)}]</span>`:""}</td></tr>`).join("")}</tbody></table></div></section>`;
+  if(arr(b.hypotheses).length) h+=`<section class="panel stack"><h2>Possible Explanations</h2><p class="small muted prose">${esc(b.hypothesesNote||"Each explanation with the evidence for it, the evidence against it and what is unknown. The odds are a running estimate from the evidence so far, not a verdict. You weigh it.")}</p>
+    <div class="stack">${arr(b.hypotheses).map(x=>`<article class="hyp"><div class="row" style="justify-content:space-between"><h3>${esc(x.name)}</h3><span class="mono small">${typeof x.likelihood==="number"?`about ${esc(x.likelihood)}%`:""}${x.confidence?` · ${esc(x.confidence)} confidence`:""}</span></div>
+      ${typeof x.likelihood==="number"?`<div class="hbar" role="img" aria-label="${esc(x.likelihood)} percent"><i style="width:${Math.max(0,Math.min(100,x.likelihood))}%"></i></div>`:""}
+      ${x.summary?`<p class="prose">${pl(x.summary)}</p>`:""}
+      <div class="cols"><div><p class="eyebrow">Points for</p>${fList(x.for)}</div><div><p class="eyebrow">Points against</p>${fList(x.against)}</div><div><p class="eyebrow">Still unknown</p>${fList(x.unknowns)}</div></div>
+      ${arr(x.watch).length?`<p class="small"><b>What would move this:</b> ${arr(x.watch).map(esc).join(" · ")}</p>`:""}</article>`).join("")}</div></section>`;
+  if(arr(b.connections).length) h+=`<section class="panel stack"><h2>Connections to Earlier Briefs</h2><p class="small muted prose">Items from past editions that may bear on this. Red edge means a direct link is reported. Amber means a link is possible. Grey means the only link is timing.</p>
+    <div class="stack">${arr(b.connections).map(c=>`<div class="conn ${esc(c.strength||"timing")}"><div class="row" style="justify-content:space-between"><span class="hl">${esc(c.title)}</span><span class="chip plain">${esc(c.strengthLabel||c.strength||"")}</span></div><p class="prose small">${pl(c.link)}</p><div class="src">${c.href?`<a href="${esc(c.href)}">${esc(c.from||"earlier edition")}</a>`:esc(c.from||"")}${c.url?` · ${link(c.source||"source",c.url)}`:""}${c.status?` · ${esc(c.status)}`:""}</div></div>`).join("")}</div></section>`;
+  if(arr(b.items).length) h+=`<section class="panel stack"><h2>Key Reporting</h2>${arr(b.items).map(it=>`<div class="item"><div class="hlrow"><span class="hl">${esc(it.headline)}</span>${hlBtn(it.headline,{url:it.url,source:it.source,category:"Focus",date:b.date})}</div>${it.summary?`<p class="prose">${pl(it.summary)}</p>`:""}${it.assessment?`<p class="assess prose">${pl(it.assessment)}</p>`:""}<div class="src">${fSrc(it)}</div></div>`).join("")}</section>`;
+  if(arr(b.baseRates).length) h+=`<section class="panel stack"><h2>How Past Outages Turned Out</h2>${b.baseRatesNote?`<p class="prose">${pl(b.baseRatesNote)}</p>`:""}<div class="tablewrap"><table><thead><tr><th>When</th><th>Event</th><th>Cause</th><th>How long to find it</th></tr></thead><tbody>${arr(b.baseRates).map(r=>`<tr><td class="mono small num" style="white-space:nowrap">${esc(r.date||"")}</td><td class="small">${link(r.event,r.url)}</td><td class="small">${pl(r.cause||"")}</td><td class="small">${esc(r.howCauseWasFound||r.duration||"")}</td></tr>`).join("")}</tbody></table></div></section>`;
+  if(arr(b.international).length||arr(b.stateNarratives).length) h+=`<section class="panel stack"><h2>The World's View</h2>${arr(b.international).length?`<div class="tablewrap"><table><thead><tr><th>Country</th><th>Coverage and reaction</th></tr></thead><tbody>${arr(b.international).map(r=>`<tr><td class="small" style="white-space:nowrap"><b>${esc(r.country)}</b></td><td class="small">${pl(r.what)} <span class="src">${link(r.source||"source",r.url)}${r.language?` · ${esc(r.language)}`:""}</span></td></tr>`).join("")}</tbody></table></div>`:""}
+    ${arr(b.stateNarratives).length?`<p class="eyebrow">What state media are saying</p>${arr(b.stateNarratives).map(n=>`<div class="item"><span class="hl">${esc(n.capital)}: ${esc(n.outlet)}</span><p class="prose small">${pl(n.claim)}</p>${n.counterpoint?`<p class="small muted prose"><b>Context:</b> ${pl(n.counterpoint)}</p>`:""}<div class="src">${link("source",n.url)}${n.date?` · ${esc(n.date)}`:""}</div></div>`).join("")}`:""}</section>`;
+  if(arr(b.chatter).length) h+=`<section class="panel stack"><h2>What People Are Saying</h2><p class="small muted prose">${esc(b.chatterNote||"Forums, comment sections and channels, paraphrased. This shows mood and claims in circulation. It is not evidence.")}</p><div class="grid2">${arr(b.chatter).map(c=>`<div class="chat"><h3>${esc(c.place)}</h3><div class="src">${esc([c.kind,c.country,c.language,c.mood].filter(Boolean).join(" · "))}</div><p class="small prose">${pl(c.gist)}</p>${arr(c.commonClaims).length?`<ul class="plain small">${arr(c.commonClaims).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}${c.url?`<div class="src">${link("open",c.url)}</div>`:""}</div>`).join("")}</div></section>`;
+  h+=conspiracyPanel(b)+(b.discourse?discoursePanel(b):"");
+  if(arr(b.indicators).length) h+=`<section class="panel stack"><h2>What to Watch</h2><ul class="plain">${arr(b.indicators).map(x=>`<li>${pl(x)}</li>`).join("")}</ul></section>`;
+  if(b.coverageNote||arr(b.gaps).length) h+=`<section class="panel stack"><h2>Gaps and Limits</h2>${b.coverageNote?`<p class="prose">${pl(b.coverageNote)}</p>`:""}${arr(b.gaps).length?`<ul class="plain small">${arr(b.gaps).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</section>`;
+  if(arr(b.sources).length) h+=`<section class="panel stack"><h2>Sources</h2>${srcList(b.sources)}</section>`;
+  h+=noteBox("brief-"+b._id,"Focus "+(b.edition||"")+", "+fmtDate(b.date));
   return h;
 }
 
