@@ -1,0 +1,2011 @@
+{
+ "date": "2026-11-26",
+ "edition": "F2",
+ "type": "focus",
+ "generatedAt": "2026-11-26T10:45:00Z",
+ "updatedAt": "2026-11-26T10:45:00Z",
+ "updateCount": 1,
+ "topic": "Iowa lead azide detonation",
+ "statusLabel": "Blast done, ground testing pending",
+ "title": "Iowa's Lead Blast: What Happened, the Science and the Food Question",
+ "bluf": "The Army destroyed all 68 drums of degraded lead azide at the Iowa Army Ammunition Plant at 9:08am CT on Wednesday. Federal air monitors showed no detectable airborne lead, and the shelter in place was lifted that evening. The real test is still ahead. Soil, dust, water, crop and livestock results are not public, and lab work takes days to weeks. USDA says the food supply is safe and Iowa's farm chief expects no harm to livestock, but no food data has been released. The open questions are why Iowa and Illinois learned so late and why the drums sat for years.",
+ "caution": "Officials report good news so far, but it covers the air only. Every line carries a source and a status. Treat claims from any side, official or online, as claims until test numbers are public.",
+ "changes": [
+  "First version of this feature, written the morning after the blast."
+ ],
+ "status": {
+  "confirmed": [
+   {
+    "text": "Two controlled blasts at 9:08am CT Nov 25 destroyed all 68 drums, with no secondary explosions.",
+    "source": "AP via Christian Index",
+    "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079"
+   },
+   {
+    "text": "FEMA and the Army said air monitoring found no detectable lead, and lifted the shelter in place that evening.",
+    "source": "Iowa Capital Dispatch",
+    "url": "https://iowacapitaldispatch.com/2026/11/25/developing-army-detonates-degraded-lead-azide-in-middletown/"
+   },
+   {
+    "text": "The 8th Circuit appeals court let the blast go ahead on Nov 23, finding an uncontrolled explosion the greater danger.",
+    "source": "ABC News",
+    "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343"
+   },
+   {
+    "text": "Iowa HHS is not recommending mass blood lead tests. Targeted testing will follow soil and dust results.",
+    "source": "Iowa HHS",
+    "url": "https://hhs.iowa.gov/media/19822/download"
+   }
+  ],
+  "reported": [
+   {
+    "text": "USDA says the food supply is safe while soil, water and livestock testing continues.",
+    "source": "Fox 9",
+    "url": "https://www.fox9.com/news/whats-iowa-lead-detonation-mean-food-safety-heres-what-officials-say"
+   },
+   {
+    "text": "Two NASA research aircraft flew over the site after the blast to sample the air.",
+    "source": "CNN via Yahoo live",
+    "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html"
+   },
+   {
+    "text": "Iowa Poison Control's director says more testing is needed to be sure people and animals are safe.",
+    "source": "CNN live",
+    "url": "https://www.cnn.com/2026/11/25/us/live-news/iowa-lead-azide-detonation"
+   }
+  ],
+  "claimed": [
+   {
+    "text": "EPA says it holds 1,200 baseline samples and staged 300 staff for after sampling.",
+    "source": "White House release",
+    "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+   },
+   {
+    "text": "Online posts claim the lead plume reached far beyond the Army's maps. No test data shows this so far.",
+    "source": "Brief chatter review",
+    "url": ""
+   }
+  ]
+ },
+ "timeline": [
+  {
+   "time": "Aug 1989",
+   "event": "EPA placed the plant on the National Priorities List (the Superfund list) because explosives had polluted surface water beyond the fence.",
+   "status": "reported",
+   "source": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Iowa_Army_Ammunition_Plant",
+   "grade": "C3"
+  },
+  {
+   "time": "1992 to 1993",
+   "event": "State sampling of 53 nearby homes found the explosive RDX (an explosive) above the health advisory level in some private wells. The Army supplies bottled water to affected homes.",
+   "status": "confirmed",
+   "source": "Iowa DNR contaminated sites record",
+   "url": "https://iowadnr.gov/media/3020/download",
+   "grade": "A2"
+  },
+  {
+   "time": "Sep 27, 2024",
+   "event": "EPA settled a hazardous waste case (docket RCRA-07-2024-0092) with the Army and operator American Ordnance. They paid $39,311 for 2023 violations, including open burning above permit limits.",
+   "status": "confirmed",
+   "source": "EPA docket and KILJ radio",
+   "url": "https://yosemite.epa.gov/OA/rhc/EPAAdmin.nsf/6f3c7ca72426e21b852575400050f48e/17bc0e14b70becf085258ba50076f90f!OpenDocument",
+   "grade": "A1"
+  },
+  {
+   "time": "2009",
+   "event": "Army officials say decay of the stored lead azide was first noticed in an annual check.",
+   "status": "reported",
+   "source": "KWQC",
+   "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/",
+   "grade": "B2"
+  },
+  {
+   "time": "Mar 12, 2026",
+   "event": "Army told EPA it found 68 drums of possibly unstable lead azide in plant bunkers during routine checks. The plant paused operations for a safety review.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Des Moines Register",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Mar 19, 2026",
+   "event": "Joint Munitions Command said the safety review concerned lead azide, a compound once used in blasting caps that the plant no longer needs.",
+   "status": "reported",
+   "source": "Des Moines Register via AOL",
+   "url": "https://www.aol.com/articles/plan-managing-explosive-hazard-iowa-200712431.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Mar 30, 2026",
+   "event": "Plant reopened after an 18 day closure. About 800 people work there.",
+   "status": "confirmed",
+   "source": "Des Moines Register via AOL; ABC News",
+   "url": "https://www.aol.com/articles/plan-managing-explosive-hazard-iowa-200712431.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Apr 2, 2026",
+   "event": "EPA issued the first emergency storage permit, reclassifying the drums as hazardous waste.",
+   "status": "reported",
+   "source": "ABC News timeline",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "May 7, 2026",
+   "event": "EPA posted public notice of the first emergency storage permit.",
+   "status": "reported",
+   "source": "ABC News timeline",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Jul 1, 2026",
+   "event": "EPA Region 7 issued a second emergency storage permit, good through Sep 28. EPA said recrystallization made the material more sensitive to friction and shock. It took no public comments.",
+   "status": "confirmed",
+   "source": "EPA Region 7 public notice (posted Jul 13)",
+   "url": "https://www.epa.gov/node/300666",
+   "grade": "A1"
+  },
+  {
+   "time": "Sep 29, 2026",
+   "event": "EPA issued a third emergency storage permit covering storage through Dec 26. It was published Nov 3 and did not authorize a blast.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Earthjustice motion",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Oct 8, 2026",
+   "event": "Army said moving the drums off site was an unacceptable risk and it would detonate them on site in November.",
+   "status": "reported",
+   "source": "ABC News timeline",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Oct 15, 2026",
+   "event": "About 200 residents attended an Army open house with plant commander Lt. Col. Daniel Nosse.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Task and Purpose",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 12, 2026",
+   "event": "Army says it met with Middletown officials before the public announcement.",
+   "status": "claimed",
+   "source": "Task and Purpose, quoting Army spokesperson Justine Barati",
+   "url": "https://taskandpurpose.com/news/army-iowa-munitions-lead-detonation/",
+   "grade": "C3"
+  },
+  {
+   "time": "Nov 13, 2026",
+   "event": "EPA issued the emergency permit for an on site, controlled detonation. It expires Feb 11, 2027. It requires public notice, sampling before and after, cleanup and reports.",
+   "status": "confirmed",
+   "source": "Earthjustice emergency motion; States Newsroom",
+   "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+   "grade": "A2"
+  },
+  {
+   "time": "Nov 15, 2026",
+   "event": "Army advisory set two blasts for Nov 20 around noon CT and asked residents near Middletown City Park to leave because windows could break.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Iowa Public Radio",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 16, 2026",
+   "event": "EPA published the permit notice and sent a field team to sample. The governor's office says this Monday was when the state first learned of the plan.",
+   "status": "confirmed",
+   "source": "Earthjustice motion; Iowa Public Radio; States Newsroom",
+   "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 18, 2026",
+   "event": "Illinois EPA said EPA Region 7 never notified it. Illinois urged air, soil and dust sampling in western Illinois. The Army posted its environmental assessment the same day.",
+   "status": "confirmed",
+   "source": "Illinois Department of Public Health release",
+   "url": "https://dph.illinois.gov/resource-center/news/2026/november/18-release-2.html",
+   "grade": "A1"
+  },
+  {
+   "time": "Nov 19, 2026, afternoon",
+   "event": "Earthjustice filed a petition and emergency motion in the 8th US Circuit Court of Appeals for the Iowa Environmental Council and Sierra Club Iowa Chapter to block the permit.",
+   "status": "confirmed",
+   "source": "Earthjustice; Iowa Public Radio",
+   "url": "https://earthjustice.org/?p=58175",
+   "grade": "A2"
+  },
+  {
+   "time": "Nov 19, 2026, evening",
+   "event": "Acting Army Secretary Adam Telle moved the blast to Nov 23. He said he wanted the latest point before a forecast cold snap, since cold makes the material less stable.",
+   "status": "confirmed",
+   "source": "Iowa Public Radio; CBS Chicago",
+   "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 19, 2026, late night",
+   "event": "The 8th Circuit granted a temporary administrative stay of the permit while it weighed the motion.",
+   "status": "confirmed",
+   "source": "ABC News (two reports)",
+   "url": "https://abcnews.com/US/army-moves-detonation-10000-pounds-lead-azide-wedneday/story?id=138330909",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 20, 2026",
+   "event": "Army, EPA and federal HHS issued a joint statement describing extra mitigation measures.",
+   "status": "reported",
+   "source": "ABC News",
+   "url": "https://abcnews.com/US/army-moves-detonation-10000-pounds-lead-azide-wedneday/story?id=138330909",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 21 to 22, 2026",
+   "event": "Justice Department told the court the Army would proceed even without the permit, citing an emergency exemption and higher blast risk in freezing weather. ABC reports differ on the date.",
+   "status": "reported",
+   "source": "ABC News timeline and Nov 22 report",
+   "url": "https://abcnews.com/US/army-moves-detonation-10000-pounds-lead-azide-wedneday/story?id=138330909",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 22, 2026",
+   "event": "Army moved the blast to Nov 25 for better weather and to finish mitigation. Nearby residents taped windows.",
+   "status": "confirmed",
+   "source": "ABC News",
+   "url": "https://abcnews.com/US/army-moves-detonation-10000-pounds-lead-azide-wedneday/story?id=138330909",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 23, 2026",
+   "event": "President Trump said he ordered the military to hold off until the appeals court and governor elect Rob Sand approved.",
+   "status": "reported",
+   "source": "ABC News timeline",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 23, 2026",
+   "event": "8th Circuit denied the emergency motion and lifted the stay. It said an uncontrolled explosion posed the greater danger.",
+   "status": "confirmed",
+   "source": "ABC News timeline; CBS News",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 24, 2026",
+   "event": "Telle set the blast for about 9am CT Nov 25. Army recommended evacuating Middletown and a 5 mile cone southwest of the plant. Up to 100 Iowa National Guard troops assisted.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Yahoo News live",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 24, 2026",
+   "event": "Gov. Kim Reynolds declared a disaster emergency for Des Moines, Lee and Van Buren counties. Missouri Gov. Mike Kehoe opened his state emergency center.",
+   "status": "confirmed",
+   "source": "ABC News timeline; Yahoo News live",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 24, 2026",
+   "event": "Iowa HHS said it does not recommend widespread blood lead tests yet. Targeted testing will depend on soil and dust results.",
+   "status": "confirmed",
+   "source": "Iowa HHS guidance",
+   "url": "https://hhs.iowa.gov/media/19822/download",
+   "grade": "A1"
+  },
+  {
+   "time": "Nov 25, 8:00am CT",
+   "event": "FEMA alert told everyone within 20 miles to shelter in place and said evacuation was no longer advised.",
+   "status": "confirmed",
+   "source": "Yahoo News live",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, about 8:29am CT",
+   "event": "FAA closed the airspace around the plant through 12:52pm CT.",
+   "status": "reported",
+   "source": "Yahoo News live",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, 9:08am CT",
+   "event": "Army set off two rapid blasts. Video showed two white plumes. Army said the smoke was foam sprayed on the bunkers.",
+   "status": "confirmed",
+   "source": "Yahoo News live; AP; KCCI",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, 9:37am CT",
+   "event": "Missouri Gov. Mike Kehoe said mitigation appeared successful and the blast was well contained.",
+   "status": "reported",
+   "source": "Yahoo News live",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, about 10:05am CT",
+   "event": "Reporters saw two NASA research aircraft overhead collecting air pollution data.",
+   "status": "reported",
+   "source": "Yahoo News live citing CNN",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "grade": "B3"
+  },
+  {
+   "time": "Nov 25, morning",
+   "event": "Maj. Gen. Eric Shirley said all 68 drums were destroyed with no secondary explosions. AP reports this was the nation's entire lead azide stockpile.",
+   "status": "confirmed",
+   "source": "AP via Christian Index",
+   "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, just after 6:30pm (time zone not stated)",
+   "event": "All clear issued. Joint FEMA and Army statement said air monitoring showed no detectable lead. Army said defense agency maps showed zero airborne lead.",
+   "status": "confirmed",
+   "source": "Washington Examiner via KhanList; AP",
+   "url": "https://khanlist.com/story/fema-issues-all-clear-as-signs-indicate-no-airborne-lead-ddc40129",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 25, evening",
+   "event": "Army said surface sampling is underway with results released once complete. A Purdue engineer said lab results take days to weeks.",
+   "status": "confirmed",
+   "source": "Washington Examiner via KhanList; AP",
+   "url": "https://khanlist.com/story/fema-issues-all-clear-as-signs-indicate-no-airborne-lead-ddc40129",
+   "grade": "B2"
+  },
+  {
+   "time": "Nov 27, 2026 (planned)",
+   "event": "FEMA short term hotel lodging for evacuees runs through Friday Nov 27.",
+   "status": "reported",
+   "source": "KCCI",
+   "url": "https://www.kcci.com/article/iowa-lead-explosion-army-detonation-azide-middletown/74523366",
+   "grade": "B2"
+  },
+  {
+   "time": "Feb 11, 2027 (planned)",
+   "event": "EPA detonation permit expires. Its Condition Q.2 requires a final report on dust dispersion and ground deposition.",
+   "status": "confirmed",
+   "source": "Earthjustice emergency motion (quoting permit)",
+   "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+   "grade": "A2"
+  }
+ ],
+ "hypothesesTitle": "The Five Big Questions",
+ "forLabel": "What reassures",
+ "againstLabel": "What raises concern",
+ "hypotheses": [
+  {
+   "name": "Was the public told enough and in time?",
+   "summary": "The Army announced the plan in October. State officials say they learned the details only days before.",
+   "for": [
+    {
+     "point": "Army announced on Oct 8 it would blast on site in November and held an Oct 15 open house for about 200 residents.",
+     "source": "ABC News timeline",
+     "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+     "grade": "B2"
+    },
+    {
+     "point": "EPA posted public notices of the storage permits in May and July.",
+     "source": "EPA Region 7 notice; ABC News",
+     "url": "https://www.epa.gov/node/300666",
+     "grade": "A1"
+    },
+    {
+     "point": "Army said the permit required notice within 105 miles and that it met Middletown officials Nov 12.",
+     "source": "Task and Purpose",
+     "url": "https://taskandpurpose.com/news/army-iowa-munitions-lead-detonation/",
+     "grade": "C3"
+    },
+    {
+     "point": "The blast was delayed twice, giving six more days of notice, and the Army updated plume maps hourly before the event.",
+     "source": "ABC News; Iowa HHS fact sheet",
+     "url": "https://hhs.iowa.gov/media/19826/download",
+     "grade": "B2"
+    }
+   ],
+   "against": [
+    {
+     "point": "The governor's office says Iowa learned of the blast plan Nov 16, four days before the first date.",
+     "source": "Iowa Public Radio; States Newsroom",
+     "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+     "grade": "B2"
+    },
+    {
+     "point": "Illinois EPA said EPA Region 7 never notified it, though Army maps showed dust reaching western Illinois.",
+     "source": "Illinois Department of Public Health",
+     "url": "https://dph.illinois.gov/resource-center/news/2026/november/18-release-2.html",
+     "grade": "A1"
+    },
+    {
+     "point": "Iowa HHS said it was only very recently made aware of the plan.",
+     "source": "Axios Des Moines",
+     "url": "https://axios.com/local/des-moines/2026/11/19/iowa-middletown-lead-azide-rob-sand-josh-turek",
+     "grade": "B2"
+    },
+    {
+     "point": "EPA took no public comments on the storage permits and, per the lawsuit, skipped the 45 day comment period for the blast permit.",
+     "source": "EPA notice; Earthjustice motion",
+     "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+     "grade": "A2"
+    },
+    {
+     "point": "Governor elect Rob Sand called it an unacceptable lack of communication and clarity.",
+     "source": "Axios Des Moines",
+     "url": "https://axios.com/local/des-moines/2026/11/19/iowa-middletown-lead-azide-rob-sand-josh-turek",
+     "grade": "B2"
+    },
+    {
+     "point": "University of Iowa researchers had not been told how monitoring would work, a day before the first date.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    }
+   ],
+   "unknowns": [
+    "Why EPA Region 7 did not alert Iowa and Illinois sooner"
+   ]
+  },
+  {
+   "name": "Was detonation the safest option?",
+   "summary": "The Army, EPA and an appeals court said a planned blast beat a random one. Critics say other options were not tested.",
+   "for": [
+    {
+     "point": "EPA found the degraded material an imminent and substantial threat of spontaneous explosion.",
+     "source": "States Newsroom; Task and Purpose",
+     "url": "https://www.newsfromthestates.com/node/438989",
+     "grade": "B2"
+    },
+    {
+     "point": "Army's environmental assessment rejected chemical neutralization and transport as too dangerous. Crystals on drum lids made opening or moving them unsafe.",
+     "source": "The Intercept; Fox News live",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    },
+    {
+     "point": "The 8th Circuit found an uncontrolled explosion more harmful than the planned one.",
+     "source": "CBS News",
+     "url": "https://www.cbsnews.com/news/iowa-army-ammunition-plant-unstable-explosives-detonation/",
+     "grade": "B2"
+    },
+    {
+     "point": "All 68 drums were destroyed with no secondary explosions, and witnesses said the blasts were smaller than expected.",
+     "source": "AP via Christian Index",
+     "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079",
+     "grade": "B2"
+    }
+   ],
+   "against": [
+    {
+     "point": "The groups say the Army never evaluated mobile treatment units and dismissed a neutralization product EPA lists for lead azide without data.",
+     "source": "Earthjustice emergency motion",
+     "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+     "grade": "A2"
+    },
+    {
+     "point": "A University of Iowa professor emeritus called the situation a case of neglect that left only bad options.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    },
+    {
+     "point": "ATF (federal explosives bureau) director Robert Cekada said the stockpile was moved to Iowa from bases nationwide in 2009, so it sat for years before action.",
+     "source": "AP via Christian Index",
+     "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079",
+     "grade": "B2"
+    }
+   ],
+   "unknowns": [
+    "Whether a chemical treatment was ever tested on a sample"
+   ]
+  },
+  {
+   "name": "Did lead leave the plant in harmful amounts?",
+   "summary": "Air monitors say no. Ground results are still pending.",
+   "for": [
+    {
+     "point": "Joint FEMA and Army statement said all air monitoring showed no detectable lead. Army said defense agency maps showed zero airborne lead.",
+     "source": "Washington Examiner via KhanList",
+     "url": "https://khanlist.com/story/fema-issues-all-clear-as-signs-indicate-no-airborne-lead-ddc40129",
+     "grade": "B2"
+    },
+    {
+     "point": "Mitigation included water walls of eight 16,000 gallon tanks, gel blocks, sand barriers and PFAS free (no \"forever chemicals\") foam to trap dust.",
+     "source": "Fox News live",
+     "url": "https://www.foxnews.com/live-news/army-detonation-lead-azide-middletown-iowa-11-25-26",
+     "grade": "B2"
+    },
+    {
+     "point": "Missouri Gov. Mike Kehoe said the blast was well contained.",
+     "source": "Yahoo News live",
+     "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+     "grade": "B2"
+    },
+    {
+     "point": "EPA says all real time air monitors showed zero detectable airborne lead more than five hours after the blast, and the Army reported a 0.0 ground reading.",
+     "source": "White House release",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/",
+     "grade": "B2"
+    },
+    {
+     "point": "Containment included concrete and earth covered magazines, two story sand barriers, eight 16,000 gallon water tanks, gel blocks, misters and foam. Officials said the blast caved inward.",
+     "source": "Fox News live, The Hill",
+     "url": "https://www.foxnews.com/live-news/army-detonation-lead-azide-middletown-iowa-11-25-26",
+     "grade": "B2"
+    },
+    {
+     "point": "EPA says it holds 1,200 baseline samples taken before the blast, which lets it compare before and after.",
+     "source": "White House release",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/",
+     "grade": "B2"
+    }
+   ],
+   "against": [
+    {
+     "point": "Purdue's Andrew Whelton said air data look promising but lab tests of samples are needed and take days to weeks.",
+     "source": "AP via Christian Index",
+     "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079",
+     "grade": "B2"
+    },
+    {
+     "point": "Iowa HHS said the airborne all clear does not end precautions about settled dust. No safe lead level is known.",
+     "source": "Iowa HHS guidance",
+     "url": "https://hhs.iowa.gov/media/19822/download",
+     "grade": "A1"
+    },
+    {
+     "point": "Before the blast, a University of Iowa professor said the Army never showed expected settled dust levels. Another said hosing moves lead into soil and water.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    },
+    {
+     "point": "The permit's soil cleanup bar of 800 parts per million is four times EPA's current 200 level, the groups say.",
+     "source": "Earthjustice emergency motion",
+     "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+     "grade": "A2"
+    },
+    {
+     "point": "A Donnellson livestock farmer questioned the accuracy of EPA's monitors.",
+     "source": "AP via Christian Index",
+     "url": "https://christianindex.org/stories/army-completes-controlled-detonation-of-lead-azide-stockpile-in-iowa,109079",
+     "grade": "B3"
+    },
+    {
+     "point": "No soil, dust, water or surface results had been released as of Nov 25. Air monitors read hours later can miss dust that settled in the first hour.",
+     "source": "White House release, Iowa HHS",
+     "url": "https://hhs.iowa.gov/media/19822/download",
+     "grade": "A2"
+    },
+    {
+     "point": "The Army map gave no projected surface dust amounts, and independent researchers said they had no details on monitor locations or instruments.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    },
+    {
+     "point": "In the plant's 1970s open air detonation, about a quarter of the lead azide went airborne.",
+     "source": "KWQC",
+     "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/",
+     "grade": "B3"
+    }
+   ],
+   "unknowns": [
+    "Soil, dust and water results",
+    "Where the monitors sat"
+   ]
+  },
+  {
+   "name": "Is food from the area safe?",
+   "summary": "Officials say yes. No food test data is public yet.",
+   "for": [
+    {
+     "point": "Iowa Agriculture Secretary Mike Naig said officials do not expect harm to livestock health from the blast, based on current data.",
+     "source": "White House release",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/",
+     "grade": "B2"
+    },
+    {
+     "point": "Farmers had days of warning to house animals, cover feed and water, and take baseline samples, following Iowa State guidance.",
+     "source": "Feedstuffs",
+     "url": "https://www.feedstuffs.com/nutrition-and-health/army-s-planned-lead-detonation-in-iowa-poses-risks-for-cattle",
+     "grade": "B2"
+    }
+   ],
+   "against": [
+    {
+     "point": "USDA projected about 350 farms under the plume, and no crop, hay, milk or egg test results have been released.",
+     "source": "Iowa HHS",
+     "url": "https://hhs.iowa.gov/media/19822/download",
+     "grade": "A1"
+    },
+    {
+     "point": "Iowa State warned stored feed, pasture and pond water may stay a risk longer than the airborne period. Lead also passes from cows to calves through milk.",
+     "source": "Feedstuffs, Iowa Beef Center",
+     "url": "https://iowabeefcenter.org/gb/2025/May2025LeadAwareness.html",
+     "grade": "B2"
+    }
+   ],
+   "unknowns": [
+    "Crop, hay, milk, egg and meat test results"
+   ]
+  },
+  {
+   "name": "What are the long term risks?",
+   "summary": "Depends on what settled in soil and water. Results will decide.",
+   "for": [
+    {
+     "point": "The Army says it does not anticipate long term health effects and must clean up any soil above regulatory limits. It offers voluntary sampling of private property.",
+     "source": "The Intercept, States Newsroom",
+     "url": "https://www.newsfromthestates.com/node/438989",
+     "grade": "B2"
+    },
+    {
+     "point": "A University of Iowa researcher said the airborne plume would likely clear within hours, ending the main breathing risk quickly.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    }
+   ],
+   "against": [
+    {
+     "point": "Health agencies say no safe level of lead has been identified for children. Long term low doses can harm brain development, and adults can get kidney damage and high blood pressure.",
+     "source": "Iowa HHS school guidance, AP",
+     "url": "https://hhs.iowa.gov/media/19826/download",
+     "grade": "A1"
+    },
+    {
+     "point": "Rinsing surfaces moves lead into soil and surface water rather than removing it, a University of Iowa expert said. The Army's own assessment says lead could reach waterways through runoff or groundwater.",
+     "source": "The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    }
+   ],
+   "unknowns": [
+    "Whether any soil tops the 800 ppm permit bar or EPA's 200 ppm level"
+   ]
+  }
+ ],
+ "hypothesesNote": "Each question with the evidence that reassures, the evidence that raises concern, and what is still unknown. No odds are given. You weigh it.",
+ "extraSections": [
+  {
+   "title": "The Science",
+   "intro": "What lead azide is, what a blast does to it, and how lead affects people.",
+   "items": [
+    {
+     "headline": "What lead azide is",
+     "summary": "Lead azide is a lead and nitrogen compound. It is a primary explosive, the very sensitive kind used to set off bigger charges in detonators and blasting caps. Its use started declining in the 1980s.",
+     "source": "KCCI",
+     "url": "https://www.kcci.com/article/iowa-lead-explosion-army-detonation-azide-middletown/74523366"
+    },
+    {
+     "headline": "Why these drums got more dangerous",
+     "summary": "The drums sat about 20 years in earth covered bunkers, under a bath of ethanol and water to keep the powder stable. Some of that liquid evaporated and the lead azide formed crystals. Crystals make it more sensitive to shock and friction.",
+     "source": "AP via MPR News",
+     "url": "https://www.mprnews.org/story/2026/11/19/iowa-residents-brace-for-lead-dust-cloud-army-to-detonate-5-tons-of-bombmaking-chemicals",
+     "assessment": "Army officials say decay was first noticed in a 2009 check. That gap is why critics call this neglect, not bad luck."
+    },
+    {
+     "headline": "Why the Army would not move or dissolve it",
+     "summary": "The Army's environmental assessment ruled out trucking the drums away or neutralizing them with chemicals. Crystals on the drum lids made opening or moving them unsafe. The acting Army secretary also said cold weather makes the material less stable, so he wanted it done before a cold snap.",
+     "source": "Iowa Public Radio",
+     "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+     "assessment": "Opponents say a chemical treatment and mobile treatment units were never seriously tested. The appeals court sided with the Army on Nov 23."
+    },
+    {
+     "headline": "How much lead was in it",
+     "summary": "Lead makes up about 71% of lead azide by weight. So about 10,000 pounds of it holds roughly 7,100 pounds of lead. This is Brief's arithmetic from the chemical formula, not an official figure. The drums also held liquid, so the real amount may be lower.",
+     "source": "Brief arithmetic; tonnage from Fox News live coverage",
+     "url": "https://www.foxnews.com/live-news/army-detonation-lead-azide-middletown-iowa-11-25-26"
+    },
+    {
+     "headline": "What a blast does to it",
+     "summary": "When lead azide explodes it breaks apart into nitrogen gas and lead. The lead can then react with air and form fine particles that travel as dust. This is general chemistry. Officials have not released particle size or deposition numbers.",
+     "source": "General chemistry; gap noted by The Intercept",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/"
+    },
+    {
+     "headline": "How they tried to trap the dust",
+     "summary": "The Army surrounded the bunkers with water walls from eight 16,000 gallon tanks, gel blocks, tall sand barriers, misters and soaked soil. Fire trucks sprayed more than 3,600 gallons of foam. Officials say the white clouds on video were mostly that foam.",
+     "source": "Iowa Capital Dispatch",
+     "url": "https://iowacapitaldispatch.com/2026/11/25/developing-army-detonates-degraded-lead-azide-in-middletown/"
+    },
+    {
+     "headline": "How lead harms the body",
+     "summary": "Health agencies say no safe level of lead has been found for children. Small doses over time can harm brain development. Adults can get kidney and blood pressure problems. The main risks here are breathing dust and swallowing settled dust.",
+     "source": "Iowa HHS",
+     "url": "https://hhs.iowa.gov/media/19822/download"
+    },
+    {
+     "headline": "Why zero in the air is not the full answer",
+     "summary": "The airborne all clear covers what is floating now. It does not show what settled on soil, roofs, ponds and fields in the first hour. Purdue engineer Andrew Whelton says the air data look promising but lab tests take days to weeks.",
+     "source": "CNN",
+     "url": "https://www.cnn.com/2026/11/25/us/iowa-lead-detonation-what-next",
+     "assessment": "The question has moved from the air to the ground. Watch for soil and dust numbers against the cleanup bar."
+    },
+    {
+     "headline": "Before and after comparisons are possible",
+     "summary": "EPA says it took 1,200 land, air, dust and water samples before the blast. That gives a baseline to compare against. None of the after results are public yet.",
+     "source": "White House release quoting EPA",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+    }
+   ]
+  },
+  {
+   "title": "Food and Farms",
+   "intro": "What it means for livestock, crops and the food from this part of Iowa.",
+   "items": [
+    {
+     "headline": "USDA says the food supply is safe",
+     "summary": "USDA officials said the food supply is safe while more soil, water and livestock testing goes on. No food test results were published with that statement.",
+     "source": "Fox 9",
+     "url": "https://www.fox9.com/news/whats-iowa-lead-detonation-mean-food-safety-heres-what-officials-say",
+     "assessment": "This is an official assurance, not yet a data release. It would firm up once crop, milk and meat results are public."
+    },
+    {
+     "headline": "Iowa's farm chief expects no harm to livestock",
+     "summary": "Mike Naig, Iowa's Secretary of Agriculture, said officials do not expect harm to livestock health, based on current information.",
+     "source": "White House release",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+    },
+    {
+     "headline": "About 350 farms sat under the expected plume",
+     "summary": "USDA projected about 350 farms could be under the plume, per Iowa's health agency. Des Moines County alone had more than 51,000 cattle, hogs, sheep, goats, horses and hens in 2022. Within 20 miles the count may top 70,000.",
+     "source": "Iowa HHS; DTN Progressive Farmer",
+     "url": "https://hhs.iowa.gov/media/19822/download"
+    },
+    {
+     "headline": "What farmers were told to do",
+     "summary": "Iowa State University's Beef Center told producers to pull cattle off pasture and pond water for a few days. It said to cover tanks and feed, drain and rinse open tanks, and blow dust off hay bales. It suggested baseline soil, forage and blood samples before and after.",
+     "source": "Beef Magazine; DTN",
+     "url": "https://www.beefmagazine.com/livestock-management/army-s-planned-lead-detonation-in-iowa-poses-risks-for-cattle",
+     "assessment": "Standing pond water was flagged as the bigger risk. Animals drink it for days after dust settles."
+    },
+    {
+     "headline": "Most crops were already in",
+     "summary": "Iowa State's Dirk Maier, a grain storage expert, said most crops in the area were already harvested and stored before the blast. That limits how much grain was exposed in the field. Pasture, hay, ponds and gardens are the bigger concern.",
+     "source": "Newsweek",
+     "url": "https://www.newsweek.com/iowa-lead-detonation-america-food-supply-12767064"
+    },
+    {
+     "headline": "Lead can pass from cows to calves",
+     "summary": "Iowa State warned stored feed, pasture and pond water may stay a risk longer than the airborne period. Lead also passes from cows to calves through milk.",
+     "source": "Feedstuffs, Iowa Beef Center",
+     "url": "https://iowabeefcenter.org/gb/2025/May2025LeadAwareness.html"
+    },
+    {
+     "headline": "Egg farmer in Maquoketa area pays for her own soil and water tests",
+     "summary": "Margaret Zimmerman, who keeps egg laying chickens on about 36 acres northeast of the plant, told KCRG she felt poorly informed. She is paying for soil and water tests before and after the blast. An Army map showed her land in the possible exposure zone.",
+     "source": "KCRG via Dakota News Now",
+     "url": "https://www.dakotanewsnow.com/2026/11/19/lets-find-better-solution-eastern-iowa-farmer-voices-concerns-over-middletown-lead-azide-detonation/?outputType=amp",
+     "assessment": "Private baseline tests by farmers could become an independent check on the official data."
+    },
+    {
+     "headline": "No crop, hay, milk or egg results yet",
+     "summary": "No test results for crops, hay, milk, eggs or meat had been released as of Wednesday night. Iowa HHS is holding off on mass blood lead testing until soil and dust results come in.",
+     "source": "Iowa HHS",
+     "url": "https://hhs.iowa.gov/media/19822/download"
+    }
+   ]
+  },
+  {
+   "title": "Key Numbers",
+   "intro": "Figures from officials and reporting. Arithmetic is labeled.",
+   "items": [
+    {
+     "headline": "Lead inside the lead azide: About 7,100 lb (3.5 short tons)",
+     "summary": "Labeled arithmetic, not from a source. Lead azide, Pb(N3)2, has a molar mass of about 291, and lead (207) is about 71 percent of it. 0.71 x 10,000 lb is about 7,100 lb. Using the 9,700 lb net explosive weight gives about 6,900 lb. The drums also held ethanol and water, so the real figure may be lower.",
+     "source": "source",
+     "url": "https://www.foxnews.com/live-news/army-detonation-lead-azide-middletown-iowa-11-25-26"
+    },
+    {
+     "headline": "Share airborne in the 1970s open air detonation: About 25 percent",
+     "summary": "Single local TV report. Applied to today's lead content that would be roughly 1,700 lb with no containment (labeled arithmetic). This blast had sand, water, gel and foam barriers.",
+     "source": "source",
+     "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/"
+    },
+    {
+     "headline": "Baseline samples before the blast: 1,200",
+     "summary": "Land, air, dust and water samples, per EPA through a White House release. Results not yet public.",
+     "source": "source",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+    },
+    {
+     "headline": "Farms projected under the plume: About 350",
+     "summary": "USDA projection cited by Iowa HHS. Not confirmed contamination.",
+     "source": "source",
+     "url": "https://hhs.iowa.gov/media/19822/download"
+    },
+    {
+     "headline": "Livestock in Des Moines County: More than 51,000 (2022)",
+     "summary": "Cattle, hogs, sheep, goats, horses and hens, per USDA data. Possibly over 70,000 within 20 miles.",
+     "source": "source",
+     "url": "https://www.dtnpf.com/agriculture/web/ag/livestock/article/2026/11/18/epa-approved-iowa-army-lead-know"
+    },
+    {
+     "headline": "Airborne lead reading after blast: Zero detected",
+     "summary": "EPA real time monitors, more than five hours after. Agency claim. Surface and water data pending.",
+     "source": "source",
+     "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+    }
+   ]
+  }
+ ],
+ "items": [
+  {
+   "category": "Focus",
+   "headline": "Army blows up degraded lead azide, air monitors find no lead",
+   "summary": "The Army destroyed 68 drums of degraded lead azide at the Iowa Army Ammunition Plant in two blasts around 9am CT Wednesday. A joint FEMA and Army statement said air monitors showed no detectable lead, and the all clear came that evening. Surface sampling is underway with no results yet.",
+   "assessment": "Zero airborne lead answers the plume question but not the ground question. Settled dust on soil, playgrounds and farms is what Iowa HHS and outside scientists say will decide health risk.",
+   "source": "Washington Examiner via KhanList; AP via Christian Index",
+   "url": "https://khanlist.com/story/fema-issues-all-clear-as-signs-indicate-no-airborne-lead-ddc40129",
+   "grade": "B2",
+   "outletType": "Partisan right",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "people": [
+    "Eric Shirley",
+    "Adam Telle",
+    "Lee Zeldin"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Appeals court let the Army proceed, calling a random blast worse",
+   "summary": "The 8th US Circuit Court of Appeals briefly paused the EPA permit on Nov 19, then lifted that pause on Nov 23. It acknowledged real risks in the planned blast but found an uncontrolled explosion more harmful.",
+   "assessment": "The court ruled only on an emergency stay. The groups' underlying challenge to the permit may still be live, and its outcome could shape how EPA writes future emergency permits.",
+   "source": "ABC News; CBS News",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2",
+   "outletType": "Legacy",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-23",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "Justice Department said the Army could blast without its permit",
+   "summary": "In a Nov 22 court notice, the Justice Department said the Army would proceed even without the EPA permit. It cited an emergency exemption in EPA rules and said freezing weather sharply raised the risk of an accidental blast. The Army said it would still follow the permit's terms.",
+   "assessment": "This filing signaled the court stay might not have stopped the blast. It raises a legal question about how much a court can check the military in a declared emergency.",
+   "source": "ABC News",
+   "url": "https://abcnews.com/US/army-moves-detonation-10000-pounds-lead-azide-wedneday/story?id=138330909",
+   "grade": "B2",
+   "outletType": "Legacy",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-22",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "Lawsuit says EPA skipped safer options and set a weak cleanup bar",
+   "summary": "The Iowa Environmental Council and Sierra Club, represented by Earthjustice, argued the EPA permit ignored mobile treatment units and a neutralization product EPA itself lists for lead azide. They said EPA skipped a 45 day comment period. They said its soil cleanup level of 800 parts per million is four times EPA's current 200 level.",
+   "assessment": "The cleanup threshold matters more now than the blast. Whichever number EPA uses decides which yards and fields get cleaned.",
+   "source": "Earthjustice emergency motion (8th Circuit)",
+   "url": "https://earthjustice.org/document/emergency-motion-to-halt-planned-detonation-at-ammunition-plant-in-iowa",
+   "grade": "A2",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "people": [
+    "Lee Zeldin",
+    "Jim Macy"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Iowa and Illinois officials say they learned late",
+   "summary": "Gov. Kim Reynolds' office says the state learned of the blast plan on Nov 16, the day after the Army's public advisory. Illinois EPA said EPA Region 7 never notified it. The Army says it held an October open house and met Middletown officials Nov 12.",
+   "assessment": "The drums were found in March and EPA posted storage permit notices in May and July. The gap was in telling states and residents about the blast plan itself, which came eight days before the first date.",
+   "source": "Iowa Public Radio; Illinois Department of Public Health",
+   "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+   "grade": "B2",
+   "outletType": "Local",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "people": [
+    "Kim Reynolds",
+    "Adam Telle",
+    "Justine Barati",
+    "James Jennings"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Iowa holds off on mass blood lead testing",
+   "summary": "Iowa's health department said it does not recommend widespread blood lead tests just for living near the plant. It will issue targeted advice once soil and dust results come in. It said the airborne all clear does not end precautions about settled dust.",
+   "assessment": "This makes the coming soil results the real trigger for health action. Families should keep wet cleaning play areas until those numbers are public.",
+   "source": "Iowa HHS guidance (Nov 24)",
+   "url": "https://hhs.iowa.gov/media/19822/download",
+   "grade": "A1",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-24",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "Trump paused the blast, then praised the result",
+   "summary": "On Nov 23 President Trump said he ordered the military to wait for the appeals court and governor elect Rob Sand. The court cleared it that day. After the blast Trump posted that the Army's mitigation far exceeded expectations.",
+   "assessment": "Giving an incoming Democratic governor a say was unusual. It also gave Sand shared ownership of the outcome before he takes office.",
+   "source": "ABC News timeline; KCCI",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343",
+   "grade": "B2",
+   "outletType": "Legacy",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-23",
+   "opened": true,
+   "people": [
+    "Donald Trump",
+    "Rob Sand"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Iowa members of Congress split on the timing",
+   "summary": "Republican Rep. Mariannette Miller-Meeks backed the Army plan because of the risk of an accidental explosion. Republican Rep. Ashley Hinson and Democratic Rep. elect Christina Bohannan asked for a delay so residents could get clearer answers. Democrat Josh Turek asked for a pause until the risks were explained.",
+   "assessment": "The split did not follow party lines. It ran between members who stressed the explosion risk and those who stressed public notice.",
+   "source": "Iowa Public Radio",
+   "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation",
+   "grade": "B2",
+   "outletType": "Local",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "people": [
+    "Mariannette Miller-Meeks",
+    "Ashley Hinson",
+    "Christina Bohannan",
+    "Josh Turek"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Plant has a long pollution and compliance record",
+   "summary": "The plant has been on the Superfund list since 1989 for explosives pollution. Nearby wells showed the explosive RDX in the 1990s. In 2024 the Army and operator American Ordnance paid $39,311 to EPA over 2023 hazardous waste violations, including open burning above permit limits.",
+   "assessment": "This history helps explain local distrust of Army assurances. It also shows the plant already had treatment equipment that critics say deserved a closer look.",
+   "source": "KILJ radio; EPA docket; Iowa DNR",
+   "url": "https://kilj.com/?p=168466",
+   "grade": "B2",
+   "outletType": "Local",
+   "region": "North America",
+   "country": "United States",
+   "date": "2024-12-11",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "EPA reports zero airborne lead after Army blast, soil results pending",
+   "summary": "The Army detonated about 5 tons of degraded lead azide at its Middletown, Iowa, plant on Nov 25. EPA says its real time air monitors detected no airborne lead more than five hours later. Soil and water results are still pending.",
+   "assessment": "Zero in the air hours later does not settle the main question. Lead from a blast settles fast, so surface dust tests matter more than air readings.",
+   "source": "White House release",
+   "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/",
+   "grade": "B2",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "people": [
+    "Lee Zeldin",
+    "Brooke Rollins",
+    "Eric Shirley",
+    "Chuck Grassley",
+    "Mike Naig"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Iowa health agency holds off on blood lead testing until soil results",
+   "summary": "Iowa's health department said on Nov 24 it is not urging blood lead tests just for living in the plume area. It will target testing once environmental sampling is in. It asked the CDC for field epidemiology help.",
+   "assessment": "This makes the soil and surface data the trigger for everything else. Any delay in releasing it delays family health decisions.",
+   "source": "Iowa HHS",
+   "url": "https://hhs.iowa.gov/media/19822/download",
+   "grade": "A1",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-24",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "USDA projected about 350 farms under the expected lead plume",
+   "summary": "Iowa's health department cited a USDA estimate that about 350 farms sat under the expected plume path. It stressed this is not confirmed contamination. Farmers were pointed to the state agriculture department and USDA for advice.",
+   "assessment": "It is the clearest official count of farms at stake. No packer, dairy or egg buyer response has surfaced yet.",
+   "source": "Iowa HHS",
+   "url": "https://hhs.iowa.gov/media/19822/download",
+   "grade": "A1",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-24",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "Iowa State experts told farmers to pull cattle off pasture and ponds",
+   "summary": "Iowa State University's beef and pork centers advised moving cattle off pasture and pond water and covering feed and water. They also said to take soil, forage or blood samples before and after the blast. Lead poisoning signs in cattle include blindness, tremors and sudden death.",
+   "assessment": "Baseline samples taken before the blast are what will let a farmer prove harm later, including in an Army claim.",
+   "source": "Feedstuffs, DTN Progressive Farmer",
+   "url": "https://www.feedstuffs.com/nutrition-and-health/army-s-planned-lead-detonation-in-iowa-poses-risks-for-cattle",
+   "grade": "B2",
+   "outletType": "Independent",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-18",
+   "opened": true,
+   "people": [
+    "Patrick Wall"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Plant's 1970s open air detonation sent about a quarter of the lead azide airborne",
+   "summary": "KWQC reports that the plant last destroyed lead azide this way in the 1970s, in the open air. About 25 percent of the material went into the air then. This time the Army used sand walls, water tanks, gel blocks and foam.",
+   "assessment": "It is the only local precedent found. It shows why the containment layers mattered, and why sampling now must prove they worked.",
+   "source": "KWQC",
+   "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/",
+   "grade": "B3",
+   "outletType": "Local",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "people": []
+  },
+  {
+   "category": "Focus",
+   "headline": "University of Iowa experts called the Army plume map a colored blob",
+   "summary": "Patrick O'Shaughnessy, a University of Iowa environmental health professor, said the Army map showed no projected dust amounts on the ground. He urged testing playgrounds every few days for a month. His colleague Peter Thorne warned that hosing off dust just moves lead into soil and water.",
+   "assessment": "The Army advice to rinse surfaces moves the lead rather than removing it. That shifts the question to soil and runoff testing.",
+   "source": "The Intercept",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+   "grade": "B2",
+   "outletType": "Independent",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "people": [
+    "Patrick O'Shaughnessy",
+    "Peter S. Thorne",
+    "Justine Barati"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "EPA had issued emergency storage permits for the lead azide since April",
+   "summary": "EPA public notices show two emergency permits, from April 2 and July 1, letting the Army keep the unstable lead azide where its normal permit did not allow. The detonation permit came only on Nov 13. The governor's office says it learned of the plan Nov 16.",
+   "assessment": "Federal regulators knew for about seven months. That gap is likely to drive any oversight or legal fight now.",
+   "source": "EPA public notices",
+   "url": "https://www.epa.gov/node/299851",
+   "grade": "A1",
+   "outletType": "Primary document",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "people": [
+    "Kim Reynolds"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Purdue engineer Andrew Whelton weighs in on lead dose risk",
+   "summary": "Andrew Whelton, a Purdue environmental engineering professor, told AP that high lead doses over a short time can cause poisoning. University of Iowa researchers said long term low doses mainly threaten brain development in young children.",
+   "assessment": "Whelton led independent testing after the 2023 East Palestine train derailment. His team's data, if published, would be the first independent check here.",
+   "source": "AP via The Business Journal",
+   "url": "https://thebusinessjournal.com/iowa-army-detonation-lead-dust/",
+   "grade": "B2",
+   "outletType": "Wire",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "people": [
+    "Andrew Whelton",
+    "Patrick O'Shaughnessy"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "The Intercept says the Army's hose it off advice falls short",
+   "summary": "The Intercept, an investigative outlet, reported the Army told residents to hose off lead dust. University of Iowa scientists said that just moves lead into soil and water, and one called the situation neglect. The piece places it in a record of Army lead problems in housing, armories and ranges.",
+   "assessment": "This was the earliest outlet to press the question of how long the Army sat on the problem. That question now drives both left and right criticism.",
+   "source": "The Intercept",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+   "grade": "B2",
+   "outletType": "independent, anti establishment, left",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "support": "Two named University of Iowa experts say the modeling skipped settled dust and the cleanup advice lacks evidence.",
+   "against": "The Army says it expects no long term health effects and the EPA permit requires sampling, cleanup and reporting.",
+   "people": [
+    "Austin Campbell",
+    "Justine Barati",
+    "Patrick O'Shaughnessy",
+    "Peter S. Thorne"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Common Dreams frames the blast as part of a cycle of military pollution",
+   "summary": "Common Dreams, a progressive news site, gathered critics on blast day. CodePink called it reckless. Earthjustice says the Army knew of deterioration since 2009. Iowa Environmental Council and Sierra Club leaders said neglect and poor communication caused the outcry.",
+   "assessment": "The piece turns a local hazard into a case against the defense budget, which signals where antiwar groups will take this next.",
+   "source": "Common Dreams",
+   "url": "https://www.commondreams.org/news/iowa-detonation-us-militarism",
+   "grade": "C3",
+   "outletType": "independent, anti establishment, left",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "support": "Earthjustice's 2009 timeline and the late notice to the governor support the neglect argument.",
+   "against": "CodePink's Gaza munitions link is not verified in the piece. Officials say the blast went to plan with zero airborne lead.",
+   "people": [
+    "Brett Wilkins",
+    "Justin Pearson",
+    "Sarah Green",
+    "Wally Taylor"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "AlterNet stresses that Iowa's Republican governor learned of the plan days before",
+   "summary": "AlterNet, a progressive aggregator, citing The Washington Sun, said the Pentagon knew by April. Reynolds' office said it learned from a public Army advisory and got formal notice Nov 16. Illinois EPA said federal regulators never told it. Illinois' health director said no level of lead in the body is safe.",
+   "assessment": "The headline leads with the governor's party. The substance is a federal notification failure across two states.",
+   "source": "AlterNet",
+   "url": "https://www.alternet.org/army/",
+   "grade": "C3",
+   "outletType": "Partisan left",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-19",
+   "opened": true,
+   "support": "The governor's office and Illinois EPA confirmed the late notice on the record.",
+   "against": "The Army says it first raised the plan with Middletown residents at a mid October meeting.",
+   "people": [
+    "Brenda Alexander",
+    "Kim Reynolds",
+    "Mason Mauro",
+    "Sameer Vohra"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "ZeroHedge casts the incoming Democratic governor as the holdout",
+   "summary": "ZeroHedge, a finance and politics aggregator, relayed Trump's post making the blast depend on Rob Sand and the appeals court. It also carried critics' points that a neutralization contract was canceled and that a court filing implied more danger than disclosed. Its headline said Sand refused to sign off. The pages are undated and their content places them around Nov 23 to 24.",
+   "assessment": "ZeroHedge carried both the White House blame frame and the strongest neglect evidence, which most outlets on either side split apart.",
+   "source": "ZeroHedge",
+   "url": "https://www.zerohedge.com/political/army-will-blow-5-tons-lead-explosive-iowa-tomorrow-after-governor-elect-refuses-sign",
+   "grade": "C3",
+   "outletType": "independent, anti establishment, right",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-24",
+   "opened": true,
+   "support": "Trump's own post set Sand's agreement as a condition, and a White House official criticized Sand publicly.",
+   "against": "Sand said he declined to sign off or object and that the administration should decide based on its own experts' information.",
+   "people": [
+    "Donald Trump",
+    "Rob Sand",
+    "Adam Telle",
+    "Dan Driscoll",
+    "Rachel Rintelmann",
+    "Michael Schmidt",
+    "Valentine Nzengung",
+    "Jennifer Jacobs",
+    "Eric Shirley"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Ron Paul Institute essay predicts official spin, citing East Palestine",
+   "summary": "Kurt Nimmo, a former Infowars editor, wrote that agencies will downplay harm, based on the 2023 Ohio derailment. The Ron Paul Institute, a libertarian antiwar group, reprinted it on blast day. He cites studies of East Palestine symptoms and a reported CDC message to clinicians.",
+   "assessment": "It is the clearest statement of the distrust frame. Its evidence is about Ohio, not Iowa.",
+   "source": "Ron Paul Institute (reprint of Another Day in the Empire)",
+   "url": "https://ronpaulinstitute.org/the-government-will-lie-to-you-about-the-lead-azide-bomb/",
+   "grade": "D4",
+   "outletType": "independent, anti establishment, right",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "support": "Published studies and lawsuits document lasting complaints and response gaps after East Palestine.",
+   "against": "Iowa air readings showed zero lead and the EPA permit requires published sampling. Several of the essay's Ohio claims are presented as alleged.",
+   "people": [
+    "Kurt Nimmo"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Alex Jones Live reports a clean blast while its readers doubt it",
+   "summary": "Alex Jones Live, a site tied to the Infowars host, relayed EPA's zero lead readings and drone clips from X. It quoted a public health commentator saying soil and water tests matter more than air. Commenters questioned whether monitors worked and accused the government of targeting the public.",
+   "assessment": "The gap between the post's cautious tone and its comment section shows distrust running ahead of the outlet itself.",
+   "source": "Alex Jones Live",
+   "url": "https://www.alexjoneslive.com/2026/11/25/army-carries-out-controlled-detonation-of-lead-azide-in-iowa/",
+   "grade": "D4",
+   "outletType": "independent, anti establishment, right",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "support": "The Army's own plan calls for soil, water and sediment testing, which supports the point that air data is incomplete.",
+   "against": "EPA said all monitors read zero, and other commenters noted lead falls quickly rather than staying airborne.",
+   "people": [
+    "Lee Zeldin",
+    "Nicolas Hulscher",
+    "Donald Trump"
+   ]
+  },
+  {
+   "category": "Focus",
+   "headline": "Epoch Times leans on officials to report no lead in the air",
+   "summary": "The Epoch Times, a conservative paper, reported zero airborne lead and said the visible plume was mostly foam. It said over 1,200 samples were taken before the blast. The piece quoted officials only, including the general who led the operation.",
+   "assessment": "A right leaning outlet ran the most reassuring account, which cuts against a simple left versus right split on this story.",
+   "source": "The Epoch Times (via The Thinking Conservative)",
+   "url": "https://www.thethinkingconservative.com/no-signs-of-lead-in-atmosphere-after-detonation-of-lead-azide-in-iowa-officials/",
+   "grade": "C2",
+   "outletType": "Partisan right",
+   "region": "North America",
+   "country": "United States",
+   "date": "2026-11-25",
+   "opened": true,
+   "support": "EPA, Army and ATF officials all reported a complete and contained detonation.",
+   "against": "No independent experts were quoted, and soil and water results were not yet in.",
+   "people": [
+    "Zachary Stieber",
+    "Eric Shirley",
+    "Robert Cekada",
+    "Kim Reynolds"
+   ]
+  }
+ ],
+ "baseRatesTitle": "The Plant and the Army's Lead Record",
+ "baseRates": [
+  {
+   "event": "Iowa Army Ammunition Plant open air lead azide detonation",
+   "date": "1970s",
+   "cause": "Disposal of lead azide by open air detonation with no containment",
+   "duration": "Single event",
+   "howCauseWasFound": "KWQC reports about 25 percent of the material went into the air. No later soil test results were found in this run.",
+   "source": "KWQC",
+   "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/"
+  },
+  {
+   "event": "Iowa Army Ammunition Plant explosives contamination of groundwater",
+   "date": "1990s to 2010s",
+   "cause": "Decades of munitions loading and waste disposal on site",
+   "duration": "Decades of monitoring",
+   "howCauseWasFound": "State sampling found TNT in five off site wells and RDX above health advisory in five wells in 1992 to 1993. Groundwater RDX trends fell in 2007 to 2010 tests. The Army supplies bottled water to affected homes.",
+   "source": "Iowa DNR site profile",
+   "url": "https://iowadnr.gov/media/3020/download"
+  },
+  {
+   "event": "Lead paint in Army family housing",
+   "date": "2011 to 2016",
+   "cause": "Deteriorating lead paint in military housing",
+   "duration": "Years",
+   "howCauseWasFound": "A 2018 Reuters investigation documented more than 1,000 elevated child blood lead tests at one Army medical center.",
+   "source": "The Intercept (citing Reuters)",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/"
+  },
+  {
+   "event": "Lead at National Guard indoor firing ranges",
+   "date": "Audit 2020",
+   "cause": "Lead from firing ranges not properly remediated",
+   "duration": "Ongoing",
+   "howCauseWasFound": "An Army audit found 73 of 83 indoor ranges in three states lacked thorough cleanup or lead hazard checks. Some used pressure washing the audit warned against.",
+   "source": "The Intercept",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/"
+  },
+  {
+   "event": "Army National Guard armories lead",
+   "date": "2024",
+   "cause": "Leftover lead from old firing ranges in armories",
+   "duration": "Ongoing",
+   "howCauseWasFound": "A 2024 Intercept investigation found the Army National Guard did not adequately clean up lead in armories.",
+   "source": "The Intercept",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/"
+  },
+  {
+   "event": "Kansas City World Cup FanFest fireworks (EPA comparison)",
+   "date": "2026",
+   "cause": "Fireworks smoke",
+   "duration": "Single event",
+   "howCauseWasFound": "EPA Administrator Zeldin claims the fireworks produced about 10 times more particulate matter than the Iowa blast. This is an agency claim not independently checked.",
+   "source": "White House release",
+   "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+  }
+ ],
+ "baseRatesNote": "Past events at this plant and other Army lead cases, and what later testing or audits showed. Comparable disposal fights elsewhere were not checked this run.",
+ "international": [
+  {
+   "country": "Puerto Rico (US territory, Spanish language press)",
+   "what": "Primera Hora ran an AI assisted Spanish translation of the AP story on residents bracing for lead dust. It kept AP's cautious frame and noted extension offices flooded with calls. No Latino or Latin American angle was added.",
+   "source": "Primera Hora",
+   "url": "https://www.primerahora.com/noticias/estados-unidos/notas/habitantes-de-iowa-se-preparan-para-una-nube-de-polvo-de-plomo/",
+   "language": "Spanish",
+   "date": "2026-11-19"
+  },
+  {
+   "country": "Indonesia (global English edition)",
+   "what": "JournalArta, an Indonesia based site with an English global edition, led with dust that could travel 100 miles, evacuations and school closures. It included the Army's reasoning lower down.",
+   "source": "JournalArta",
+   "url": "https://journalarta.com/en/2026/11/19/us-army-iowa-lead-azide-detonation-dust-risk/",
+   "language": "English",
+   "date": "2026-11-19"
+  }
+ ],
+ "stateNarratives": [],
+ "chatter": [
+  {
+   "place": "TikTok (physician creator video)",
+   "kind": "Short video",
+   "country": "United States",
+   "language": "English",
+   "mood": "Alarmed",
+   "url": "https://thenerdstash.com/?p=889861",
+   "date": "2026-11-19",
+   "opened": true,
+   "gist": "An allergist who posts on TikTok (public account rubin_allergy, per The Nerd Stash, an entertainment news site) made a warning video that drew nearly one million views. He said lead particles could spread across eastern Iowa into northwest Illinois and settle on soil and playgrounds. He urged people to stay inside and asked the Army for a cleanup plan. This fits the States Newsroom note that creators outside Iowa raised alarm, though States Newsroom named no one.",
+   "commonClaims": [
+    "Lead dust could reach eastern Iowa and northwest Illinois",
+    "Children face the most risk from settled dust",
+    "The Army owes the public a cleanup plan"
+   ]
+  },
+  {
+   "place": "TikTok comment sections",
+   "kind": "Comments",
+   "country": "United States",
+   "language": "English",
+   "mood": "Anxious, distrustful",
+   "url": "https://thenerdstash.com/?p=889861",
+   "date": "2026-11-19",
+   "opened": true,
+   "gist": "Commenters under the viral video traded advice and suspicions, as summarized by The Nerd Stash. Some urged baseline blood tests to support future lawsuits. One self described foundry worker said calcium helps flush lead, which the site flagged as unproven. Others called the blast a test of how civilians react to attacks, and worried Amish neighbors would never hear the warnings.",
+   "commonClaims": [
+    "Get a baseline blood lead test now",
+    "Calcium supplements flush lead",
+    "The blast is a test of civilian response",
+    "Amish communities will miss the warnings",
+    "Dust will reach the Mississippi River and other states"
+   ]
+  },
+  {
+   "place": "X (users querying Grok, the platform's AI chatbot)",
+   "kind": "Posts",
+   "country": "United States",
+   "language": "English",
+   "mood": "Confused, alarmed",
+   "url": "https://www.kcci.com/article/the-army-is-going-to-detonate-toxic-lead-azide-in-iowa-heres-what-we-know-about-safety-concerns/74483062",
+   "date": "2026-11-20",
+   "opened": true,
+   "gist": "KCCI, the Des Moines CBS station, answered two posts in its explainer. One user asked Grok whether the Army was setting off a toxic \"iron azide\" bomb. Another asked if the Army was needlessly poisoning Iowa and the nation's food supply. KCCI answered with the Army's reasoning and Iowa State extension experts who called the plume map a worst case.",
+   "commonClaims": [
+    "The Army is setting off a toxic bomb",
+    "The Iowa and national food supply will be poisoned"
+   ]
+  },
+  {
+   "place": "Social media, platforms not named (viral fallout maps)",
+   "kind": "Images",
+   "country": "United States",
+   "language": "English",
+   "mood": "Alarmed",
+   "url": "https://www.kcci.com/article/iowa-lead-azide-detonation-map-fallout-false-claim/74535435",
+   "date": "2026-11-25",
+   "opened": true,
+   "gist": "AP's Fact Focus found maps claiming to show the lead plume over the Midwest, the Southeast, the whole East Coast, and as far as New Orleans and Montana. One widely shared map was a College of DuPage snowfall forecast. Another showed Mississippi River tributaries. Army maps showed the plume heading southwest into northern Missouri.",
+   "commonClaims": [
+    "Fallout covers the Midwest and Southeast",
+    "Lead reached Illinois, Indiana, Kentucky, Michigan and Ohio",
+    "Contamination covers the East Coast"
+   ]
+  },
+  {
+   "place": "Change.org petitions",
+   "kind": "Petitions",
+   "country": "United States",
+   "language": "English",
+   "mood": "Mobilized",
+   "url": "https://www.change.org/p/stop-u-s-army-hazardous-lead-azide-detonation-on-november-20th",
+   "date": "2026-11-18",
+   "opened": true,
+   "gist": "Two petitions started by individuals on Nov 18 drew about 35,100 and 28,700 verified signatures. They asked to cancel the open air blast, release redacted permit sections and modeling, and fund independent air, soil, water and dust tests. One later update said bunker doors were opened, then damaged, and that detonation may now be the only option.",
+   "commonClaims": [
+    "Residents got about five days' notice",
+    "Parts of the EPA permit are redacted",
+    "There is no acceptable wind speed for releasing lead",
+    "Cleanup costs must not fall on residents"
+   ]
+  },
+  {
+   "place": "Facebook (incoming Iowa governor)",
+   "kind": "Official post",
+   "country": "United States",
+   "language": "English",
+   "mood": "Critical",
+   "url": "https://axios.com/local/des-moines/2026/11/19/iowa-middletown-lead-azide-rob-sand-josh-turek",
+   "date": "2026-11-19",
+   "opened": true,
+   "gist": "Rob Sand, the Democrat who takes office as Iowa governor in January, posted that there was an unacceptable lack of communication and clarity. He said the public deserved to know why other options were worse. Axios Des Moines reported the post alongside a delay request from Josh Turek, an incoming Democratic member of Congress.",
+   "commonClaims": [
+    "Officials learned too late",
+    "The Army has not explained why alternatives were rejected"
+   ]
+  },
+  {
+   "place": "Truth Social and X (White House and allied reporters)",
+   "kind": "Official posts",
+   "country": "United States",
+   "language": "English",
+   "mood": "Partisan, blame focused",
+   "url": "https://www.zerohedge.com/political/army-will-blow-5-tons-lead-explosive-iowa-tomorrow-after-governor-elect-refuses-sign",
+   "date": "2026-11-24",
+   "opened": true,
+   "gist": "President Trump posted that the Army would wait for the federal appeals court and for Sand's agreement, and that he would hold Sand responsible for any harm. When Sand declined to sign off or object, a White House official said he was botching it, a line relayed on X by reporter Jennifer Jacobs. ZeroHedge headlined that Sand refused to sign off.",
+   "commonClaims": [
+    "The incoming Democratic governor is blocking a safety operation",
+    "Sand will own any harm"
+   ]
+  },
+  {
+   "place": "X (progressive officials and antiwar groups)",
+   "kind": "Posts",
+   "country": "United States",
+   "language": "English",
+   "mood": "Angry",
+   "url": "https://www.commondreams.org/news/iowa-detonation-us-militarism",
+   "date": "2026-11-25",
+   "opened": true,
+   "gist": "Tennessee state Rep. Justin Pearson posted that a blast forcing evacuations is not a controlled explosion. CodePink, an antiwar group, called it reckless and tied it to US military pollution and the coming defense budget bill. Common Dreams gathered these posts the day of the blast.",
+   "commonClaims": [
+    "The military is the largest institutional polluter",
+    "The same plant made munitions used in Gaza (CodePink claim, unverified by Common Dreams)",
+    "Oppose the defense authorization bill"
+   ]
+  },
+  {
+   "place": "X (right leaning influencers and a public health commentator), via Alex Jones Live",
+   "kind": "Posts and comments",
+   "country": "United States",
+   "language": "English",
+   "mood": "Split between relief and distrust",
+   "url": "https://www.alexjoneslive.com/2026/11/25/army-carries-out-controlled-detonation-of-lead-azide-in-iowa/",
+   "date": "2026-11-25",
+   "opened": true,
+   "gist": "Alex Jones Live built its blast story from X posts by right leaning accounts including Nick Sortor, Matt Van Swol and Eric Daugherty. It quoted Nicolas Hulscher, a public health commentator, saying air tests miss the bigger question of soil, water and sediment. Commenters asked if EPA detectors were even on and demanded independent testing. Others replied that heavy lead would not stay airborne.",
+   "commonClaims": [
+    "Zero airborne lead does not mean zero contamination",
+    "EPA monitors may not have been on",
+    "Only independent tests can be trusted",
+    "Lead is dense and falls fast"
+   ]
+  },
+  {
+   "place": "KCRG livestream and on site reporting",
+   "kind": "Livestream",
+   "country": "United States",
+   "language": "English",
+   "mood": "Uncertain, then calm",
+   "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+   "date": "2026-11-25",
+   "opened": true,
+   "gist": "Yahoo's live blog tracked a KCRG TV livestream where reporters were briefly unsure the blast had happened. A resident about a mile away said she heard and felt nothing. Two plumes rose above the trees and birds fled. Reporters saw two aircraft overhead, which CNN reported were NASA pollution research planes.",
+   "commonClaims": [
+    "Two explosions were heard",
+    "The white plume was foam, per the Army",
+    "NASA planes were watching the air"
+   ]
+  },
+  {
+   "place": "Offline: Middletown protest and extension office phone lines",
+   "kind": "Protest and calls",
+   "country": "United States",
+   "language": "English",
+   "mood": "Anxious",
+   "url": "https://taskandpurpose.com/news/army-iowa-munitions-lead-detonation/",
+   "date": "2026-11-18",
+   "opened": true,
+   "gist": "More than a dozen people protested outside the Armed Forces Reserve Center, asking why detonation was chosen. A parent questioned whether wiping surfaces is enough. AP, via Primera Hora, reported extension offices swamped with calls about pets and gardens. Residents had taped their windows for over a week.",
+   "commonClaims": [
+    "Alternatives were not explained",
+    "Wiping and hosing are not enough",
+    "Pets, gardens and livestock are exposed"
+   ]
+  },
+  {
+   "place": "Food supply crossover (national outlets and posts)",
+   "kind": "Coverage and posts",
+   "country": "United States",
+   "language": "English",
+   "mood": "Worried",
+   "url": "https://www.newsweek.com/iowa-lead-detonation-america-food-supply-12767064",
+   "date": "2026-11-24",
+   "opened": true,
+   "gist": "Newsweek framed the blast as a fear for the national food supply, citing a USDA estimate of about 350 farms under the plume. Fox News quoted a toxicologist saying exposure could be none or a lot. Iowa State's Dirk Maier said most crops were already harvested and stored. No chatter tying the blast to Thanksgiving prices, SNAP or food banks surfaced in this research.",
+   "commonClaims": [
+    "Lead will reach crops and livestock",
+    "No slaughter limits or contamination thresholds were announced",
+    "Farmers need compensation"
+   ]
+  }
+ ],
+ "chatterNote": "Forums, comment sections and public posts, paraphrased with no usernames. This shows mood and claims in circulation. It is not evidence. Reddit and X were read only through press and researchers.",
+ "conspiracies": [
+  {
+   "claim": "The blast was a test or drill of how civilians respond to a larger attack, not a simple disposal job.",
+   "status": "New",
+   "harm": "Moderate",
+   "whereSpreading": "TikTok comment sections under viral warning videos",
+   "origin": "Commenters under a TikTok physician's warning video, as summarized by The Nerd Stash on Nov 19.",
+   "whyBelieved": "The event looked like an emergency drill. There were FEMA phone alerts, evacuation zones, shelters, a 105 mile notice radius and research aircraft overhead. Messaging also shifted. The Army urged evacuation within five miles, then FEMA said evacuation was no longer safe. The date moved three times and a presidential post made it conditional.",
+   "caseFor": "Believers point to the scale of the alerting, the monitoring planes, the repeated rescheduling and the political drama as more than a routine disposal needs. They note the Army knew of deterioration for years and acted only now, during a cold snap and a holiday week.",
+   "caseAgainst": "The Army, EPA and courts documented a specific hazard. A March 11 inspection found the lead azide partly crystallized and more sensitive to shock and cold. EPA cited an imminent and substantial threat in its Nov 13 permit. A neutralization contract with MuniRem was signed and then canceled, which shows other options were tried. Large alerting zones came from EPA permit modeling rules.",
+   "unknowns": "Why the MuniRem contract was canceled. What the NASA flights were measuring and whether results will be public. Who drafted the conflicting evacuation messages.",
+   "watch": "Release of NASA and Purdue air data, any inspector general review of the timeline.",
+   "relatedTo": "Iowa lead azide detonation",
+   "audience": "Nonpolitical TikTok users, younger audiences, people outside Iowa",
+   "forumChatter": "Described by The Nerd Stash summarizing TikTok comments. No researcher or fact checker has measured its reach.",
+   "sources": [
+    {
+     "title": "The Nerd Stash: Iowa blast plan sparks outrage",
+     "url": "https://thenerdstash.com/?p=889861",
+     "grade": "C3"
+    },
+    {
+     "title": "ZeroHedge: Army will blow up 5 tons of lead explosive",
+     "url": "https://www.zerohedge.com/political/army-will-blow-5-tons-lead-explosive-iowa-tomorrow-after-governor-elect-refuses-sign",
+     "grade": "C3"
+    },
+    {
+     "title": "Yahoo News live updates",
+     "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+     "grade": "B2"
+    }
+   ]
+  },
+  {
+   "claim": "The Army or government is knowingly poisoning Iowa and the national food supply, or is willing to sacrifice rural people.",
+   "status": "New",
+   "harm": "High",
+   "whereSpreading": "X posts, TikTok, Alex Jones Live comments, petition pages",
+   "origin": "Posts on X asking whether the Army was needlessly poisoning the food supply (answered by KCCI). Commenters on Alex Jones Live accused the government of targeting the public.",
+   "whyBelieved": "It builds on real facts. The plant has been a Superfund site since 1989 for explosives in surface water, with PFAS also found. Earthjustice says the Army knew the material was degrading since 2009. Iowa's governor learned days before. Illinois EPA said it was never told. Newsweek cited a USDA estimate of about 350 farms under the plume, and no slaughter limits were announced.",
+   "caseFor": "Believers argue the military chose the cheapest option over safety, gave late notice to the people downwind, and set no food safety thresholds. They see the government's East Palestine response in 2023 as proof that officials downplay rural toxic exposure.",
+   "caseAgainst": "EPA said all its air monitors showed zero airborne lead after the blast. Army models projected levels below EPA action thresholds. USDA says the food supply is safe and issued livestock guidance. Iowa State's Dirk Maier said most crops were harvested and stored. A federal appeals court found the permit's safeguards adequate. No evidence of intent to harm has surfaced.",
+   "unknowns": "Soil, water, sediment and surface results are pending. Whether any livestock show raised blood lead. Whether settled dust differs from airborne readings.",
+   "watch": "First soil and water results, any livestock blood lead findings, any food testing by USDA or Iowa agriculture officials.",
+   "relatedTo": "Iowa lead azide detonation, US food security",
+   "audience": "Rural and farm audiences, wellness communities, right leaning distrust of federal agencies, some left leaning environmental audiences",
+   "forumChatter": "Described by KCCI (X posts) and visible in Alex Jones Live comment threads. Newsweek and Fox News carried the wider food fear without the intent claim.",
+   "sources": [
+    {
+     "title": "KCCI explainer answering public questions",
+     "url": "https://www.kcci.com/article/the-army-is-going-to-detonate-toxic-lead-azide-in-iowa-heres-what-we-know-about-safety-concerns/74483062",
+     "grade": "B2"
+    },
+    {
+     "title": "Alex Jones Live blast report",
+     "url": "https://www.alexjoneslive.com/2026/11/25/army-carries-out-controlled-detonation-of-lead-azide-in-iowa/",
+     "grade": "D4"
+    },
+    {
+     "title": "Newsweek: Iowa lead detonation sparks fears for America's food supply",
+     "url": "https://www.newsweek.com/iowa-lead-detonation-america-food-supply-12767064",
+     "grade": "B2"
+    },
+    {
+     "title": "Wikipedia: Iowa Army Ammunition Plant",
+     "url": "https://en.wikipedia.org/wiki/Iowa_Army_Ammunition_Plant",
+     "grade": "C3"
+    }
+   ]
+  },
+  {
+   "claim": "The zero lead readings hide the truth. Monitors were off, placed wrong, or the results are being shaped.",
+   "status": "New",
+   "harm": "Moderate",
+   "whereSpreading": "X, Alex Jones Live comments, libertarian and right leaning blogs",
+   "origin": "Comments on Alex Jones Live asking whether EPA detectors were powered on. A post by public health commentator Nicolas Hulscher that air tests miss soil and water. Kurt Nimmo's essay that the government will lie, reprinted by the Ron Paul Institute.",
+   "whyBelieved": "EPA announced zero airborne lead about 15 minutes after the blast, which felt fast. The Intercept reported Army modeling omitted settled dust levels. Researchers said permit monitoring details were unclear. The Army's own document calls for soil, water and sediment tests for eight metals, which shows air is not the whole picture.",
+   "caseFor": "Believers say the fast all clear was public relations. They argue the real exposure path is deposited dust, which air monitors do not measure. They point to past cases where agencies played down harm, such as East Palestine and lead problems on Army ranges and in Guard armories.",
+   "caseAgainst": "Later readings from all EPA monitors also showed zero, per EPA via The Epoch Times. Officials say more than 1,200 soil, air and water samples were taken before the blast for comparison. AP reports independent researchers plan their own tests of water, farms, homes and playgrounds. NASA aircraft were also measuring air quality.",
+   "unknowns": "Exact monitor locations and detection limits. Whether independent results will match EPA's. When soil and surface data will be published.",
+   "watch": "Independent test releases from university teams, EPA publishing raw monitor data, any mismatch between agency and independent numbers.",
+   "relatedTo": "Iowa lead azide detonation",
+   "audience": "Right leaning and libertarian audiences, health freedom communities, local residents with low trust in federal agencies",
+   "forumChatter": "Described in Alex Jones Live's post and comments, and argued in the Ron Paul Institute reprint. Some commenters in the same threads pushed back that dense lead would not stay airborne.",
+   "sources": [
+    {
+     "title": "Alex Jones Live blast report",
+     "url": "https://www.alexjoneslive.com/2026/11/25/army-carries-out-controlled-detonation-of-lead-azide-in-iowa/",
+     "grade": "D4"
+    },
+    {
+     "title": "Ron Paul Institute: The government will lie to you about the lead azide bomb",
+     "url": "https://ronpaulinstitute.org/the-government-will-lie-to-you-about-the-lead-azide-bomb/",
+     "grade": "D4"
+    },
+    {
+     "title": "The Intercept: Just rinse it off, Army says",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    },
+    {
+     "title": "Epoch Times via The Thinking Conservative",
+     "url": "https://www.thethinkingconservative.com/no-signs-of-lead-in-atmosphere-after-detonation-of-lead-azide-in-iowa-officials/",
+     "grade": "C2"
+    },
+    {
+     "title": "AP Fact Focus via KCCI",
+     "url": "https://www.kcci.com/article/iowa-lead-azide-detonation-map-fallout-false-claim/74535435",
+     "grade": "B2"
+    }
+   ]
+  },
+  {
+   "claim": "The lead plume spread far beyond the Army's maps, across the Midwest, the Southeast, the East Coast or north to Montana.",
+   "status": "New",
+   "harm": "Moderate",
+   "whereSpreading": "Social media image shares, platforms not named by AP",
+   "origin": "Maps posted on the day of the blast. AP traced one to a College of DuPage snowfall forecast and another to a Mississippi River tributary map.",
+   "whyBelieved": "The Army's own notice radius was 105 miles. Early coverage said dust could travel up to 100 miles. Illinois and Missouri officials were monitoring. People had no official real time plume map to compare against.",
+   "caseFor": "Believers say wind shifts and fine particles can carry pollutants farther than models show. They point to the wide notice zone as an admission of reach.",
+   "caseAgainst": "AP identified the source images as unrelated weather and river maps. Army maps projected the plume southwest into northern Missouri. EPA monitors showed no airborne lead. Missouri's governor said the blast appeared well contained.",
+   "unknowns": "Where settled dust actually landed. Whether NASA or Purdue data will show any wider dispersion.",
+   "watch": "Publication of NASA and Purdue plume data.",
+   "relatedTo": "Iowa lead azide detonation",
+   "audience": "General social media users across the country, especially in the Midwest and East Coast",
+   "forumChatter": "Described by AP's Fact Focus on Nov 25.",
+   "sources": [
+    {
+     "title": "AP Fact Focus via KCCI",
+     "url": "https://www.kcci.com/article/iowa-lead-azide-detonation-map-fallout-false-claim/74535435",
+     "grade": "B2"
+    },
+    {
+     "title": "AP Fact Focus via ABC News",
+     "url": "https://abcnews.com/US/wireStory/fact-focus-maps-online-falsely-claim-show-path-138452890",
+     "grade": "B2"
+    },
+    {
+     "title": "Yahoo News live updates",
+     "url": "https://www.yahoo.com/news/us/live/iowa-lead-detonation-live-updates-local-residents-told-to-stay-indoors-as-army-set-to-detonate-toxic-explosives-3-states-monitoring-fallout-132747558.html",
+     "grade": "B2"
+    }
+   ]
+  },
+  {
+   "claim": "The real danger of the stockpile and the story of how it was neglected are being covered up.",
+   "status": "New",
+   "harm": "Low",
+   "whereSpreading": "ZeroHedge, Common Dreams, The Intercept, X posts from both parties",
+   "origin": "Built from court filings and advocacy statements. The Iowa Environmental Council's counsel said a Justice Department filing suggests the stockpile is more dangerous than the Army disclosed. Rob Sand asked publicly how the situation developed.",
+   "whyBelieved": "The Army hired MuniRem to neutralize the material in March and canceled two months later. MuniRem's CEO said then Army Secretary Dan Driscoll made the final call to detonate. Earthjustice says the Army knew of deterioration since 2009. The governor and Illinois officials were told late.",
+   "caseFor": "Believers note the Army's environmental assessment does not say how long the material sat or whether earlier action could have prevented the crisis. The Intercept says the Army did not directly answer that question.",
+   "caseAgainst": "The EPA permit required notice, sampling before and after, cleanup and reporting. The Army says neutralization and transport were rejected for safety. The appeals court reviewed the plan and allowed it. Much of the timeline is already public through court filings.",
+   "unknowns": "Why MuniRem's contract ended. What the redacted permit sections say. Whether Congress or an inspector general will investigate.",
+   "watch": "Congressional letters, inspector general requests, release of the unredacted permit.",
+   "relatedTo": "Iowa lead azide detonation, US Congress oversight",
+   "audience": "Cross partisan. Left leaning environmental and antiwar audiences, right leaning audiences distrustful of the Pentagon.",
+   "forumChatter": "Argued in ZeroHedge, Common Dreams and The Intercept. No forum measurement found.",
+   "sources": [
+    {
+     "title": "ZeroHedge: Trump halts Iowa lead blast",
+     "url": "https://www.zerohedge.com/military/army-will-blow-5-tons-lead-explosive-iowa-wednesday-court-freeze-or-not",
+     "grade": "C3"
+    },
+    {
+     "title": "Common Dreams: Critics say Iowa lead blast epitomizes US militarism",
+     "url": "https://www.commondreams.org/news/iowa-detonation-us-militarism",
+     "grade": "C3"
+    },
+    {
+     "title": "The Intercept: Just rinse it off",
+     "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+     "grade": "B2"
+    }
+   ]
+  }
+ ],
+ "discourse": {
+  "summary": "The blast drew a big national social wave before it happened, driven by creators outside Iowa and viral fallout maps. After the all clear, the split was between relief and distrust of official readings.",
+  "narratives": [
+   {
+    "narrative": "The incoming Democratic governor owns the risk",
+    "coordination": "Mixed",
+    "trend": "Rising before the blast, fading after",
+    "platforms": [
+     "Truth Social",
+     "X",
+     "ZeroHedge"
+    ],
+    "description": "President Trump made the operation subject to Rob Sand's agreement and said Sand would own any harm. A White House official said Sand was botching it, relayed on X by a reporter. ZeroHedge headlines framed Sand as the holdout. Sand said the administration should decide based on its own officials' information.",
+    "signals": [
+     "Same blame frame across a presidential post, a White House official's comment and aggregator headlines",
+     "Frame shifted to credit Trump once readings showed zero airborne lead"
+    ],
+    "suspectedOrigin": "White House messaging",
+    "motive": "Political positioning ahead of Sand taking office in January",
+    "assessment": "This is open official messaging echoed by friendly outlets. No evidence of inauthentic accounts was found.",
+    "confidence": "Medium",
+    "sources": [
+     {
+      "title": "ZeroHedge: governor elect refuses to sign off",
+      "url": "https://www.zerohedge.com/political/army-will-blow-5-tons-lead-explosive-iowa-tomorrow-after-governor-elect-refuses-sign",
+      "grade": "C3"
+     },
+     {
+      "title": "ZeroHedge: Trump halts Iowa lead blast",
+      "url": "https://www.zerohedge.com/military/army-will-blow-5-tons-lead-explosive-iowa-wednesday-court-freeze-or-not",
+      "grade": "C3"
+     }
+    ]
+   },
+   {
+    "narrative": "The military is a reckless polluter",
+    "coordination": "Organic",
+    "trend": "Rising",
+    "platforms": [
+     "X",
+     "Common Dreams",
+     "The Intercept"
+    ],
+    "description": "Antiwar and progressive voices used the blast to argue the Pentagon pollutes at home and abroad. CodePink tied it to PFAS at bases, Gaza munitions and the defense budget bill. The Intercept linked it to Army lead problems in housing, armories and firing ranges.",
+    "signals": [
+     "CodePink statement with a call to oppose the defense authorization bill",
+     "State legislator posts amplified by Common Dreams"
+    ],
+    "suspectedOrigin": "Antiwar and environmental advocacy groups",
+    "motive": "Policy advocacy against military spending",
+    "assessment": "This is an organized advocacy push by known groups under their own names, not hidden coordination.",
+    "confidence": "Medium",
+    "sources": [
+     {
+      "title": "Common Dreams",
+      "url": "https://www.commondreams.org/news/iowa-detonation-us-militarism",
+      "grade": "C3"
+     },
+     {
+      "title": "The Intercept",
+      "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/",
+      "grade": "B2"
+     }
+    ]
+   },
+   {
+    "narrative": "The food supply is at risk",
+    "coordination": "Organic",
+    "trend": "Steady",
+    "platforms": [
+     "X",
+     "TikTok",
+     "Change.org",
+     "Newsweek",
+     "Fox News"
+    ],
+    "description": "Concern about lead in crops, livestock and water ran across left, right and nonpolitical spaces. Petitions named farmland and food. National outlets ran food supply headlines. Officials and Iowa State experts answered that most crops were harvested and livestock could be protected.",
+    "signals": [
+     "Same concern raised in petitions, X posts, Newsweek and Fox within days",
+     "No identical wording pattern reported"
+    ],
+    "suspectedOrigin": "Residents, farmers and national audiences reacting to Army plume maps",
+    "motive": "Genuine worry, plus traffic for national outlets",
+    "assessment": "This looks like organic fear fed by the Army's large notice radius and missing food thresholds.",
+    "confidence": "Medium",
+    "sources": [
+     {
+      "title": "Newsweek",
+      "url": "https://www.newsweek.com/iowa-lead-detonation-america-food-supply-12767064",
+      "grade": "B2"
+     },
+     {
+      "title": "KCCI explainer",
+      "url": "https://www.kcci.com/article/the-army-is-going-to-detonate-toxic-lead-azide-in-iowa-heres-what-we-know-about-safety-concerns/74483062",
+      "grade": "B2"
+     },
+     {
+      "title": "Change.org petition",
+      "url": "https://www.change.org/p/stop-u-s-army-hazardous-lead-azide-detonation-on-november-20th",
+      "grade": "C3"
+     }
+    ]
+   },
+   {
+    "narrative": "Misattributed fallout maps",
+    "coordination": "Organic",
+    "trend": "Spiking on Nov 25",
+    "platforms": [
+     "Social media, not named by AP"
+    ],
+    "description": "Maps showing lead over much of the country spread on blast day. AP traced them to a snowfall forecast and a river map.",
+    "signals": [
+     "Recycled images from unrelated weather and river sources",
+     "Spread in the hours around the blast"
+    ],
+    "suspectedOrigin": "Unknown individual accounts",
+    "motive": "Unclear. Fits engagement seeking and genuine confusion.",
+    "assessment": "AP did not report coordination, so none is assumed here.",
+    "confidence": "Low",
+    "sources": [
+     {
+      "title": "AP Fact Focus via KCCI",
+      "url": "https://www.kcci.com/article/iowa-lead-azide-detonation-map-fallout-false-claim/74535435",
+      "grade": "B2"
+     }
+    ]
+   },
+   {
+    "narrative": "This is East Palestine again",
+    "coordination": "Organic",
+    "trend": "Rising after the blast",
+    "platforms": [
+     "Ron Paul Institute",
+     "Substack style blogs",
+     "Alex Jones Live",
+     "X"
+    ],
+    "description": "Libertarian and right leaning writers compared the blast to the 2023 Ohio train derailment and predicted official downplaying. Kurt Nimmo, a former Infowars editor writing from Missouri, made the case at length.",
+    "signals": [
+     "Repeated East Palestine comparison",
+     "Calls for independent testing"
+    ],
+    "suspectedOrigin": "Libertarian and health freedom writers",
+    "motive": "Distrust of federal agencies",
+    "assessment": "The frame bridges right wing distrust and left wing environmental worry. That makes it likely to last if any test shows lead.",
+    "confidence": "Medium",
+    "sources": [
+     {
+      "title": "Ron Paul Institute",
+      "url": "https://ronpaulinstitute.org/the-government-will-lie-to-you-about-the-lead-azide-bomb/",
+      "grade": "D4"
+     },
+     {
+      "title": "Alex Jones Live",
+      "url": "https://www.alexjoneslive.com/2026/11/25/army-carries-out-controlled-detonation-of-lead-azide-in-iowa/",
+      "grade": "D4"
+     }
+    ]
+   }
+  ],
+  "talkingPoints": []
+ },
+ "indicators": [
+  "Release of Army and EPA surface, soil and water sampling results, and whether any exceed the permit's 800 ppm cleanup bar or EPA's 200 ppm level.",
+  "Iowa HHS targeted blood lead testing advice, which it tied to soil and dust results.",
+  "Lead readings from Mississippi and Missouri river water utilities, which plan periodic tests.",
+  "Whether the 8th Circuit permit case continues on the merits or is dropped as moot.",
+  "The permit's final impact report on dust deposition (Condition Q.2), due before the Feb 11, 2027 expiry.",
+  "Any NASA or Purdue data release from the aircraft and ground monitoring.",
+  "Property damage claims filed against the Army and cleanup on private land.",
+  "Oversight demands from Duckworth, Durbin, Turek and Bohannan once the new Congress sits in January.",
+  "Rob Sand's first moves on the plant after he becomes governor in January.",
+  "Whether IAAP production resumes normally and whether other degraded energetic material is disclosed.",
+  "EPA release of soil, dust and surface wipe results versus the 1,200 baseline samples (watch epa.gov/iowadata).",
+  "Whether Iowa HHS moves to targeted blood lead testing, and where.",
+  "Any independent data from NASA aircraft, Purdue (Andrew Whelton) or University of Iowa researchers that differs from EPA.",
+  "Any livestock lead cases at the Iowa State veterinary diagnostic lab, or farm claims filed with the Army.",
+  "Any packer, dairy, egg buyer or grain elevator asking for lead testing on product from the plume zone.",
+  "Illinois sampling results across the river, since Illinois said it was not notified.",
+  "Court action in the Iowa Environmental Council and Sierra Club case after the blast, and any congressional inquiry into the seven month gap since April.",
+  "Rain runoff results for creeks and ponds in the following weeks."
+ ],
+ "coverageNote": "Four researchers covered official records, court filings, farm and science sources, alternative media across the spectrum and online chatter. Usage limits cut the chatter and international sweep short. No new searches were run after Wednesday night.",
+ "gaps": [
+  "No soil, dust, water, crop or livestock results released yet",
+  "8th Circuit case number and the judges on the panel were not found.",
+  "Iowa Capital Dispatch Nov 20 story 'Court further delays' could not be opened. What it adds is unknown.",
+  "No statements found from Secretary of Agriculture Mike Naig, Iowa DNR, Sens. Grassley or Ernst, Rep. Nunn, Burlington or Middletown officials, or American Ordnance.",
+  "The 2020 emergency open burning permit was not verified.",
+  "Josh Turek's title differs: IPR and CBS call him senator elect, Axios calls him representative elect.",
+  "Age of drums differs: about 20 years per CBS, but ATF says the stockpile was moved to Iowa in 2009.",
+  "No soil, water or surface results have been released. No date has been promised.",
+  "AP says the entire national lead azide stockpile was destroyed. Whether other degraded material remains at IAAP is not addressed in any source opened.",
+  "Second storage permit date differs: EPA says Jul 1, ABC says Jun 30. DOJ filing date differs between two ABC reports (Nov 21 vs Nov 22).",
+  "No numeric Army plume concentrations or surface deposition amounts were found. Fox Weather says the Army predicted air lead well below the EPA protective action level, without numbers.",
+  "Particle sizes and lead oxide formation from a lead azide blast were not sourced. The textbook reaction is lead azide breaking into lead and nitrogen gas, with lead then oxidizing in air, but this is unverified here.",
+  "No sourced data on southeast Iowa corn and soybean harvest status or Iowa shotgun deer season dates for late November 2026.",
+  "No Iowa Department of Agriculture formal guidance document found beyond Naig's quoted line.",
+  "CDC blood lead reference value of 3.5 micrograms per deciliter was not confirmed from an opened source today.",
+  "Medical toxicologist Jennifer Sample's full comments were seen only as summarized by Axios.",
+  "Broader US food prices and aid were left out of this edition at your request (Iowa only)",
+  "Comparable past events (East Palestine 2023, Camp Minden 2015) were not checked this run"
+ ],
+ "sources": [
+  {
+   "title": "kcci",
+   "url": "https://www.kcci.com/article/iowa-lead-explosion-army-detonation-azide-middletown/74523366"
+  },
+  {
+   "title": "mpr",
+   "url": "https://www.mprnews.org/story/2026/11/19/iowa-residents-brace-for-lead-dust-cloud-army-to-detonate-5-tons-of-bombmaking-chemicals"
+  },
+  {
+   "title": "ipr",
+   "url": "https://www.iowapublicradio.org/ipr-news/2026-11-19/army-postpones-iowa-lead-azide-detonation"
+  },
+  {
+   "title": "hhs",
+   "url": "https://hhs.iowa.gov/media/19822/download"
+  },
+  {
+   "title": "fox9",
+   "url": "https://www.fox9.com/news/whats-iowa-lead-detonation-mean-food-safety-heres-what-officials-say"
+  },
+  {
+   "title": "dtn",
+   "url": "https://www.dtnpf.com/agriculture/web/ag/livestock/article/2026/11/18/epa-approved-iowa-army-lead-know"
+  },
+  {
+   "title": "beef",
+   "url": "https://www.beefmagazine.com/livestock-management/army-s-planned-lead-detonation-in-iowa-poses-risks-for-cattle"
+  },
+  {
+   "title": "cnnnext",
+   "url": "https://www.cnn.com/2026/11/25/us/iowa-lead-detonation-what-next"
+  },
+  {
+   "title": "cnnlive",
+   "url": "https://www.cnn.com/2026/11/25/us/live-news/iowa-lead-azide-detonation"
+  },
+  {
+   "title": "icd",
+   "url": "https://iowacapitaldispatch.com/2026/11/25/developing-army-detonates-degraded-lead-azide-in-middletown/"
+  },
+  {
+   "title": "intercept",
+   "url": "https://theintercept.com/2026/11/19/iowa-lead-ammunition-detonation-army/"
+  },
+  {
+   "title": "wh",
+   "url": "https://www.whitehouse.gov/releases/2026/11/trump-administrations-whole-of-government-effort-safely-neutralizes-obama-era-explosives-threat-in-iowa/"
+  },
+  {
+   "title": "kwqc",
+   "url": "https://www.kwqc.com/2026/11/25/what-know-about-us-armys-lead-azide-detonation-how-watch/"
+  },
+  {
+   "title": "sn",
+   "url": "https://www.newsfromthestates.com/node/438989"
+  },
+  {
+   "title": "foxlive",
+   "url": "https://www.foxnews.com/live-news/army-detonation-lead-azide-middletown-iowa-11-25-26"
+  },
+  {
+   "title": "abc",
+   "url": "https://abcnews.com/US/iowa-detonation-timeline-led-controlled-explosion-degraded-lead/story?id=138419343"
+  }
+ ]
+}
